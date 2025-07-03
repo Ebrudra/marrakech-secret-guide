@@ -1,11 +1,7 @@
-import { useState
-} from "react";
-import { Card, CardContent, CardHeader, CardTitle
-} from "@/components/ui/card";
-import { Button
-} from "@/components/ui/button";
-import { MapPin, Phone, Globe, Lightbulb, Clock
-} from "lucide-react";
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { MapPin, Phone, Globe, Lightbulb, Clock, Languages } from "lucide-react";
 import heroImage from "@/assets/marrakech-hero.jpg";
 
 interface Activity {
@@ -402,8 +398,49 @@ const guideData = {
   ]
 };
 
+const translations = {
+  fr: {
+    title: "Guide de Marrakech",
+    subtitle: "Pour rendre votre séjour inoubliable, nous avons rassemblé une sélection d'adresses testées et approuvées. Laissez-vous guider par nos recommandations.",
+    startButton: "Commencer l'exploration",
+    categories: {
+      "Guide Touristique": "Guide Touristique",
+      "Culture & Musées": "Culture & Musées", 
+      "Visites & découvertes": "Visites & découvertes",
+      "Bien-être & détente": "Bien-être & détente",
+      "Se sustenter & Apéros & Tea Time": "Se sustenter & Apéros & Tea Time",
+      "Shopping & design": "Shopping & design",
+      "Nuit & détente": "Nuit & détente"
+    },
+    reservation: "Réservation :",
+    tip: "Le petit plus",
+    chooseCategoryTitle: "Choisissez une thématique pour commencer votre découverte",
+    chooseCategorySubtitle: "Chaque catégorie regroupe nos recommandations testées et approuvées pour vous faire vivre la vraie magie de Marrakech",
+    footerText: "Guide curated de Marrakech - Découvrez l'authenticité de la Ville Ocre"
+  },
+  en: {
+    title: "Marrakech Guide",
+    subtitle: "To make your stay unforgettable, we have gathered a selection of tested and approved addresses. Let our recommendations guide you.",
+    startButton: "Start exploring",
+    categories: {
+      "Guide Touristique": "Tourist Guide",
+      "Culture & Musées": "Culture & Museums",
+      "Visites & découvertes": "Visits & Discoveries", 
+      "Bien-être & détente": "Wellness & Relaxation",
+      "Se sustenter & Apéros & Tea Time": "Food & Drinks & Tea Time",
+      "Shopping & design": "Shopping & Design",
+      "Nuit & détente": "Nightlife & Entertainment"
+    },
+    reservation: "Reservation:",
+    tip: "Insider tip",
+    chooseCategoryTitle: "Choose a theme to start your discovery",
+    chooseCategorySubtitle: "Each category groups our tested and approved recommendations to make you experience the true magic of Marrakech",
+    footerText: "Curated Marrakech Guide - Discover the authenticity of the Red City"
+  }
+};
+
 const categoryColors = {
-  "Guide Abdoul": "bg-accent/10 border-accent/20",
+  "Guide Touristique": "bg-accent/10 border-accent/20",
   "Culture & Musées": "bg-primary/10 border-primary/20",
   "Visites & découvertes": "bg-gradient-to-r from-primary/5 to-accent/5 border-primary/15",
   "Bien-être & détente": "bg-secondary/50 border-secondary/30",
@@ -413,7 +450,7 @@ const categoryColors = {
 };
 
 const categoryEmojis = {
-  "Guide Abdoul": "🕌",
+  "Guide Touristique": "🕌",
   "Culture & Musées": "🎨",
   "Visites & découvertes": "🗺️",
   "Bien-être & détente": "🧘‍♀️",
@@ -423,10 +460,11 @@ const categoryEmojis = {
 };
 
 export default function MarrakechGuide() {
-  const [selectedCategory, setSelectedCategory
-  ] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [language, setLanguage] = useState<'fr' | 'en'>('fr');
 
   const categories = Object.keys(guideData);
+  const t = translations[language];
 
   const openAddress = (address: string) => {
     if (address) {
@@ -443,7 +481,20 @@ export default function MarrakechGuide() {
 
   return (
     <div className="min-h-screen bg-gradient-sunset">
-      { /* Hero Section */}
+      {/* Language Switcher */}
+      <div className="fixed top-4 left-4 z-50">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setLanguage(language === 'fr' ? 'en' : 'fr')}
+          className="bg-card/90 backdrop-blur-sm border-border/20 hover:bg-card"
+        >
+          <Languages className="h-4 w-4 mr-2" />
+          {language.toUpperCase()}
+        </Button>
+      </div>
+
+      {/* Hero Section */}
       <div className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <img 
@@ -457,26 +508,30 @@ export default function MarrakechGuide() {
         
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-6">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in bg-gradient-warm bg-clip-text text-transparent">
-            Guide de Marrakech
+            {t.title}
           </h1>
           <p className="text-xl md:text-2xl mb-8 animate-slide-up opacity-90">
-            Pour rendre votre séjour inoubliable, nous avons rassemblé une sélection d'adresses testées et approuvées. Laissez-vous guider par nos recommandations.
+            {t.subtitle}
           </p>
           <Button 
-            onClick={() => setSelectedCategory(categories[
-      1
-    ])
-  }
+            onClick={() => {
+              setSelectedCategory(categories[0]);
+              setTimeout(() => {
+                document.getElementById('categories-section')?.scrollIntoView({ 
+                  behavior: 'smooth' 
+                });
+              }, 100);
+            }}
             size="lg"
             className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-warm animate-slide-up"
           >
-            Commencer l'exploration
+            {t.startButton}
           </Button>
         </div>
       </div>
 
-      { /* Navigation */}
-      <div className="bg-card/95 backdrop-blur-sm sticky top-0 z-40 border-b border-border/20">
+      {/* Navigation */}
+      <div id="categories-section" className="bg-card/95 backdrop-blur-sm sticky top-0 z-40 border-b border-border/20">
         <div className="container mx-auto px-6 py-4">
           <div className="flex flex-col sm:flex-row flex-wrap gap-2 justify-center">
             {categories.map((category) => (
@@ -495,11 +550,8 @@ export default function MarrakechGuide() {
                 `
     }
               >
-                <span className="mr-2">{categoryEmojis[category as keyof typeof categoryEmojis
-      ]
-    }</span>
-                {category
-    }
+                <span className="mr-2">{categoryEmojis[category as keyof typeof categoryEmojis]}</span>
+                {t.categories[category as keyof typeof t.categories]}
               </Button>
             ))
   }
@@ -513,11 +565,8 @@ export default function MarrakechGuide() {
           <div className="animate-fade-in">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold text-foreground mb-4 flex items-center justify-center gap-3">
-                <span className="text-5xl">{categoryEmojis[selectedCategory as keyof typeof categoryEmojis
-      ]
-    }</span>
-                {selectedCategory
-    }
+                <span className="text-5xl">{categoryEmojis[selectedCategory as keyof typeof categoryEmojis]}</span>
+                {t.categories[selectedCategory as keyof typeof t.categories]}
               </h2>
               <div className="h-1 w-24 bg-gradient-primary mx-auto rounded-full"></div>
             </div>
@@ -587,21 +636,20 @@ export default function MarrakechGuide() {
                       {activity.Réservation && (
                         <div className="flex items-start gap-3">
                           <Clock className="h-5 w-5 text-accent mt-0.5 flex-shrink-0" />
-                          <div>
-                            <span className="font-medium text-primary text-bold">Réservation : </span>
-                            <span className="text-muted-foreground">{activity.Réservation
-        }</span>
-                          </div>
+                           <div>
+                             <span className="font-medium text-primary text-bold">{t.reservation} </span>
+                             <span className="text-muted-foreground">{activity.Réservation}</span>
+                           </div>
                         </div>
                       )
       }
 
                       {activity.Commentaires && (
                         <div className="bg-muted/50 p-4 rounded-lg border-l-4 border-primary/30">
-                          <div className="flex items-start gap-2 mb-2">
-                            <Lightbulb className="h-4 w-4 text-accent mt-1 flex-shrink-0" />
-                            <span className="font-medium text-primary text-bold text-sm">Le petit plus</span>
-                          </div>
+                           <div className="flex items-start gap-2 mb-2">
+                             <Lightbulb className="h-4 w-4 text-accent mt-1 flex-shrink-0" />
+                             <span className="font-medium text-primary text-bold text-sm">{t.tip}</span>
+                           </div>
                           <p className="text-sm text-muted-foreground leading-relaxed">
                             {activity.Commentaires
         }
@@ -619,21 +667,21 @@ export default function MarrakechGuide() {
         ) : (
           <div className="text-center py-20 animate-fade-in">
             <h2 className="text-3xl font-bold text-foreground mb-4">
-              Choisissez une thématique pour commencer votre découverte
+              {t.chooseCategoryTitle}
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Chaque catégorie regroupe nos recommandations testées et approuvées pour vous faire vivre la vraie magie de Marrakech
+              {t.chooseCategorySubtitle}
             </p>
           </div>
         )
   }
       </div>
 
-      { /* Footer */}
+      {/* Footer */}
       <footer className="bg-primary text-primary-foreground py-8 mt-20">
         <div className="container mx-auto px-6 text-center">
           <p className="text-lg opacity-90">
-            Guide curated de Marrakech - Découvrez l'authenticité de la Ville Ocre
+            {t.footerText}
           </p>
         </div>
       </footer>
