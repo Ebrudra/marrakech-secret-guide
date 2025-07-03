@@ -56,6 +56,22 @@ const guideData = {
       "Tél.": "",
       "Réservation": "Non",
       "Commentaires": "Palais somptueux avec jardins traditionnels. Horaire : 09h à 17h00"
+    },
+    {
+      "Thématique": "Culture & Musées",
+      "Activité": "Le monde des Arts de la Parure",
+      "Adresse": "39, 40 Ksibat Nhass",
+      "Tél.": "+212 8086-58561",
+      "Réservation": "Non",
+      "Commentaires": "Musée dédié aux bijoux et parures traditionnels marocains. Horaire : 10h à 17h30."
+    },
+    {
+      "Thématique": "Culture & Musées",
+      "Activité": "Moroccan Culinary Arts Museum (palais historic + rooftop)",
+      "Adresse": "Rue Riad Zitoun el Jdid,,Médina",
+      "Tél.": "+212 5244-27177",
+      "Réservation": "Oui, pour repas/cours (instagram.com, nomadmarrakech.com, instagram.com)",
+      "Commentaires": "Découvrez l'art culinaire marocain dans un cadre historique. Horaire : 09h à 20h00. "
     }
   ],
   "Visites & découvertes": [
