@@ -49,7 +49,7 @@ const guideData = {
       "Thématique": "Culture & Musées",
       "Activité": "Musée des confluences pour prendre une pâtisserie/thé au café Bâcha",
       "Adresse": "Dar El Bacha, Rue Fatima Zahra",
-      "Tél.": "",
+      "Tél.": "+212 5243-13047",
       "Réservation": "Oui pour le café",
       "Commentaires": "Parfait pour une pause culturelle et gourmande. Horaire : 10h à 18h00"
     },
@@ -101,7 +101,7 @@ const guideData = {
       "Adresse": "Barrage Lalla Takerkoust",
       "Tél.": "+212 664-492660",
       "Réservation": "Oui",
-      "Commentaires": "Sortie d'une journée au bord du lac avec restaurant de qualité"
+      "Commentaires": "Sortie d'une journée au bord du lac avec restaurant de qualité. https://www.leflouka-marrakech.com/hotel/"
     },
     {
       "Thématique": "Visites & découvertes",
@@ -140,8 +140,8 @@ const guideData = {
     {
       "Thématique": "Bien-être & détente",
       "Activité": "Beldi Country Club",
-      "Adresse": "Route Ourika",
-      "Tél.": "–",
+      "Adresse": "Route Ourika - KM6 route du Barrage BP 210, Marrakech 40000",
+      "Tél.": "05243-83950",
       "Réservation": "Conseillée",
       "Commentaires": "Piscine et hammam dans un cadre verdoyant hors de la ville"
     }
@@ -159,8 +159,8 @@ const guideData = {
       "Thématique": "Se sustenter & Apéros & Tea Time",
       "Activité": "Le Grand Bazar",
       "Adresse": "Place Jemaa El Fna",
-      "Tél.": "Passer par Yann pour la Résa",
-      "Réservation": "",
+      "Tél.": "Passer par Yann pour la Réservation",
+      "Réservation": "Oui",
       "Commentaires": "En plein coeur de la place Jamaa El Fna, Le Grand Bazar est un restaurant innovant dans un cadre à la fois unique et mémorable. Vous serez transporté vers une véritable expérience culinaire aux saveurs marocaines et internationales.\n\nDans un décor digne d’un conte des mille et une nuits, ce lieu atypique mélange un restaurant et un cabinet de curiosités pour créer un monde enchanté grâce à des animations captivantes tous les soirs (musiciens, chanteurs, magiciens..). Des soirées inoubliables vous y attendent !"
     },
     {
@@ -176,31 +176,31 @@ const guideData = {
       "Activité": "Mazel Café",
       "Adresse": "8 Place des Ferblantiers",
       "Tél.": "+212 661-662824",
-      "Réservation": "",
+      "Réservation": "Non",
       "Commentaires": "Niché au cœur vibrant de la médina de Marrakech, Mazel Café est un véritable joyau culinaire, idéalement situé entre le Palais Badi et le Palais Bahia,"
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
       "Activité": "Les Terrasses des Epices",
       "Adresse": "15, souk cherifia, sidi abdelaziz, Marrakech Médina",
-      "Tél.": "+212 5 24 37 59 04",
-      "Réservation": "oui",
+      "Tél.": "+212524375904",
+      "Réservation": "Oui",
       "Commentaires": "https://www.terrassedesepices.com/\nOuvert tous les jours de 12h00 à 17h00 et de 18h30 à 00h30, c’est au rythme des meilleurs Dj et musiciens de la ville que l’expérience Terrasse des épices prend toute sa dimension."
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
       "Activité": "La Mamounia",
       "Adresse": "Avenue Bab Jdid,",
-      "Tél.": "(212) 524 388 600\n\nrestaurants@mamounia.com",
-      "Réservation": "oui",
-      "Commentaires": "Prendre un tea Time, glâce ou même diner. Formule Brunch, extraordinaire. Je recommande Il y a 4 restaurant."
+      "Tél.": "+212524388600",
+      "Réservation": "Oui",
+      "Commentaires": "Prendre un tea Time, glâce ou même diner. Formule Brunch, extraordinaire. Je recommande Il y a 4 restaurant. "
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
       "Activité": "Le Kabana Rooftop - Foods & Cocktails",
       "Adresse": "Kissariat Ben Khalid R'mila, 1 Rue Fatima Zahra,",
       "Tél.": "+212 664-464450",
-      "Réservation": "oui",
+      "Réservation": "Oui",
       "Commentaires": "Rooftop restaurant et bar à Marrakech offrant une vue panoramique sur la Koutoubia. Propose une cuisine internationale, des cocktails créatifs et une ambiance cosmopolite avec programmation musicale variée."
     },
     {
@@ -208,7 +208,7 @@ const guideData = {
       "Activité": "Bacha Coffee",
       "Adresse": "Dar el Bacha, Rte Sidi Abdelaziz",
       "Tél.": "+212 5243-81293",
-      "Réservation": "",
+      "Réservation": "Oui",
       "Commentaires": "Horaire : 10h à 18h00"
     },
     {
@@ -216,32 +216,32 @@ const guideData = {
       "Activité": "Boutique Hôtel El Fenn (Rooftop)",
       "Adresse": "Derb Moulay Abdullah Ben Hezzian, 2, Marrakesh",
       "Tél.": "+212 5244-41210",
-      "Réservation": "oui pour le Rooftop",
+      "Réservation": "Oui pour le Rooftop",
       "Commentaires": "Ce riad-boutique se trouve dans un ancien palais traditionnel doté d'un toit-terrasse meublé comprenant une piscine ainsi que des vues sur la mosquée Koutoubia , située à 5 minutes à pied. Il propose une collection d'art, un piano bar et un spa."
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
-      "Activité": "La Cuisine Marocaine (cours dans riad)",
+      "Activité": "La Cuisine Marocaine ",
       "Adresse": "Plusieurs (ex. Riad BE)",
       "Tél.": "via inst. @bemarrakech",
       "Réservation": "Oui",
-      "Commentaires": ""
+      "Commentaires": "Cours de cuisine marocaine dans un riad traditionnel."
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
-      "Activité": "Food tour privé Tasting Marrakech",
+      "Activité": "Food tour privé Tasting Marrakech ",
       "Adresse": "Medina",
       "Tél.": "via @tasting_marrakech",
       "Réservation": "Oui",
-      "Commentaires": ""
+      "Commentaires": "Découvrez la cuisine marocaine à travers un tour privé avec un guide local."
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
-      "Activité": "Moroccan Culinary Arts Museum – cours + déjeuner",
+      "Activité": "Moroccan Culinary Arts Museum ",
       "Adresse": "Médina",
       "Tél.": "–",
       "Réservation": "Oui",
-      "Commentaires": ""
+      "Commentaires": "Cours de cuisine marocaine avec déjeuner inclus."
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
@@ -269,14 +269,6 @@ const guideData = {
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
-      "Activité": "Musée des confluences: café Bâcha",
-      "Adresse": "",
-      "Tél.": "",
-      "Réservation": "",
-      "Commentaires": ""
-    },
-    {
-      "Thématique": "Se sustenter & Apéros & Tea Time",
       "Activité": "L'mida Marrakech : dans la Medina à côté de la place des épices",
       "Adresse": "dans la Medina à côté de la place des épices",
       "Tél.": "+212 5244-43662",
@@ -289,9 +281,9 @@ const guideData = {
       "Thématique": "Shopping & design",
       "Activité": "Medina Mall Marrakech",
       "Adresse": "Arsat Maach, 91 Avenue Hommane Fetouak",
-      "Tél.": "",
+      "Tél.": "+212 666-152120",
       "Réservation": "Non",
-      "Commentaires": "Centre Commercial Artisanal. Horaire 09h00 à 01h00"
+      "Commentaires": "Centre commercial moderne avec boutiques internationales et cafés. Horaire 09h00 à 01h00"
     },
     {
       "Thématique": "Shopping & design",
@@ -304,10 +296,74 @@ const guideData = {
     {
       "Thématique": "Shopping & design",
       "Activité": "SOME SLOW CONCEPT",
-      "Adresse": "",
-      "Tél.": "",
+      "Adresse": "JXMP+GW9, Bd el Mansour Eddahbi, Marrakech 40000",
+      "Tél.": "+2125244-33372",
       "Réservation": "Non",
-      "Commentaires": "Créations artisanales uniques, collaboration avec les mâalems traditionnels"
+      "Commentaires": "Fabriquées à la main, dans le plus grand respect des traditions, nos créations sont le fruit d'une étroite collaboration avec les artisans mâalems. SOME c’est l’expression des savoir-faire traditionnels marocains, au service de créations tendances et uniques à la fois. Horaire : 10h à 19h00"
+    },
+    {
+      "Thématique": "Shopping & design",
+      "Activité": "Carré Eden ",
+      "Adresse": "Av. Mohammed V, Guéliz",
+      "Tél.": "+212524437246",
+      "Réservation": "Non",
+      "Commentaires": "Centre commercial moderne avec boutiques de mode, restaurants et cinéma. Horaire : 10h à 22h00"
+    },
+    {
+      "Thématique": "Shopping & design",
+      "Activité": "Boutique Hôtel El Fenn",
+      "Adresse": "Derb Moulay Abdullah Ben Hezzian, 2, Marrakesh",
+      "Tél.": "+212 5244-41210",
+      "Réservation": "Oui pour le Rooftop ",
+      "Commentaires": "Ce riad-boutique se trouve dans un ancien palais traditionnel doté d'un toit-terrasse meublé comprenant une piscine ainsi que des vues sur la mosquée Koutoubia , située à 5 minutes à pied. Il propose une collection d'art, un piano bar et un spa."
+    },
+    {
+      "Thématique": "Shopping & design",
+      "Activité": "Pop Galerie",
+      "Adresse": "109-4 avenue principale de sidi ghanem, ",
+      "Tél.": "+212 5243-36008",
+      "Réservation": "Non",
+      "Commentaires": "Galerie d'art contemporain avec des œuvres de designers marocains et internationaux. Horaire : 10h à 19h00"
+    },
+    {
+      "Thématique": "Shopping & design",
+      "Activité": "Coucou Chamelle",
+      "Adresse": "208 Rue Ibn Tofaïl, Marrakesh, Maroc",
+      "Tél.": "+212 651-773407",
+      "Réservation": "Non",
+      "Commentaires": "Boutique de créateurs locaux avec des vêtements, accessoires et objets de décoration uniques. Horaire : 10h à 19h00"
+    },
+    {
+      "Thématique": "Shopping & design",
+      "Activité": "Natus",
+      "Adresse": "No 490 Route Safi, Marrakesh 40000",
+      "Tél.": "+2125243-35344",
+      "Réservation": "Non",
+      "Commentaires": "Boutique de décoration et d'artisanat marocain haut de gamme. Spécialisée dans les textiles, céramiques et objets d'artisanat. Horaire : 10h à 19h00"
+    },
+    {
+      "Thématique": "Shopping & design",
+      "Activité": "Virginie Darling",
+      "Adresse": "437, Marrakesh 40000",
+      "Tél.": "+212600-542204",
+      "Réservation": "Non",
+      "Commentaires": "Boutique de mode et accessoires avec une sélection de vêtements, sacs et bijoux de créateurs marocains. Horaire : 10h à 19h00"
+    },
+    {
+      "Thématique": "Shopping & design",
+      "Activité": "Fer attitude",
+      "Adresse": "MX85+X63, Marrakech 40000",
+      "Tél.": "+212661-765809",
+      "Réservation": "Non",
+      "Commentaires": "Boutique spécialisée dans les objets en fer forgé et en métal, allant des luminaires aux meubles. Horaire : 10h à 19h00"
+    },
+    {
+      "Thématique": "Shopping & design",
+      "Activité": "Chabichic ",
+      "Adresse": "435, Marrakech 40000",
+      "Tél.": "+2128085-23037",
+      "Réservation": "Non",
+      "Commentaires": "Boutique de mode et accessoires avec une sélection de vêtements, sacs et bijoux de créateurs marocains. Horaire : 10h à 19h00"
     }
   ],
   "Nuit & détente": [
@@ -331,6 +387,14 @@ const guideData = {
       "Thématique": "Nuit & détente",
       "Activité": "KABANA ROOFTOP",
       "Adresse": "Kissariat Ben Khalid R'mila, 1 Rue Fatima Zahra",
+      "Tél.": "+212 664-464450",
+      "Réservation": "Oui",
+      "Commentaires": "DJ rooftop le week-end, vue panoramique sur la Koutoubia"
+    },
+    {
+      "Thématique": "Nuit & détente",
+      "Activité": "DJ rooftop @ Kabana (week-end) - KABANA ROOFTOP FOOD & COCKTAILS",
+      "Adresse": "Kissariat Ben Khalid R'mila, 1 Rue Fatima Zahra, Médina",
       "Tél.": "+212 664-464450",
       "Réservation": "Oui",
       "Commentaires": "DJ rooftop le week-end, vue panoramique sur la Koutoubia"
