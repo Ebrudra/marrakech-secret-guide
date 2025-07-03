@@ -280,7 +280,12 @@ export default function MarrakechGuide() {
             Découvrez une sélection curatée de nos adresses favorites pour un séjour inoubliable dans la Ville Rouge
           </p>
           <Button 
-            onClick={() => setSelectedCategory(categories[1])}
+            onClick={() => {
+              setSelectedCategory(categories[1]);
+              setTimeout(() => {
+                document.querySelector('.container')?.scrollIntoView({ behavior: 'smooth' });
+              }, 100);
+            }}
             size="lg"
             className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-warm animate-slide-up"
           >
