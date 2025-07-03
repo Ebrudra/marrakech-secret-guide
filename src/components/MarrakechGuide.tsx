@@ -18,7 +18,7 @@ interface Activity {
 }
 
 const guideData = {
-  "Guide Abdoul": [
+  "Guide Touristique": [
     {
       "Thématique": "Visite de la Medina",
       "Activité": "Guide local Abdoul",
@@ -460,7 +460,7 @@ export default function MarrakechGuide() {
             Guide de Marrakech
           </h1>
           <p className="text-xl md:text-2xl mb-8 animate-slide-up opacity-90">
-            Découvrez une sélection curatée de nos adresses favorites pour un séjour inoubliable dans la Ville Rouge
+            Pour rendre votre séjour inoubliable, nous avons rassemblé une sélection d'adresses testées et approuvées. Laissez-vous guider par nos recommandations.
           </p>
           <Button 
             onClick={() => setSelectedCategory(categories[
@@ -588,7 +588,7 @@ export default function MarrakechGuide() {
                         <div className="flex items-start gap-3">
                           <Clock className="h-5 w-5 text-accent mt-0.5 flex-shrink-0" />
                           <div>
-                            <span className="font-medium text-accent">Réservation : </span>
+                            <span className="font-medium text-primary text-bold">Réservation : </span>
                             <span className="text-muted-foreground">{activity.Réservation
         }</span>
                           </div>
@@ -600,7 +600,7 @@ export default function MarrakechGuide() {
                         <div className="bg-muted/50 p-4 rounded-lg border-l-4 border-primary/30">
                           <div className="flex items-start gap-2 mb-2">
                             <Lightbulb className="h-4 w-4 text-accent mt-1 flex-shrink-0" />
-                            <span className="font-medium text-accent text-sm">Le petit plus</span>
+                            <span className="font-medium text-primary text-bold text-sm">Le petit plus</span>
                           </div>
                           <p className="text-sm text-muted-foreground leading-relaxed">
                             {activity.Commentaires
@@ -633,7 +633,7 @@ export default function MarrakechGuide() {
       <footer className="bg-primary text-primary-foreground py-8 mt-20">
         <div className="container mx-auto px-6 text-center">
           <p className="text-lg opacity-90">
-            Guide curated de Marrakech - Découvrez l'authenticité de la Ville Rouge
+            Guide curated de Marrakech - Découvrez l'authenticité de la Ville Ocre
           </p>
         </div>
       </footer>
