@@ -296,8 +296,8 @@ export default function MarrakechGuide() {
 
       {/* Navigation */}
       <div className="bg-card/95 backdrop-blur-sm sticky top-0 z-40 border-b border-border/20">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex flex-wrap gap-2 justify-center">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:justify-center">
             {categories.map((category) => (
               <Button
                 key={category}
