@@ -1,7 +1,11 @@
-import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { MapPin, Phone, Globe, Lightbulb, Clock } from "lucide-react";
+import { useState
+} from "react";
+import { Card, CardContent, CardHeader, CardTitle
+} from "@/components/ui/card";
+import { Button
+} from "@/components/ui/button";
+import { MapPin, Phone, Globe, Lightbulb, Clock
+} from "lucide-react";
 import heroImage from "@/assets/marrakech-hero.jpg";
 
 interface Activity {
@@ -106,6 +110,14 @@ const guideData = {
       "Tél.": "via agence ou hôtel",
       "Réservation": "Oui",
       "Commentaires": "Quad, bivouac, animations - Expérience désert authentique"
+    },
+    {
+      "Thématique": "Visites & découvertes",
+      "Activité": "Cascades d'Ouzoud",
+      "Adresse": "150 KM au Nord-Est de Marrakech",
+      "Tél.": "via agence ou hôtel",
+      "Réservation": "Oui, à l’avance",
+      "Commentaires": "Sortie d'une journée pour découvrir les magnifiques cascades d'Ouzoud"
     }
   ],
   "Bien-être & détente": [
@@ -137,35 +149,139 @@ const guideData = {
   "Se sustenter & Apéros & Tea Time": [
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
-      "Activité": "Nomad – rooftop moderne",
+      "Activité": "Nomad – rooftop moderne (tagines fusion)",
       "Adresse": "1 Derb Aarjane, Médina",
-      "Tél.": "+212 524 381 609",
+      "Tél.": "+212 524 381 609 / 661 451 519",
       "Réservation": "Oui (groupe ≥ 5)",
-      "Commentaires": "Vue superbe sur oasis de palmiers et coucher de soleil incroyable. Tagines fusion et cocktails signature."
+      "Commentaires": "Avec sa superbe vue sur une oasis de palmiers et son incroyable coucher de soleil en font l’un des spots les plus prisés de la ville de Marrakech.\n\nAvec un cadre moderne et épuré, le Nomad Bar Marrakech offre une atmosphère chic et conviviale, l’endroit idoine pour savourer les excellents cocktails signature ou déguster les succulents tapas du chef, le tout, dans une ambiance festive rythmée par les sets du Dj résident."
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
       "Activité": "Le Grand Bazar",
       "Adresse": "Place Jemaa El Fna",
       "Tél.": "Passer par Yann pour la Résa",
-      "Réservation": "Oui",
-      "Commentaires": "Restaurant innovant en plein cœur de la place. Décor de conte des mille et une nuits avec animations captivantes."
+      "Réservation": "",
+      "Commentaires": "En plein coeur de la place Jamaa El Fna, Le Grand Bazar est un restaurant innovant dans un cadre à la fois unique et mémorable. Vous serez transporté vers une véritable expérience culinaire aux saveurs marocaines et internationales.\n\nDans un décor digne d’un conte des mille et une nuits, ce lieu atypique mélange un restaurant et un cabinet de curiosités pour créer un monde enchanté grâce à des animations captivantes tous les soirs (musiciens, chanteurs, magiciens..). Des soirées inoubliables vous y attendent !"
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
-      "Activité": "La Mamounia",
-      "Adresse": "Avenue Bab Jdid",
-      "Tél.": "(212) 524 388 600",
+      "Activité": "La maison Arabe",
+      "Adresse": "1 Derb Assehbi",
+      "Tél.": "+212 6 53 06 80 80",
       "Réservation": "Oui",
-      "Commentaires": "Tea time, brunch extraordinaire dans le palace mythique. 4 restaurants au choix."
+      "Commentaires": "Idéalement situé au cœur de la ville ocre, ce prestigieux palais vous accueillera dans des tables chics, soigneusement organisées autour d’une très belle piscine, sous les arcs de pierres ou dans le petit jardin arboré.\n\nVous pouvez également réserver une table dans la somptueuse salle de restaurant élégamment décorée dans un style purement oriental avec des tapis berbères, des plafonds peints à la main et des lanternes typiquement marocaines."
+    },
+    {
+      "Thématique": "Se sustenter & Apéros & Tea Time",
+      "Activité": "Mazel Café",
+      "Adresse": "8 Place des Ferblantiers",
+      "Tél.": "+212 661-662824",
+      "Réservation": "",
+      "Commentaires": "Niché au cœur vibrant de la médina de Marrakech, Mazel Café est un véritable joyau culinaire, idéalement situé entre le Palais Badi et le Palais Bahia,"
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
       "Activité": "Les Terrasses des Epices",
-      "Adresse": "15, souk cherifia, sidi abdelaziz",
+      "Adresse": "15, souk cherifia, sidi abdelaziz, Marrakech Médina",
       "Tél.": "+212 5 24 37 59 04",
+      "Réservation": "oui",
+      "Commentaires": "https://www.terrassedesepices.com/\nOuvert tous les jours de 12h00 à 17h00 et de 18h30 à 00h30, c’est au rythme des meilleurs Dj et musiciens de la ville que l’expérience Terrasse des épices prend toute sa dimension."
+    },
+    {
+      "Thématique": "Se sustenter & Apéros & Tea Time",
+      "Activité": "La Mamounia",
+      "Adresse": "Avenue Bab Jdid,",
+      "Tél.": "(212) 524 388 600\n\nrestaurants@mamounia.com",
+      "Réservation": "oui",
+      "Commentaires": "Prendre un tea Time, glâce ou même diner. Formule Brunch, extraordinaire. Je recommande Il y a 4 restaurant."
+    },
+    {
+      "Thématique": "Se sustenter & Apéros & Tea Time",
+      "Activité": "Le Kabana Rooftop - Foods & Cocktails",
+      "Adresse": "Kissariat Ben Khalid R'mila, 1 Rue Fatima Zahra,",
+      "Tél.": "+212 664-464450",
+      "Réservation": "oui",
+      "Commentaires": "Rooftop restaurant et bar à Marrakech offrant une vue panoramique sur la Koutoubia. Propose une cuisine internationale, des cocktails créatifs et une ambiance cosmopolite avec programmation musicale variée."
+    },
+    {
+      "Thématique": "Se sustenter & Apéros & Tea Time",
+      "Activité": "Bacha Coffee",
+      "Adresse": "Dar el Bacha, Rte Sidi Abdelaziz",
+      "Tél.": "+212 5243-81293",
+      "Réservation": "",
+      "Commentaires": "Horaire : 10h à 18h00"
+    },
+    {
+      "Thématique": "Se sustenter & Apéros & Tea Time",
+      "Activité": "Boutique Hôtel El Fenn (Rooftop)",
+      "Adresse": "Derb Moulay Abdullah Ben Hezzian, 2, Marrakesh",
+      "Tél.": "+212 5244-41210",
+      "Réservation": "oui pour le Rooftop",
+      "Commentaires": "Ce riad-boutique se trouve dans un ancien palais traditionnel doté d'un toit-terrasse meublé comprenant une piscine ainsi que des vues sur la mosquée Koutoubia , située à 5 minutes à pied. Il propose une collection d'art, un piano bar et un spa."
+    },
+    {
+      "Thématique": "Se sustenter & Apéros & Tea Time",
+      "Activité": "La Cuisine Marocaine (cours dans riad)",
+      "Adresse": "Plusieurs (ex. Riad BE)",
+      "Tél.": "via inst. @bemarrakech",
       "Réservation": "Oui",
-      "Commentaires": "Belle terrasse avec DJs et musiciens. Cuisine marocaine fusion. Ouvert 12h-17h et 18h30-00h30"
+      "Commentaires": ""
+    },
+    {
+      "Thématique": "Se sustenter & Apéros & Tea Time",
+      "Activité": "Food tour privé Tasting Marrakech",
+      "Adresse": "Medina",
+      "Tél.": "via @tasting_marrakech",
+      "Réservation": "Oui",
+      "Commentaires": ""
+    },
+    {
+      "Thématique": "Se sustenter & Apéros & Tea Time",
+      "Activité": "Moroccan Culinary Arts Museum – cours + déjeuner",
+      "Adresse": "Médina",
+      "Tél.": "–",
+      "Réservation": "Oui",
+      "Commentaires": ""
+    },
+    {
+      "Thématique": "Se sustenter & Apéros & Tea Time",
+      "Activité": "L’épicurien",
+      "Adresse": "Palais - Es Saadi Marrakech Resort",
+      "Tél.": "+212 663-055704",
+      "Réservation": "Oui",
+      "Commentaires": "https://www.facebook.com/epicurien.marrakech/?locale=fr_FR"
+    },
+    {
+      "Thématique": "Se sustenter & Apéros & Tea Time",
+      "Activité": "KÔYA Restaurant Lounge",
+      "Adresse": "Av. Echouhada, Marrakech",
+      "Tél.": "+212 662-622452",
+      "Réservation": "Oui",
+      "Commentaires": "Le KOYA est un restaurant asiatique fusion qui offre des spécialités contemporaines : Japonaise, Péruvienne, Thai et Chinoise."
+    },
+    {
+      "Thématique": "Se sustenter & Apéros & Tea Time",
+      "Activité": "Jardin du lotus",
+      "Adresse": "Dar El Bacha, 9 Derb Sidi Ali Ben Hamdouch - Médina",
+      "Tél.": "+212 5243-87318",
+      "Réservation": "Oui",
+      "Commentaires": "En plein coeur de la médina et niché au fond d'une ruelle, Les Jardins du Lotus vous accueille dans un cadre exceptionnelle avec un décor sophistiqué."
+    },
+    {
+      "Thématique": "Se sustenter & Apéros & Tea Time",
+      "Activité": "Musée des confluences: café Bâcha",
+      "Adresse": "",
+      "Tél.": "",
+      "Réservation": "",
+      "Commentaires": ""
+    },
+    {
+      "Thématique": "Se sustenter & Apéros & Tea Time",
+      "Activité": "L'mida Marrakech : dans la Medina à côté de la place des épices",
+      "Adresse": "dans la Medina à côté de la place des épices",
+      "Tél.": "+212 5244-43662",
+      "Réservation": "Oui",
+      "Commentaires": "Une des plus belles terrasses de la médina !\nSitué à 5 minutes à pied de la place Jemaa El Fna, à deux pas de la place des épices, se cache le restaurant L’Mida.\nLa terrasse chic et branchée propose une carte marocaine fusion.L’mida est un lieu où se mêle traditions marrakchi et goût des choses simples.\nAussi agréable pour flâner au soleil en journée que pour admirer le coucher du soleil pour dîner !"
     }
   ],
   "Shopping & design": [
@@ -243,29 +359,32 @@ const categoryEmojis = {
 };
 
 export default function MarrakechGuide() {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory
+  ] = useState<string | null>(null);
 
   const categories = Object.keys(guideData);
 
   const openAddress = (address: string) => {
     if (address) {
-      window.open(`https://maps.google.com/?q=${encodeURIComponent(address + ", Marrakech")}`, '_blank');
+      window.open(`https: //maps.google.com/?q=${encodeURIComponent(address + ", Marrakech")}`, '_blank');
     }
   };
 
   const openPhone = (phone: string) => {
     if (phone) {
-      window.open(`tel:${phone}`, '_self');
+      window.open(`tel:${phone
+      }`, '_self');
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-sunset">
-      {/* Hero Section */}
+      { /* Hero Section */}
       <div className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <img 
-            src={heroImage} 
+            src={heroImage
+  } 
             alt="Marrakech au coucher du soleil"
             className="w-full h-full object-cover"
           />
@@ -280,12 +399,10 @@ export default function MarrakechGuide() {
             Découvrez une sélection curatée de nos adresses favorites pour un séjour inoubliable dans la Ville Rouge
           </p>
           <Button 
-            onClick={() => {
-              setSelectedCategory(categories[1]);
-              setTimeout(() => {
-                document.querySelector('.container')?.scrollIntoView({ behavior: 'smooth' });
-              }, 100);
-            }}
+            onClick={() => setSelectedCategory(categories[
+      1
+    ])
+  }
             size="lg"
             className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-warm animate-slide-up"
           >
@@ -294,54 +411,74 @@ export default function MarrakechGuide() {
         </div>
       </div>
 
-      {/* Navigation */}
+      { /* Navigation */}
       <div className="bg-card/95 backdrop-blur-sm sticky top-0 z-40 border-b border-border/20">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:justify-center">
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex flex-wrap gap-2 justify-center">
             {categories.map((category) => (
               <Button
-                key={category}
-                variant={selectedCategory === category ? "default" : "outline"}
-                onClick={() => setSelectedCategory(selectedCategory === category ? null : category)}
+                key={category
+    }
+                variant={selectedCategory === category ? "default": "outline"
+    }
+                onClick={() => setSelectedCategory(selectedCategory === category ? null : category)
+    }
                 className={`
                   transition-all duration-300 
                   ${selectedCategory === category 
-                    ? "bg-primary text-primary-foreground shadow-warm" 
-                    : "hover:bg-primary/10 hover:border-primary/30"
-                  }
-                `}
+                    ? "bg-primary text-primary-foreground shadow-warm": "hover:bg-primary/10 hover:border-primary/30"
+      }
+                `
+    }
               >
-                <span className="mr-2">{categoryEmojis[category as keyof typeof categoryEmojis]}</span>
-                {category}
+                <span className="mr-2">{categoryEmojis[category as keyof typeof categoryEmojis
+      ]
+    }</span>
+                {category
+    }
               </Button>
-            ))}
+            ))
+  }
           </div>
         </div>
       </div>
 
-      {/* Content */}
+      { /* Content */}
       <div className="container mx-auto px-6 py-12">
         {selectedCategory ? (
           <div className="animate-fade-in">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold text-foreground mb-4 flex items-center justify-center gap-3">
-                <span className="text-5xl">{categoryEmojis[selectedCategory as keyof typeof categoryEmojis]}</span>
-                {selectedCategory}
+                <span className="text-5xl">{categoryEmojis[selectedCategory as keyof typeof categoryEmojis
+      ]
+    }</span>
+                {selectedCategory
+    }
               </h2>
               <div className="h-1 w-24 bg-gradient-primary mx-auto rounded-full"></div>
             </div>
 
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {guideData[selectedCategory as keyof typeof guideData].map((activity: Activity, index) => (
+              {guideData[selectedCategory as keyof typeof guideData
+      ].map((activity: Activity, index) => (
                 activity.Activité && (
-                  <Card key={index} className={`
+                  <Card key={index
+      } className={`
                     group hover:shadow-warm transition-all duration-300 hover:-translate-y-1 
-                    ${categoryColors[selectedCategory as keyof typeof categoryColors]}
+                    ${categoryColors[selectedCategory as keyof typeof categoryColors
+          ]
+        }
                     animate-slide-up
-                  `} style={{ animationDelay: `${index * 100}ms` }}>
+                  `
+      } style={
+        { animationDelay: `${index * 100
+          }ms`
+        }
+      }>
                     <CardHeader>
                       <CardTitle className="text-xl font-bold text-card-foreground group-hover:text-primary transition-colors">
-                        {activity.Activité}
+                        {activity.Activité
+      }
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
@@ -349,35 +486,51 @@ export default function MarrakechGuide() {
                         <div className="flex items-start gap-3">
                           <MapPin className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                           <button 
-                            onClick={() => openAddress(activity.Adresse)}
+                            onClick={() => openAddress(activity.Adresse)
+        }
                             className="text-left hover:text-primary transition-colors cursor-pointer underline decoration-primary/30 hover:decoration-primary"
                           >
-                            {activity.Adresse}
+                            {activity.Adresse
+        }
                           </button>
                         </div>
-                      )}
+                      )
+      }
                       
-                      {activity["Tél."] && activity["Tél."] !== "–" && (
+                      {activity[
+          "Tél."
+        ] && activity[
+          "Tél."
+        ] !== "–" && (
                         <div className="flex items-center gap-3">
                           <Phone className="h-5 w-5 text-primary flex-shrink-0" />
                           <button 
-                            onClick={() => openPhone(activity["Tél."])}
+                            onClick={() => openPhone(activity[
+            "Tél."
+          ])
+        }
                             className="hover:text-primary transition-colors cursor-pointer underline decoration-primary/30 hover:decoration-primary"
                           >
-                            {activity["Tél."]}
+                            {activity[
+            "Tél."
+          ]
+        }
                           </button>
                         </div>
-                      )}
+                      )
+      }
 
                       {activity.Réservation && (
                         <div className="flex items-start gap-3">
                           <Clock className="h-5 w-5 text-accent mt-0.5 flex-shrink-0" />
                           <div>
                             <span className="font-medium text-accent">Réservation : </span>
-                            <span className="text-muted-foreground">{activity.Réservation}</span>
+                            <span className="text-muted-foreground">{activity.Réservation
+        }</span>
                           </div>
                         </div>
-                      )}
+                      )
+      }
 
                       {activity.Commentaires && (
                         <div className="bg-muted/50 p-4 rounded-lg border-l-4 border-primary/30">
@@ -386,14 +539,17 @@ export default function MarrakechGuide() {
                             <span className="font-medium text-accent text-sm">Le petit plus</span>
                           </div>
                           <p className="text-sm text-muted-foreground leading-relaxed">
-                            {activity.Commentaires}
+                            {activity.Commentaires
+        }
                           </p>
                         </div>
-                      )}
+                      )
+      }
                     </CardContent>
                   </Card>
                 )
-              ))}
+              ))
+    }
             </div>
           </div>
         ) : (
@@ -405,10 +561,11 @@ export default function MarrakechGuide() {
               Chaque catégorie regroupe nos recommandations testées et approuvées pour vous faire vivre la vraie magie de Marrakech
             </p>
           </div>
-        )}
+        )
+  }
       </div>
 
-      {/* Footer */}
+      { /* Footer */}
       <footer className="bg-primary text-primary-foreground py-8 mt-20">
         <div className="container mx-auto px-6 text-center">
           <p className="text-lg opacity-90">
