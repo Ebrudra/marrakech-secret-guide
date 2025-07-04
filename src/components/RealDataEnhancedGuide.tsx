@@ -172,8 +172,7 @@ export const RealDataEnhancedGuide: React.FC<RealDataEnhancedGuideProps> = ({ la
   const handleRetry = () => {
     if (!loading) {
       loadData();
-    } finally {
-      setLoading(false);
+    }
   };
 
   const initializeAnalytics = () => {
