@@ -126,7 +126,7 @@ export const RealDataEnhancedGuide: React.FC<RealDataEnhancedGuideProps> = ({ la
   useEffect(() => {
     loadData();
     initializeAnalytics();
-  }, []);
+  }, [currentLanguage]);
 
   const loadData = async () => {
     try {
@@ -227,9 +227,10 @@ export const RealDataEnhancedGuide: React.FC<RealDataEnhancedGuideProps> = ({ la
   if (authLoading || loading) {
     return (
       <div className="min-h-screen bg-gradient-sunset flex items-center justify-center">
-        <div className="text-center">
+        <div className="text-center p-6 bg-white/80 backdrop-blur-sm rounded-lg shadow-md">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">{t.loading}</p>
+          <p className="text-primary font-medium">{t.loading}</p>
+          <p className="text-muted-foreground text-sm mt-2">Chargement des données...</p>
         </div>
       </div>
     );
