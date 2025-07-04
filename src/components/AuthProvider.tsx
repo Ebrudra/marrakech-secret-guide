@@ -66,7 +66,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         .from('users')
         .select('id')
         .eq('id', user.id)
-        .single();
+        .maybeSingle();
 
       if (!existingUser) {
         // Create new user profile

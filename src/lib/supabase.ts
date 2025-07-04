@@ -201,7 +201,7 @@ export const isAdmin = async (userId: string) => {
     .from('admin_users')
     .select('user_id')
     .eq('user_id', userId)
-    .single();
+    .maybeSingle();
   
   return !!data;
 };
