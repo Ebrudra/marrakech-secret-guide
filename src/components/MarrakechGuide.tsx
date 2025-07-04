@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from './ui/button';
-import { NotificationManager } from './NotificationManager';
+import NotificationManager from './NotificationManager';
 import AIItineraryPlanner from './AIItineraryPlanner';
 
 interface MarrakechGuideProps {
