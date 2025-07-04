@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,7 +7,6 @@ import { Loader2, Sparkles, Clock, MapPin, Calendar, Lightbulb } from "lucide-re
 import { toast } from "@/components/ui/sonner";
 import { geminiService } from "@/lib/gemini";
 import { supabase } from "@/lib/supabase";
-import { useEffect, useState } from "react";
 import { useAuth } from "@/components/AuthProvider";
 
 // For debugging
