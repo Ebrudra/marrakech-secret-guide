@@ -9,8 +9,6 @@ import { useAuth } from '@/components/AuthProvider';
 import AuthModal from '@/components/AuthModal';
 import AdminPanel from '@/components/AdminPanel';
 import RealAIItineraryPlanner from '@/components/RealAIItineraryPlanner';
-import AdminPanel from '@/components/AdminPanel';
-import RealAIItineraryPlanner from '@/components/RealAIItineraryPlanner';
 
 // Import existing components
 import SearchBar from './SearchBar';
