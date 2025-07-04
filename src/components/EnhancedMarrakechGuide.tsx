@@ -20,6 +20,13 @@ import AffiliateManager from './AffiliateManager';
 import PremiumFeatures from './PremiumFeatures';
 import MonetizationDashboard from './MonetizationDashboard';
 
+// Import new premium components
+import ExclusiveContent from './ExclusiveContent';
+import PersonalizedRecommendations from './PersonalizedRecommendations';
+import WeatherIntegration from './WeatherIntegration';
+import SocialFeatures from './SocialFeatures';
+import AdvancedSearch from './AdvancedSearch';
+
 // Analytics and SEO
 import { analytics, trackInteraction } from '@/lib/analytics';
 import { seoManager } from '@/lib/seo';
@@ -94,6 +101,11 @@ const translations = {
     premium: "Premium",
     dashboard: "Tableau de bord",
     categories: "Catégories",
+    exclusive: "Exclusif",
+    recommendations: "Recommandations",
+    weather: "Météo",
+    social: "Communauté",
+    advancedSearch: "Recherche+",
     noResults: "Aucun résultat trouvé",
     reservation: "Réservation :",
     tip: "Le petit plus"
@@ -113,6 +125,11 @@ const translations = {
     premium: "Premium",
     dashboard: "Dashboard",
     categories: "Categories",
+    exclusive: "Exclusive",
+    recommendations: "Recommendations",
+    weather: "Weather",
+    social: "Community",
+    advancedSearch: "Search+",
     noResults: "No results found",
     reservation: "Reservation:",
     tip: "Insider tip"
@@ -400,6 +417,16 @@ export const EnhancedMarrakechGuide: React.FC<EnhancedMarrakechGuideProps> = ({ 
     switch (currentView) {
       case 'ai-planner':
         return <AIItineraryPlanner language={currentLanguage} availableActivities={Object.values(guideData).flat()} />;
+      case 'exclusive':
+        return <ExclusiveContent userPlan={userPlan} language={currentLanguage} />;
+      case 'recommendations':
+        return <PersonalizedRecommendations userPlan={userPlan} language={currentLanguage} userPreferences={userPreferences} />;
+      case 'weather':
+        return <WeatherIntegration language={currentLanguage} />;
+      case 'social':
+        return <SocialFeatures userPlan={userPlan} language={currentLanguage} />;
+      case 'advanced-search':
+        return <AdvancedSearch userPlan={userPlan} language={currentLanguage} onSearch={(results) => console.log(results)} />;
       case 'profile':
         return <UserProfileManager language={currentLanguage} onLanguageChange={setCurrentLanguage} />;
       case 'notifications':
@@ -465,6 +492,55 @@ export const EnhancedMarrakechGuide: React.FC<EnhancedMarrakechGuideProps> = ({ 
               >
                 <Zap className="mr-2 h-4 w-4" />
                 {t.aiPlanner}
+                {userPlan === 'free' && <Crown className="ml-auto h-4 w-4 text-yellow-500" />}
+              </Button>
+              
+              <Button
+                variant={currentView === 'exclusive' ? "default" : "outline"}
+                onClick={() => setCurrentView('exclusive')}
+                className="justify-start"
+              >
+                <Crown className="mr-2 h-4 w-4" />
+                {t.exclusive}
+                {userPlan === 'free' && <Crown className="ml-auto h-4 w-4 text-yellow-500" />}
+              </Button>
+              
+              <Button
+                variant={currentView === 'recommendations' ? "default" : "outline"}
+                onClick={() => setCurrentView('recommendations')}
+                className="justify-start"
+              >
+                <Star className="mr-2 h-4 w-4" />
+                {t.recommendations}
+                {userPlan === 'free' && <Crown className="ml-auto h-4 w-4 text-yellow-500" />}
+              </Button>
+              
+              <Button
+                variant={currentView === 'weather' ? "default" : "outline"}
+                onClick={() => setCurrentView('weather')}
+                className="justify-start"
+              >
+                <MapPin className="mr-2 h-4 w-4" />
+                {t.weather}
+              </Button>
+              
+              <Button
+                variant={currentView === 'social' ? "default" : "outline"}
+                onClick={() => setCurrentView('social')}
+                className="justify-start"
+              >
+                <Heart className="mr-2 h-4 w-4" />
+                {t.social}
+                {userPlan === 'free' && <Crown className="ml-auto h-4 w-4 text-yellow-500" />}
+              </Button>
+              
+              <Button
+                variant={currentView === 'advanced-search' ? "default" : "outline"}
+                onClick={() => setCurrentView('advanced-search')}
+                className="justify-start"
+              >
+                <Search className="mr-2 h-4 w-4" />
+                {t.advancedSearch}
                 {userPlan === 'free' && <Crown className="ml-auto h-4 w-4 text-yellow-500" />}
               </Button>
               
