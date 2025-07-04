@@ -69,19 +69,37 @@ export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlan
   const { user } = useAuth();
   const [preferences, setPreferences] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
+  const [loadingError, setLoadingError] = useState<string | null>(null);
   const [itinerary, setItinerary] = useState<any>(null);
   const [availableActivities, setAvailableActivities] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [loadingTimeout, setLoadingTimeout] = useState<NodeJS.Timeout | null>(null);
   const t = translations[language];
 
   // Load available activities on component mount
   useEffect(() => {
     loadActivities();
+    
+    // Clear any existing timeout when component unmounts
+    return () => {
+      if (loadingTimeout) {
+        clearTimeout(loadingTimeout);
+      }
+    };
   }, []);
 
   const loadActivities = async () => {
     try {
       setIsLoading(true);
+      setLoadingError(null);
+      
+      // Set a timeout to force exit loading state after 8 seconds
+      const timeout = setTimeout(() => {
+        setIsLoading(false);
+        setLoadingError("Le chargement a pris trop de temps. Veuillez réessayer.");
+      }, 8000);
+      setLoadingTimeout(timeout);
+      
       const { data } = await supabase
         .from('activities')
         .select(`
@@ -90,10 +108,23 @@ export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlan
         `)
         .eq('is_approved', true);
       
-      setAvailableActivities(data || []);
+      if (data && data.length > 0) {
+        setAvailableActivities(data);
+      } else {
+        // If no data is returned, use a fallback array
+        setAvailableActivities([]);
+        console.warn('No activities found, using empty array');
+      }
+      
+      // Clear the timeout if data loads successfully
+      if (loadingTimeout) {
+        clearTimeout(loadingTimeout);
+      }
+      
       setIsLoading(false);
     } catch (error) {
       console.error('Error loading activities:', error);
+      setLoadingError("Erreur lors du chargement des activités.");
       setIsLoading(false);
     }
   };
@@ -101,6 +132,11 @@ export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlan
   const generateItinerary = async () => {
     if (!preferences.trim()) {
       toast("Veuillez décrire vos préférences");
+      return;
+    }
+    
+    if (availableActivities.length === 0) {
+      toast("Aucune activité disponible pour générer un itinéraire");
       return;
     }
 
@@ -133,6 +169,7 @@ export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlan
       
     } catch (error) {
       console.error('Error generating itinerary:', error);
+      setItinerary(null);
       toast(t.error);
     } finally {
       setIsGenerating(false);
@@ -213,7 +250,22 @@ export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlan
         <CardContent className="p-8">
           <div className="text-center">
             <Sparkles className="h-12 w-12 mx-auto mb-4 text-primary animate-pulse" />
-            <p className="text-muted-foreground">Chargement des activités...</p>
+            <p className="font-medium mb-2">Chargement des activités...</p>
+            <p className="text-sm text-muted-foreground">Préparation de votre planificateur d'itinéraire</p>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+  
+  if (loadingError) {
+    return (
+      <Card className="w-full max-w-4xl mx-auto">
+        <CardContent className="p-8">
+          <div className="text-center">
+            <div className="text-destructive mb-2 text-4xl">⚠️</div>
+            <p className="font-medium mb-4 text-destructive">{loadingError}</p>
+            <Button onClick={loadActivities}>Réessayer</Button>
           </div>
         </CardContent>
       </Card>

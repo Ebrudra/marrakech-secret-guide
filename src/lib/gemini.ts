@@ -10,9 +10,22 @@ const genAI = new GoogleGenerativeAI(API_KEY);
 
 export class GeminiService {
   private model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+  private isApiAvailable = true;
 
   async generateItinerary(preferences: string, availableActivities: any[]) {
     try {
+      // Check if API is available
+      if (!this.isApiAvailable) {
+        console.warn('Gemini API unavailable, using fallback');
+        return this.createFallbackItinerary(availableActivities);
+      }
+      
+      // Check if we have activities
+      if (!availableActivities || availableActivities.length === 0) {
+        console.warn('No activities available, using fallback');
+        return this.createFallbackItinerary([]);
+      }
+      
       const activitiesContext = availableActivities.map(activity => ({
         name: activity.name,
         category: activity.categories?.name || 'Unknown',
@@ -66,8 +79,13 @@ Assure-toi que les noms d'activités correspondent EXACTEMENT à ceux de la list
       try {
         const jsonMatch = text.match(/\{[\s\S]*\}/);
         if (jsonMatch) {
-          const itineraryData = JSON.parse(jsonMatch[0]);
-          return itineraryData;
+          try {
+            const itineraryData = JSON.parse(jsonMatch[0]);
+            return itineraryData;
+          } catch (jsonError) {
+            console.error('Failed to parse JSON from Gemini response:', jsonError);
+            return this.createFallbackItinerary(availableActivities);
+          }
         } else {
           console.warn('No JSON found in Gemini response, using fallback');
           return this.createFallbackItinerary(availableActivities);
@@ -80,6 +98,10 @@ Assure-toi que les noms d'activités correspondent EXACTEMENT à ceux de la list
 
     } catch (error) {
       console.error('Gemini API error:', error);
+      // Mark API as unavailable if we get a 404 or other serious error
+      if (error.toString().includes('404') || error.toString().includes('not found')) {
+        this.isApiAvailable = false;
+      }
       // Return fallback itinerary
       return this.createFallbackItinerary(availableActivities);
     }
@@ -87,7 +109,8 @@ Assure-toi que les noms d'activités correspondent EXACTEMENT à ceux de la list
 
   private createFallbackItinerary(activities: any[]) {
     const featured = activities.filter(a => a.is_featured).slice(0, 4);
-    const selected = featured.length >= 4 ? featured : activities.slice(0, 4);
+    const selected = featured.length >= 4 ? featured : 
+                    (activities.length > 0 ? activities.slice(0, 4) : this.createDummyActivities());
 
     return {
       itinerary: selected.map((activity, index) => ({
@@ -103,6 +126,39 @@ Assure-toi que les noms d'activités correspondent EXACTEMENT à ceux de la list
       totalDuration: '1 jour',
       estimatedBudget: '€€'
     };
+  }
+  
+  private createDummyActivities() {
+    return [
+      {
+        name: "Jardin Majorelle",
+        street_address: "Rue Yves Saint Laurent, Guéliz",
+        city: "Marrakech",
+        description: "Magnifique jardin botanique créé par Jacques Majorelle",
+        categories: { name: "Culture & Musées" }
+      },
+      {
+        name: "Place Jemaa el-Fnaa",
+        street_address: "Médina",
+        city: "Marrakech",
+        description: "Place emblématique au cœur de la médina",
+        categories: { name: "Visites & découvertes" }
+      },
+      {
+        name: "Palais Bahia",
+        street_address: "Rue Riad Zitoun el Jdid",
+        city: "Marrakech",
+        description: "Palais du 19ème siècle avec jardins et architecture marocaine",
+        categories: { name: "Culture & Musées" }
+      },
+      {
+        name: "Souk Semmarine",
+        street_address: "Médina",
+        city: "Marrakech",
+        description: "Principal souk de Marrakech pour l'artisanat",
+        categories: { name: "Shopping & design" }
+      }
+    ];
   }
 
   async generateActivityRecommendations(userPreferences: string[], viewedActivities: any[]) {

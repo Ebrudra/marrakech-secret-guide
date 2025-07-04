@@ -120,18 +120,32 @@ export const RealDataEnhancedGuide: React.FC<RealDataEnhancedGuideProps> = ({ la
   const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [loadingTimeout, setLoadingTimeout] = useState<NodeJS.Timeout | null>(null);
 
   const t = translations[currentLanguage];
 
   useEffect(() => {
     loadData();
     initializeAnalytics();
+    
+    // Clear any existing timeout when component unmounts or language changes
+    return () => {
+      if (loadingTimeout) {
+        clearTimeout(loadingTimeout);
+      }
+    };
   }, [currentLanguage]);
 
   const loadData = async () => {
     try {
       setLoading(true);
       setError(null);
+      
+      // Set a timeout to force exit loading state after 10 seconds
+      const timeout = setTimeout(() => {
+        setLoading(false);
+      }, 10000);
+      setLoadingTimeout(timeout);
 
       // Load categories
       const { data: categoriesData, error: categoriesError } = await getCategories();
@@ -147,8 +161,19 @@ export const RealDataEnhancedGuide: React.FC<RealDataEnhancedGuideProps> = ({ la
       console.error('Error loading data:', error);
       setError(t.error);
     } finally {
+      // Clear the timeout if data loads successfully
+      if (loadingTimeout) {
+        clearTimeout(loadingTimeout);
+      }
       setLoading(false);
     }
+  };
+
+  const handleRetry = () => {
+    if (!loading) {
+      loadData();
+    } finally {
+      setLoading(false);
   };
 
   const initializeAnalytics = () => {
@@ -227,7 +252,7 @@ export const RealDataEnhancedGuide: React.FC<RealDataEnhancedGuideProps> = ({ la
   if (authLoading || loading) {
     return (
       <div className="min-h-screen bg-gradient-sunset flex items-center justify-center">
-        <div className="text-center p-6 bg-white/80 backdrop-blur-sm rounded-lg shadow-md">
+        <div className="text-center p-8 bg-white/90 backdrop-blur-sm rounded-lg shadow-md border border-primary/20">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
           <p className="text-primary font-medium">{t.loading}</p>
           <p className="text-muted-foreground text-sm mt-2">Chargement des données...</p>
@@ -238,10 +263,14 @@ export const RealDataEnhancedGuide: React.FC<RealDataEnhancedGuideProps> = ({ la
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-sunset flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-red-600 mb-4">{error}</p>
-          <Button onClick={loadData}>Réessayer</Button>
+      <div className="min-h-screen bg-gradient-sunset flex items-center justify-center p-4">
+        <div className="text-center p-8 bg-white/90 backdrop-blur-sm rounded-lg shadow-md border border-destructive/20 max-w-md">
+          <div className="text-destructive mb-2 text-5xl">⚠️</div>
+          <h2 className="text-xl font-semibold mb-2 text-destructive">Erreur de chargement</h2>
+          <p className="text-muted-foreground mb-6">{error}</p>
+          <Button onClick={handleRetry} disabled={loading}>
+            {loading ? 'Chargement...' : 'Réessayer'}
+          </Button>
         </div>
       </div>
     );

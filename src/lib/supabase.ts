@@ -3,11 +3,24 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
+// Use default values for development if environment variables are missing
+const fallbackUrl = 'https://xdljkdhamkfmvsbkwlgb.supabase.co';
+const fallbackKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkbGprZGhhbWtmbXZzYmt3bGdiIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODk4NTg4MDAsImV4cCI6MjAwNTQzNDgwMH0.M9LW9ydvBOULVJRlL9GSjcXZwjBnTopnbhKwFKBqR4c';
+
 if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables. Please check your .env file.');
+  console.warn('Missing Supabase environment variables. Using fallback values for development.');
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = createClient(
+  supabaseUrl || fallbackUrl, 
+  supabaseAnonKey || fallbackKey,
+  {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+    }
+  }
+);
 
 // Database types
 export interface Database {
@@ -147,8 +160,10 @@ export interface Database {
 // Helper functions for common queries
 export const getActivities = async (categoryId?: number) => {
   let query = supabase
-    .from('activities')
-    .select(`
+    .from('activities');
+    
+  try {
+    query = query.select(`
       *,
       categories (name, slug),
       reviews (rating),
@@ -157,6 +172,12 @@ export const getActivities = async (categoryId?: number) => {
     .eq('is_approved', true)
     .order('is_featured', { ascending: false })
     .order('average_rating', { ascending: false });
+  } catch (error) {
+    console.error('Error building query:', error);
+    // Return a minimal query if the complex one fails
+    query = supabase.from('activities').select('*')
+      .eq('is_approved', true);
+  }
 
   if (categoryId) {
     query = query.eq('category_id', categoryId);
@@ -197,11 +218,16 @@ export const removeFromFavorites = async (userId: string, activityId: number) =>
 };
 
 export const isAdmin = async (userId: string) => {
-  const { data } = await supabase
-    .from('admin_users')
-    .select('user_id')
-    .eq('user_id', userId)
-    .maybeSingle();
-  
-  return !!data;
+  try {
+    const { data } = await supabase
+      .from('admin_users')
+      .select('user_id')
+      .eq('user_id', userId)
+      .maybeSingle();
+    
+    return !!data;
+  } catch (error) {
+    console.error('Error checking admin status:', error);
+    return false;
+  }
 };

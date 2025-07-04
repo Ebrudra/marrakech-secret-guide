@@ -28,14 +28,40 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [isAdminUser, setIsAdminUser] = useState(false);
+  const [authError, setAuthError] = useState<string | null>(null);
+  const [authTimeout, setAuthTimeout] = useState<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
+    // Set a timeout to prevent infinite loading
+    const timeout = setTimeout(() => {
       setLoading(false);
-    });
+      setAuthError("L'authentification a pris trop de temps. Veuillez rafraîchir la page.");
+    }, 5000);
+    
+    setAuthTimeout(timeout);
+    
+    try {
+      // Get initial session
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        setSession(session);
+        setUser(session?.user ?? null);
+        setLoading(false);
+        
+        if (timeout) clearTimeout(timeout);
+      }).catch(error => {
+        console.error("Auth session error:", error);
+        setLoading(false);
+        setAuthError("Erreur lors de la récupération de la session.");
+        
+        if (timeout) clearTimeout(timeout);
+      });
+    } catch (error) {
+      console.error("Auth initialization error:", error);
+      setLoading(false);
+      setAuthError("Erreur lors de l'initialisation de l'authentification.");
+      
+      if (timeout) clearTimeout(timeout);
+    }
 
     // Listen for auth changes
     const {
@@ -48,7 +74,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Check admin status when user signs in
       if (session?.user) {
         const adminStatus = await isAdmin(session.user.id);
-        setIsAdminUser(adminStatus);
+        setIsAdminUser(!!adminStatus);
         
         // Create or update user profile
         await createOrUpdateUserProfile(session.user);
@@ -59,6 +85,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     return () => subscription.unsubscribe();
   }, []);
+  
+  // Clean up timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (authTimeout) {
+        clearTimeout(authTimeout);
+      }
+    };
+  }, [authTimeout]);
 
   const createOrUpdateUserProfile = async (user: User) => {
     try {
@@ -71,7 +106,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (!existingUser) {
         // Create new user profile
         await supabase.from('users').insert({
-          id: user.id,
+          id: user.id || `user_${Date.now()}`, // Ensure we always have an ID
           username: user.user_metadata?.username || user.email?.split('@')[0] || `user_${Date.now()}`,
           first_name: user.user_metadata?.first_name || '',
           last_name: user.user_metadata?.last_name || '',
@@ -131,6 +166,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     user,
     session,
     loading,
+    authError,
     isAdminUser,
     signIn,
     signUp,
