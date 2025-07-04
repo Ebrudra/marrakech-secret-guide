@@ -9,22 +9,25 @@ if (!API_KEY) {
 const genAI = new GoogleGenerativeAI(API_KEY);
 
 export class GeminiService {
-  private model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+  private model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
   private isApiAvailable = true;
 
   async generateItinerary(preferences: string, availableActivities: any[]) {
     try {
       // Check if API is available
       if (!this.isApiAvailable) {
-        console.warn('Gemini API unavailable, using fallback');
+        console.warn('GeminiService: API unavailable, using fallback');
         return this.createFallbackItinerary(availableActivities);
       }
       
       // Check if we have activities
       if (!availableActivities || availableActivities.length === 0) {
-        console.warn('No activities available, using fallback');
+        console.warn('GeminiService: No activities available, using fallback');
         return this.createFallbackItinerary([]);
       }
+      
+      console.log('GeminiService: Generating itinerary with preferences:', preferences);
+      console.log('GeminiService: Available activities count:', availableActivities.length);
       
       const activitiesContext = availableActivities.map(activity => ({
         name: activity.name,
@@ -71,35 +74,41 @@ Instructions :
 Assure-toi que les noms d'activités correspondent EXACTEMENT à ceux de la liste fournie.
 `;
 
+      console.log('GeminiService: Sending request to Gemini API');
       const result = await this.model.generateContent(prompt);
       const response = await result.response;
       const text = response.text();
+      console.log('GeminiService: Received response from Gemini API');
 
       // Parse the JSON response
       try {
         const jsonMatch = text.match(/\{[\s\S]*\}/);
         if (jsonMatch) {
           try {
+            console.log('GeminiService: Found JSON in response, parsing');
             const itineraryData = JSON.parse(jsonMatch[0]);
             return itineraryData;
           } catch (jsonError) {
-            console.error('Failed to parse JSON from Gemini response:', jsonError);
+            console.error('GeminiService: Failed to parse JSON from Gemini response:', jsonError);
             return this.createFallbackItinerary(availableActivities);
           }
         } else {
-          console.warn('No JSON found in Gemini response, using fallback');
+          console.warn('GeminiService: No JSON found in Gemini response, using fallback');
+          console.log('GeminiService: Raw response:', text);
           return this.createFallbackItinerary(availableActivities);
         }
       } catch (parseError) {
-        console.error('Failed to parse Gemini response:', text);
+        console.error('GeminiService: Failed to parse Gemini response:', parseError);
+        console.log('GeminiService: Raw response text:', text);
         // Fallback to a basic itinerary
         return this.createFallbackItinerary(availableActivities);
       }
 
     } catch (error) {
-      console.error('Gemini API error:', error);
+      console.error('GeminiService: API error:', error);
       // Mark API as unavailable if we get a 404 or other serious error
       if (error.toString().includes('404') || error.toString().includes('not found')) {
+        console.warn('GeminiService: API marked as unavailable due to 404 error');
         this.isApiAvailable = false;
       }
       // Return fallback itinerary
@@ -108,10 +117,12 @@ Assure-toi que les noms d'activités correspondent EXACTEMENT à ceux de la list
   }
 
   private createFallbackItinerary(activities: any[]) {
+    console.log('GeminiService: Creating fallback itinerary');
     const featured = activities.filter(a => a.is_featured).slice(0, 4);
     const selected = featured.length >= 4 ? featured : 
                     (activities.length > 0 ? activities.slice(0, 4) : this.createDummyActivities());
 
+    console.log('GeminiService: Selected activities for fallback:', selected.length);
     return {
       itinerary: selected.map((activity, index) => ({
         time: `${9 + index * 3}:00`,
@@ -129,6 +140,7 @@ Assure-toi que les noms d'activités correspondent EXACTEMENT à ceux de la list
   }
   
   private createDummyActivities() {
+    console.log('GeminiService: Creating dummy activities for fallback');
     return [
       {
         name: "Jardin Majorelle",
@@ -163,6 +175,12 @@ Assure-toi que les noms d'activités correspondent EXACTEMENT à ceux de la list
 
   async generateActivityRecommendations(userPreferences: string[], viewedActivities: any[]) {
     try {
+      if (!this.isApiAvailable) {
+        console.warn('GeminiService: API unavailable for recommendations, using fallback');
+        return this.createFallbackRecommendations();
+      }
+      
+      console.log('GeminiService: Generating recommendations');
       const prompt = `
 Basé sur ces préférences utilisateur : ${userPreferences.join(', ')}
 Et ces activités déjà vues : ${viewedActivities.map(a => a.name).join(', ')}
@@ -188,11 +206,18 @@ Réponds en JSON avec cette structure :
       const jsonMatch = text.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
         return JSON.parse(jsonMatch[0]);
+      } else {
+        console.warn('GeminiService: No JSON found in recommendations response');
+        return this.createFallbackRecommendations();
       }
     } catch (error) {
-      console.error('Gemini recommendations error:', error);
+      console.error('GeminiService: Recommendations error:', error);
+      return this.createFallbackRecommendations();
     }
+  }
 
+  private createFallbackRecommendations() {
+    console.log('GeminiService: Creating fallback recommendations');
     return {
       recommendations: [
         {

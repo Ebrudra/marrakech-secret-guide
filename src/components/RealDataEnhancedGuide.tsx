@@ -24,6 +24,9 @@ import PerformanceOptimizer from './PerformanceOptimizer';
 import { analytics, trackInteraction } from '@/lib/analytics';
 import { seoManager } from '@/lib/seo';
 
+// For debugging
+const DEBUG = true;
+
 interface Activity {
   id: number;
   name: string;
@@ -104,7 +107,7 @@ export const RealDataEnhancedGuide: React.FC<RealDataEnhancedGuideProps> = ({ la
   const { user, signOut, isAdminUser, loading: authLoading } = useAuth();
   
   // Add hero image URL
-  const heroImageUrl = "https://images.pexels.com/photos/3889843/pexels-photo-3889843.jpeg?auto=compress&cs=tinysrgb&w=1200";
+  const heroImageUrl = "https://images.pexels.com/photos/17485658/pexels-photo-17485658.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
   
   const [currentView, setCurrentView] = useState<string>('guide');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -139,32 +142,50 @@ export const RealDataEnhancedGuide: React.FC<RealDataEnhancedGuideProps> = ({ la
   const loadData = async () => {
     try {
       setLoading(true);
+      if (DEBUG) console.log('RealDataEnhancedGuide: Starting data load');
       setError(null);
       
       // Set a timeout to force exit loading state after 10 seconds
       const timeout = setTimeout(() => {
+        if (DEBUG) console.log('RealDataEnhancedGuide: Loading timeout reached');
         setLoading(false);
+        setError('Le chargement a pris trop de temps. Les données peuvent être incomplètes.');
       }, 10000);
       setLoadingTimeout(timeout);
 
       // Load categories
+      if (DEBUG) console.log('RealDataEnhancedGuide: Fetching categories');
       const { data: categoriesData, error: categoriesError } = await getCategories();
-      if (categoriesError) throw categoriesError;
+      
+      if (categoriesError) {
+        if (DEBUG) console.error('RealDataEnhancedGuide: Categories error:', categoriesError);
+        throw categoriesError;
+      }
+      
+      if (DEBUG) console.log('RealDataEnhancedGuide: Categories received:', categoriesData?.length || 0);
       setCategories(categoriesData || []);
 
       // Load activities
+      if (DEBUG) console.log('RealDataEnhancedGuide: Fetching activities');
       const { data: activitiesData, error: activitiesError } = await getActivities();
-      if (activitiesError) throw activitiesError;
+      
+      if (activitiesError) {
+        if (DEBUG) console.error('RealDataEnhancedGuide: Activities error:', activitiesError);
+        throw activitiesError;
+      }
+      
+      if (DEBUG) console.log('RealDataEnhancedGuide: Activities received:', activitiesData?.length || 0, activitiesData);
       setActivities(activitiesData || []);
 
     } catch (error) {
-      console.error('Error loading data:', error);
+      console.error('RealDataEnhancedGuide: Error loading data:', error);
       setError(t.error);
     } finally {
       // Clear the timeout if data loads successfully
       if (loadingTimeout) {
         clearTimeout(loadingTimeout);
       }
+      if (DEBUG) console.log('RealDataEnhancedGuide: Loading complete, setting loading=false');
       setLoading(false);
     }
   };
@@ -252,10 +273,11 @@ export const RealDataEnhancedGuide: React.FC<RealDataEnhancedGuideProps> = ({ la
   if (authLoading || loading) {
     return (
       <div className="min-h-screen bg-gradient-sunset flex items-center justify-center">
-        <div className="text-center p-8 bg-white/90 backdrop-blur-sm rounded-lg shadow-md border border-primary/20">
+        <div className="text-center p-8 bg-white/90 backdrop-blur-sm rounded-lg shadow-md border border-primary/20 max-w-md">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
           <p className="text-primary font-medium">{t.loading}</p>
-          <p className="text-muted-foreground text-sm mt-2">Chargement des données...</p>
+          <p className="text-muted-foreground text-sm mt-2">Chargement des données en cours...</p>
+          <p className="text-xs text-muted-foreground/70 mt-4">Si le chargement persiste, essayez de rafraîchir la page</p>
         </div>
       </div>
     );
@@ -285,7 +307,7 @@ export const RealDataEnhancedGuide: React.FC<RealDataEnhancedGuideProps> = ({ la
           <div className="relative mb-6 rounded-xl overflow-hidden">
             <img 
               src={heroImageUrl} 
-              alt="Marrakech" 
+              alt="Vue aérienne de Marrakech" 
               className="w-full h-64 object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent"></div>

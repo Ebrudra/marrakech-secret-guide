@@ -8,7 +8,11 @@ import { Loader2, Sparkles, Clock, MapPin, Calendar, Lightbulb } from "lucide-re
 import { toast } from "@/components/ui/sonner";
 import { geminiService } from "@/lib/gemini";
 import { supabase } from "@/lib/supabase";
+import { useEffect, useState } from "react";
 import { useAuth } from "@/components/AuthProvider";
+
+// For debugging
+const DEBUG = true;
 
 interface ItineraryItem {
   time: string;
@@ -68,6 +72,7 @@ const translations = {
 export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlannerProps) {
   const { user } = useAuth();
   const [preferences, setPreferences] = useState("");
+  const [generationTimeout, setGenerationTimeout] = useState<NodeJS.Timeout | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [loadingError, setLoadingError] = useState<string | null>(null);
   const [itinerary, setItinerary] = useState<any>(null);
@@ -85,6 +90,13 @@ export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlan
       if (loadingTimeout) {
         clearTimeout(loadingTimeout);
       }
+      
+      // Also clear generation timeout if component unmounts
+      if (generationTimeout) {
+        clearTimeout(generationTimeout);
+      }
+      
+      if (DEBUG) console.log('RealAIItineraryPlanner: Component unmounting, clearing timeouts');
     };
   }, []);
 
@@ -92,6 +104,7 @@ export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlan
     try {
       setIsLoading(true);
       setLoadingError(null);
+      if (DEBUG) console.log('RealAIItineraryPlanner: Starting activities load');
       
       // Set a timeout to force exit loading state after 8 seconds
       const timeout = setTimeout(() => {
@@ -100,6 +113,7 @@ export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlan
       }, 8000);
       setLoadingTimeout(timeout);
       
+      if (DEBUG) console.log('RealAIItineraryPlanner: Fetching activities from Supabase');
       const { data } = await supabase
         .from('activities')
         .select(`
@@ -108,13 +122,16 @@ export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlan
         `)
         .eq('is_approved', true);
       
+      if (DEBUG) console.log('RealAIItineraryPlanner: Activities received:', data?.length || 0, data);
+      
       if (data && data.length > 0) {
         setAvailableActivities(data);
       } else {
         // If no data is returned, use a fallback array
         setAvailableActivities([]);
-        console.warn('No activities found, using empty array');
+        console.warn('RealAIItineraryPlanner: No activities found, using empty array');
       }
+      if (DEBUG) console.log('RealAIItineraryPlanner: Activities loaded successfully');
       
       // Clear the timeout if data loads successfully
       if (loadingTimeout) {
@@ -123,7 +140,7 @@ export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlan
       
       setIsLoading(false);
     } catch (error) {
-      console.error('Error loading activities:', error);
+      console.error('RealAIItineraryPlanner: Error loading activities:', error);
       setLoadingError("Erreur lors du chargement des activités.");
       setIsLoading(false);
     }
@@ -142,12 +159,20 @@ export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlan
 
     setIsGenerating(true);
     
+    // Set a timeout to force exit generating state after 15 seconds
+    const timeout = setTimeout(() => {
+      setIsGenerating(false);
+      toast("La génération a pris trop de temps. Veuillez réessayer.");
+    }, 15000);
+    setGenerationTimeout(timeout);
+    
     try {
       // Load fresh activities data
       await loadActivities();
       
       // Generate itinerary using Gemini AI
       const generatedItinerary = await geminiService.generateItinerary(
+        preferences.trim().length > 10 ? preferences : "Je veux visiter Marrakech pendant 1 jour, j'aime la culture et la gastronomie. " + preferences,
         preferences, 
         availableActivities
       );
@@ -219,6 +244,8 @@ export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlan
       });
 
       const { error: itemsError } = await supabase
+    
+    if (DEBUG) console.log('RealAIItineraryPlanner: Itinerary generated successfully:', itinerary);
         .from('itinerary_items')
         .insert(itineraryItems);
 
@@ -227,7 +254,10 @@ export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlan
       toast("Itinéraire sauvegardé avec succès !");
       
     } catch (error) {
-      console.error('Error saving itinerary:', error);
+      console.error('RealAIItineraryPlanner: Error generating itinerary:', error);
+      if (generationTimeout) {
+        clearTimeout(generationTimeout);
+      }
       toast("Erreur lors de la sauvegarde");
     }
   };
@@ -247,11 +277,18 @@ export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlan
   if (isLoading) {
     return (
       <Card className="w-full max-w-4xl mx-auto">
-        <CardContent className="p-8">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-primary" />
+            {t.title}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-6">
           <div className="text-center">
             <Sparkles className="h-12 w-12 mx-auto mb-4 text-primary animate-pulse" />
             <p className="font-medium mb-2">Chargement des activités...</p>
             <p className="text-sm text-muted-foreground">Préparation de votre planificateur d'itinéraire</p>
+            <p className="text-xs text-muted-foreground/70 mt-4">Si le chargement persiste, essayez de rafraîchir la page</p>
           </div>
         </CardContent>
       </Card>
@@ -261,7 +298,13 @@ export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlan
   if (loadingError) {
     return (
       <Card className="w-full max-w-4xl mx-auto">
-        <CardContent className="p-8">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-primary" />
+            {t.title}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-6">
           <div className="text-center">
             <div className="text-destructive mb-2 text-4xl">⚠️</div>
             <p className="font-medium mb-4 text-destructive">{loadingError}</p>
