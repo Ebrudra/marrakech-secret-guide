@@ -720,7 +720,7 @@ export default function MarrakechGuide() {
         </div>
         
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-6">
-          <h1 className="text-4xl md:text-7xl font-bold mb-6 animate-fade-in bg-gradient-warm bg-clip-text text-transparent">
+          <h1 className="text-6xl md:text-7xl font-bold mb-6 animate-fade-in bg-gradient-warm bg-clip-text text-transparent">
             {t.title}
           </h1>
           <p className="text-lg md:text-2xl mb-8 animate-slide-up opacity-90">
