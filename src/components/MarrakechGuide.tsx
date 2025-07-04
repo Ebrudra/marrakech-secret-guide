@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MapPin, Phone, Globe, Lightbulb, Clock, Languages } from "lucide-react";
+import { MapPin, Phone, Globe, Lightbulb, Clock, Languages, Menu, X } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import heroImage from "@/assets/marrakech-hero.jpg";
 
 interface Activity {
@@ -112,7 +113,7 @@ const guideData = {
       "Activité": "Cascades d'Ouzoud",
       "Adresse": "150 KM au Nord-Est de Marrakech",
       "Tél.": "via agence ou hôtel",
-      "Réservation": "Oui, à l’avance",
+      "Réservation": "Oui, à l'avance",
       "Commentaires": "Sortie d'une journée pour découvrir les magnifiques cascades d'Ouzoud"
     }
   ],
@@ -149,7 +150,7 @@ const guideData = {
       "Adresse": "1 Derb Aarjane, Médina",
       "Tél.": "+212 524 381 609 / 661 451 519",
       "Réservation": "Oui (groupe ≥ 5)",
-      "Commentaires": "Avec sa superbe vue sur une oasis de palmiers et son incroyable coucher de soleil en font l’un des spots les plus prisés de la ville de Marrakech.\n\nAvec un cadre moderne et épuré, le Nomad Bar Marrakech offre une atmosphère chic et conviviale, l’endroit idoine pour savourer les excellents cocktails signature ou déguster les succulents tapas du chef, le tout, dans une ambiance festive rythmée par les sets du Dj résident."
+      "Commentaires": "Avec sa superbe vue sur une oasis de palmiers et son incroyable coucher de soleil en font l'un des spots les plus prisés de la ville de Marrakech.\n\nAvec un cadre moderne et épuré, le Nomad Bar Marrakech offre une atmosphère chic et conviviale, l'endroit idoine pour savourer les excellents cocktails signature ou déguster les succulents tapas du chef, le tout, dans une ambiance festive rythmée par les sets du Dj résident."
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
@@ -157,7 +158,7 @@ const guideData = {
       "Adresse": "Place Jemaa El Fna",
       "Tél.": "Passer par Yann pour la Réservation",
       "Réservation": "Oui",
-      "Commentaires": "En plein coeur de la place Jamaa El Fna, Le Grand Bazar est un restaurant innovant dans un cadre à la fois unique et mémorable. Vous serez transporté vers une véritable expérience culinaire aux saveurs marocaines et internationales.\n\nDans un décor digne d’un conte des mille et une nuits, ce lieu atypique mélange un restaurant et un cabinet de curiosités pour créer un monde enchanté grâce à des animations captivantes tous les soirs (musiciens, chanteurs, magiciens..). Des soirées inoubliables vous y attendent !"
+      "Commentaires": "En plein coeur de la place Jamaa El Fna, Le Grand Bazar est un restaurant innovant dans un cadre à la fois unique et mémorable. Vous serez transporté vers une véritable expérience culinaire aux saveurs marocaines et internationales.\n\nDans un décor digne d'un conte des mille et une nuits, ce lieu atypique mélange un restaurant et un cabinet de curiosités pour créer un monde enchanté grâce à des animations captivantes tous les soirs (musiciens, chanteurs, magiciens..). Des soirées inoubliables vous y attendent !"
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
@@ -165,7 +166,7 @@ const guideData = {
       "Adresse": "1 Derb Assehbi",
       "Tél.": "+212 6 53 06 80 80",
       "Réservation": "Oui",
-      "Commentaires": "Idéalement situé au cœur de la ville ocre, ce prestigieux palais vous accueillera dans des tables chics, soigneusement organisées autour d’une très belle piscine, sous les arcs de pierres ou dans le petit jardin arboré.\n\nVous pouvez également réserver une table dans la somptueuse salle de restaurant élégamment décorée dans un style purement oriental avec des tapis berbères, des plafonds peints à la main et des lanternes typiquement marocaines."
+      "Commentaires": "Idéalement situé au cœur de la ville ocre, ce prestigieux palais vous accueillera dans des tables chics, soigneusement organisées autour d'une très belle piscine, sous les arcs de pierres ou dans le petit jardin arboré.\n\nVous pouvez également réserver une table dans la somptueuse salle de restaurant élégamment décorée dans un style purement oriental avec des tapis berbères, des plafonds peints à la main et des lanternes typiquement marocaines."
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
@@ -181,7 +182,7 @@ const guideData = {
       "Adresse": "15, souk cherifia, sidi abdelaziz, Marrakech Médina",
       "Tél.": "+212524375904",
       "Réservation": "Oui",
-      "Commentaires": "https://www.terrassedesepices.com/\nOuvert tous les jours de 12h00 à 17h00 et de 18h30 à 00h30, c’est au rythme des meilleurs Dj et musiciens de la ville que l’expérience Terrasse des épices prend toute sa dimension."
+      "Commentaires": "https://www.terrassedesepices.com/\nOuvert tous les jours de 12h00 à 17h00 et de 18h30 à 00h30, c'est au rythme des meilleurs Dj et musiciens de la ville que l'expérience Terrasse des épices prend toute sa dimension."
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
@@ -241,7 +242,7 @@ const guideData = {
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
-      "Activité": "L’épicurien",
+      "Activité": "L'épicurien",
       "Adresse": "Palais - Es Saadi Marrakech Resort",
       "Tél.": "+212 663-055704",
       "Réservation": "Oui",
@@ -269,7 +270,7 @@ const guideData = {
       "Adresse": "dans la Medina à côté de la place des épices",
       "Tél.": "+212 5244-43662",
       "Réservation": "Oui",
-      "Commentaires": "Une des plus belles terrasses de la médina !\nSitué à 5 minutes à pied de la place Jemaa El Fna, à deux pas de la place des épices, se cache le restaurant L’Mida.\nLa terrasse chic et branchée propose une carte marocaine fusion.L’mida est un lieu où se mêle traditions marrakchi et goût des choses simples.\nAussi agréable pour flâner au soleil en journée que pour admirer le coucher du soleil pour dîner !"
+      "Commentaires": "Une des plus belles terrasses de la médina !\nSitué à 5 minutes à pied de la place Jemaa El Fna, à deux pas de la place des épices, se cache le restaurant L'Mida.\nLa terrasse chic et branchée propose une carte marocaine fusion.L'mida est un lieu où se mêle traditions marrakchi et goût des choses simples.\nAussi agréable pour flâner au soleil en journée que pour admirer le coucher du soleil pour dîner !"
     }
   ],
   "Shopping & design": [
@@ -295,7 +296,7 @@ const guideData = {
       "Adresse": "JXMP+GW9, Bd el Mansour Eddahbi, Marrakech 40000",
       "Tél.": "+2125244-33372",
       "Réservation": "Non",
-      "Commentaires": "Fabriquées à la main, dans le plus grand respect des traditions, nos créations sont le fruit d'une étroite collaboration avec les artisans mâalems. SOME c’est l’expression des savoir-faire traditionnels marocains, au service de créations tendances et uniques à la fois. Horaire : 10h à 19h00"
+      "Commentaires": "Fabriquées à la main, dans le plus grand respect des traditions, nos créations sont le fruit d'une étroite collaboration avec les artisans mâalems. SOME c'est l'expression des savoir-faire traditionnels marocains, au service de créations tendances et uniques à la fois. Horaire : 10h à 19h00"
     },
     {
       "Thématique": "Shopping & design",
@@ -403,6 +404,7 @@ const translations = {
     title: "Guide de Marrakech",
     subtitle: "Pour rendre votre séjour inoubliable, nous avons rassemblé une sélection d'adresses testées et approuvées. Laissez-vous guider par nos recommandations.",
     startButton: "Commencer l'exploration",
+    categoriesMenu: "Catégories",
     categories: {
       "Guide Touristique": "Guide Touristique",
       "Culture & Musées": "Culture & Musées", 
@@ -422,6 +424,7 @@ const translations = {
     title: "Marrakech Guide",
     subtitle: "To make your stay unforgettable, we have gathered a selection of tested and approved addresses. Let our recommendations guide you.",
     startButton: "Start exploring",
+    categoriesMenu: "Categories",
     categories: {
       "Guide Touristique": "Tourist Guide",
       "Culture & Musées": "Culture & Museums",
@@ -462,21 +465,31 @@ const categoryEmojis = {
 export default function MarrakechGuide() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [language, setLanguage] = useState<'fr' | 'en'>('fr');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const categories = Object.keys(guideData);
   const t = translations[language];
 
   const openAddress = (address: string) => {
     if (address) {
-      window.open(`https: //maps.google.com/?q=${encodeURIComponent(address + ", Marrakech")}`, '_blank');
+      window.open(`https://maps.google.com/?q=${encodeURIComponent(address + ", Marrakech")}`, '_blank');
     }
   };
 
   const openPhone = (phone: string) => {
     if (phone) {
-      window.open(`tel:${phone
-      }`, '_self');
+      window.open(`tel:${phone}`, '_self');
     }
+  };
+
+  const handleCategorySelect = (category: string) => {
+    setSelectedCategory(selectedCategory === category ? null : category);
+    setIsMobileMenuOpen(false);
+    setTimeout(() => {
+      document.getElementById('categories-section')?.scrollIntoView({ 
+        behavior: 'smooth' 
+      });
+    }, 100);
   };
 
   return (
@@ -494,12 +507,50 @@ export default function MarrakechGuide() {
         </Button>
       </div>
 
+      {/* Mobile Burger Menu */}
+      <div className="fixed top-4 right-4 z-50 md:hidden">
+        <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+          <SheetTrigger asChild>
+            <Button
+              variant="outline"
+              size="sm"
+              className="bg-card/90 backdrop-blur-sm border-border/20 hover:bg-card"
+            >
+              <Menu className="h-4 w-4" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right" className="w-80">
+            <SheetHeader>
+              <SheetTitle className="text-left">{t.categoriesMenu}</SheetTitle>
+            </SheetHeader>
+            <div className="flex flex-col gap-2 mt-6">
+              {categories.map((category) => (
+                <Button
+                  key={category}
+                  variant={selectedCategory === category ? "default" : "outline"}
+                  onClick={() => handleCategorySelect(category)}
+                  className={`
+                    justify-start transition-all duration-300 
+                    ${selectedCategory === category 
+                      ? "bg-primary text-primary-foreground shadow-warm" 
+                      : "hover:bg-primary/10 hover:border-primary/30"
+                    }
+                  `}
+                >
+                  <span className="mr-2">{categoryEmojis[category as keyof typeof categoryEmojis]}</span>
+                  {t.categories[category as keyof typeof t.categories]}
+                </Button>
+              ))}
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
+
       {/* Hero Section */}
       <div className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <img 
-            src={heroImage
-  } 
+            src={heroImage} 
             alt="Marrakech au coucher du soleil"
             className="w-full h-full object-cover"
           />
@@ -530,36 +581,46 @@ export default function MarrakechGuide() {
         </div>
       </div>
 
-      {/* Navigation */}
-      <div id="categories-section" className="bg-card/95 backdrop-blur-sm sticky top-0 z-40 border-b border-border/20">
+      {/* Desktop Navigation - Hidden on mobile */}
+      <div id="categories-section" className="bg-card/95 backdrop-blur-sm sticky top-0 z-40 border-b border-border/20 hidden md:block">
         <div className="container mx-auto px-6 py-4">
           <div className="flex flex-col sm:flex-row flex-wrap gap-2 justify-center">
             {categories.map((category) => (
               <Button
-                key={category
-    }
-                variant={selectedCategory === category ? "default": "outline"
-    }
-                onClick={() => setSelectedCategory(selectedCategory === category ? null : category)
-    }
+                key={category}
+                variant={selectedCategory === category ? "default" : "outline"}
+                onClick={() => setSelectedCategory(selectedCategory === category ? null : category)}
                 className={`
                   transition-all duration-300 
                   ${selectedCategory === category 
-                    ? "bg-primary text-primary-foreground shadow-warm": "hover:bg-primary/10 hover:border-primary/30"
-      }
-                `
-    }
+                    ? "bg-primary text-primary-foreground shadow-warm" 
+                    : "hover:bg-primary/10 hover:border-primary/30"
+                  }
+                `}
               >
                 <span className="mr-2">{categoryEmojis[category as keyof typeof categoryEmojis]}</span>
                 {t.categories[category as keyof typeof t.categories]}
               </Button>
-            ))
-  }
+            ))}
           </div>
         </div>
       </div>
 
-      { /* Content */}
+      {/* Mobile Navigation Indicator - Only shown when category is selected */}
+      {selectedCategory && (
+        <div className="bg-card/95 backdrop-blur-sm sticky top-0 z-40 border-b border-border/20 md:hidden">
+          <div className="container mx-auto px-6 py-4">
+            <div className="flex items-center justify-center">
+              <div className="flex items-center gap-2 text-primary font-medium">
+                <span>{categoryEmojis[selectedCategory as keyof typeof categoryEmojis]}</span>
+                <span>{t.categories[selectedCategory as keyof typeof t.categories]}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Content */}
       <div className="container mx-auto px-6 py-12">
         {selectedCategory ? (
           <div className="animate-fade-in">
@@ -572,26 +633,16 @@ export default function MarrakechGuide() {
             </div>
 
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {guideData[selectedCategory as keyof typeof guideData
-      ].map((activity: Activity, index) => (
+              {guideData[selectedCategory as keyof typeof guideData].map((activity: Activity, index) => (
                 activity.Activité && (
-                  <Card key={index
-      } className={`
+                  <Card key={index} className={`
                     group hover:shadow-warm transition-all duration-300 hover:-translate-y-1 
-                    ${categoryColors[selectedCategory as keyof typeof categoryColors
-          ]
-        }
+                    ${categoryColors[selectedCategory as keyof typeof categoryColors]}
                     animate-slide-up
-                  `
-      } style={
-        { animationDelay: `${index * 100
-          }ms`
-        }
-      }>
+                  `} style={{ animationDelay: `${index * 100}ms` }}>
                     <CardHeader>
                       <CardTitle className="text-xl font-bold text-card-foreground group-hover:text-primary transition-colors">
-                        {activity.Activité
-      }
+                        {activity.Activité}
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
@@ -599,39 +650,25 @@ export default function MarrakechGuide() {
                         <div className="flex items-start gap-3">
                           <MapPin className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                           <button 
-                            onClick={() => openAddress(activity.Adresse)
-        }
+                            onClick={() => openAddress(activity.Adresse)}
                             className="text-left hover:text-primary transition-colors cursor-pointer underline decoration-primary/30 hover:decoration-primary"
                           >
-                            {activity.Adresse
-        }
+                            {activity.Adresse}
                           </button>
                         </div>
-                      )
-      }
+                      )}
                       
-                      {activity[
-          "Tél."
-        ] && activity[
-          "Tél."
-        ] !== "–" && (
+                      {activity["Tél."] && activity["Tél."] !== "–" && (
                         <div className="flex items-center gap-3">
                           <Phone className="h-5 w-5 text-primary flex-shrink-0" />
                           <button 
-                            onClick={() => openPhone(activity[
-            "Tél."
-          ])
-        }
+                            onClick={() => openPhone(activity["Tél."])}
                             className="hover:text-primary transition-colors cursor-pointer underline decoration-primary/30 hover:decoration-primary"
                           >
-                            {activity[
-            "Tél."
-          ]
-        }
+                            {activity["Tél."]}
                           </button>
                         </div>
-                      )
-      }
+                      )}
 
                       {activity.Réservation && (
                         <div className="flex items-start gap-3">
@@ -641,8 +678,7 @@ export default function MarrakechGuide() {
                              <span className="text-muted-foreground">{activity.Réservation}</span>
                            </div>
                         </div>
-                      )
-      }
+                      )}
 
                       {activity.Commentaires && (
                         <div className="bg-muted/50 p-4 rounded-lg border-l-4 border-primary/30">
@@ -651,17 +687,14 @@ export default function MarrakechGuide() {
                              <span className="font-medium text-primary text-bold text-sm">{t.tip}</span>
                            </div>
                           <p className="text-sm text-muted-foreground leading-relaxed">
-                            {activity.Commentaires
-        }
+                            {activity.Commentaires}
                           </p>
                         </div>
-                      )
-      }
+                      )}
                     </CardContent>
                   </Card>
                 )
-              ))
-    }
+              ))}
             </div>
           </div>
         ) : (
@@ -673,8 +706,7 @@ export default function MarrakechGuide() {
               {t.chooseCategorySubtitle}
             </p>
           </div>
-        )
-  }
+        )}
       </div>
 
       {/* Footer */}
