@@ -9,6 +9,8 @@ import { useAuth } from '@/components/AuthProvider';
 import AuthModal from '@/components/AuthModal';
 import AdminPanel from '@/components/AdminPanel';
 import RealAIItineraryPlanner from '@/components/RealAIItineraryPlanner';
+import AdminPanel from '@/components/AdminPanel';
+import RealAIItineraryPlanner from '@/components/RealAIItineraryPlanner';
 
 // Import existing components
 import SearchBar from './SearchBar';
@@ -102,6 +104,10 @@ const categoryEmojis: Record<string, string> = {
 
 export const RealDataEnhancedGuide: React.FC<RealDataEnhancedGuideProps> = ({ language = 'fr' }) => {
   const { user, signOut, isAdminUser, loading: authLoading } = useAuth();
+  
+  // Add hero image URL
+  const heroImageUrl = "https://images.pexels.com/photos/3889843/pexels-photo-3889843.jpeg?auto=compress&cs=tinysrgb&w=1200";
+  
   const [currentView, setCurrentView] = useState<string>('guide');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [currentLanguage, setCurrentLanguage] = useState<'fr' | 'en'>(language as 'fr' | 'en');
@@ -247,6 +253,16 @@ export const RealDataEnhancedGuide: React.FC<RealDataEnhancedGuideProps> = ({ la
       {/* Header with Search and Filters */}
       <div className="space-y-4">
         <div className="text-center">
+          {/* Hero Image */}
+          <div className="relative mb-6 rounded-xl overflow-hidden">
+            <img 
+              src={heroImageUrl} 
+              alt="Marrakech" 
+              className="w-full h-64 object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent"></div>
+          </div>
+          
           <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-warm bg-clip-text text-transparent">
             {t.title}
           </h1>
