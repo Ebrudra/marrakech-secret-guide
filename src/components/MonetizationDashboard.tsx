@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { TrendingUp, DollarSign, Users, Eye, Click, Star, Gift } from "lucide-react";
+import { TrendingUp, DollarSign, Users, Eye, Clock as Click, Star, Gift } from "lucide-react";
 import { analytics } from "@/lib/analytics";
 
 interface MonetizationMetrics {
