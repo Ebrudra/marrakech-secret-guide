@@ -1,8 +1,13 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MapPin, Phone, Globe, Lightbulb, Clock, Languages, Menu, X } from "lucide-react";
+import { MapPin, Phone, Globe, Lightbulb, Clock, Languages, Menu, X, Sparkles, Eye } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import SearchBar from "./SearchBar";
+import FilterBar from "./FilterBar";
+import FavoritesManager from "./FavoritesManager";
+import AIItineraryPlanner from "./AIItineraryPlanner";
+import ActivityDetailModal from "./ActivityDetailModal";
 import heroImage from "@/assets/marrakech-hero.jpg";
 
 interface Activity {
@@ -406,6 +411,12 @@ const translations = {
     startButton: "Commencer l'exploration",
     categoriesMenu: "Catégories",
     allActivities: "Toutes les activités",
+    aiPlanner: "Planificateur IA",
+    myFavorites: "Mes favoris",
+    searchPlaceholder: "Rechercher une activité, lieu, type...",
+    noResults: "Aucun résultat trouvé",
+    showDetails: "Voir les détails",
+    backToGuide: "Retour au guide",
     categories: {
       "Guide Touristique": "Guide Touristique",
       "Culture & Musées": "Culture & Musées", 
@@ -429,6 +440,12 @@ const translations = {
     startButton: "Start exploring",
     categoriesMenu: "Categories",
     allActivities: "All Activities",
+    aiPlanner: "AI Planner",
+    myFavorites: "My Favorites",
+    searchPlaceholder: "Search activity, place, type...",
+    noResults: "No results found",
+    showDetails: "Show details",
+    backToGuide: "Back to guide",
     categories: {
       "Guide Touristique": "Tourist Guide",
       "Culture & Musées": "Culture & Museums",
@@ -473,6 +490,11 @@ export default function MarrakechGuide() {
   const [language, setLanguage] = useState<'fr' | 'en'>('fr');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAtBottom, setIsAtBottom] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  const [showAIPlanner, setShowAIPlanner] = useState(false);
+  const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
   // Scroll detection for bottom of page (mobile only)
   useEffect(() => {
@@ -496,6 +518,27 @@ export default function MarrakechGuide() {
   const categories = Object.keys(guideData);
   const t = translations[language];
 
+  // Filter options for the filter bar
+  const filterOptions = {
+    priceRange: [
+      { id: 'free', label: language === 'fr' ? 'Gratuit' : 'Free', count: 12 },
+      { id: 'budget', label: language === 'fr' ? 'Économique' : 'Budget', count: 25 },
+      { id: 'mid', label: language === 'fr' ? 'Moyen' : 'Mid-range', count: 18 },
+      { id: 'luxury', label: language === 'fr' ? 'Luxe' : 'Luxury', count: 8 }
+    ],
+    features: [
+      { id: 'rooftop', label: 'Rooftop', count: 6 },
+      { id: 'traditional', label: language === 'fr' ? 'Traditionnel' : 'Traditional', count: 15 },
+      { id: 'modern', label: language === 'fr' ? 'Moderne' : 'Modern', count: 10 },
+      { id: 'garden', label: language === 'fr' ? 'Jardin' : 'Garden', count: 8 }
+    ],
+    openingHours: [
+      { id: 'morning', label: language === 'fr' ? 'Matin' : 'Morning', count: 20 },
+      { id: 'afternoon', label: language === 'fr' ? 'Après-midi' : 'Afternoon', count: 30 },
+      { id: 'evening', label: language === 'fr' ? 'Soir' : 'Evening', count: 15 },
+      { id: 'late', label: language === 'fr' ? 'Tard le soir' : 'Late night', count: 5 }
+    ]
+  };
   // Get all activities for the "All Activities" category
   const getAllActivities = () => {
     const allActivities: Activity[] = [];
@@ -505,6 +548,26 @@ export default function MarrakechGuide() {
     return allActivities;
   };
 
+  // Filter activities based on search and filters
+  const filterActivities = (activities: Activity[]) => {
+    let filtered = activities;
+
+    // Search filter
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(activity => 
+        activity.Activité.toLowerCase().includes(query) ||
+        activity.Adresse.toLowerCase().includes(query) ||
+        activity.Commentaires.toLowerCase().includes(query) ||
+        activity.Thématique.toLowerCase().includes(query)
+      );
+    }
+
+    // Additional filters can be implemented here based on activeFilters
+    // For now, we'll keep it simple
+
+    return filtered;
+  };
   const openAddress = (address: string) => {
     if (address) {
       window.open(`https://maps.google.com/?q=${encodeURIComponent(address + ", Marrakech")}`, '_blank');
@@ -527,8 +590,42 @@ export default function MarrakechGuide() {
     }, 100);
   };
 
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+  };
+
+  const handleClearSearch = () => {
+    setSearchQuery("");
+  };
+
+  const handleFilterChange = (filterId: string) => {
+    setActiveFilters(prev => 
+      prev.includes(filterId) 
+        ? prev.filter(id => id !== filterId)
+        : [...prev, filterId]
+    );
+  };
+
+  const handleClearAllFilters = () => {
+    setActiveFilters([]);
+  };
+
+  const openActivityDetail = (activity: Activity) => {
+    setSelectedActivity(activity);
+    setIsDetailModalOpen(true);
+  };
   const renderActivities = (activities: Activity[]) => {
-    return activities.map((activity: Activity, index) => (
+    const filteredActivities = filterActivities(activities);
+    
+    if (filteredActivities.length === 0) {
+      return (
+        <div className="col-span-full text-center py-12">
+          <p className="text-muted-foreground text-lg">{t.noResults}</p>
+        </div>
+      );
+    }
+
+    return filteredActivities.map((activity: Activity, index) => (
       activity.Activité && (
         <Card key={`${activity.Activité}-${index}`} className={`
           group hover:shadow-warm transition-all duration-300 hover:-translate-y-1 
@@ -539,9 +636,22 @@ export default function MarrakechGuide() {
           animate-slide-up
         `} style={{ animationDelay: `${index * 100}ms` }}>
           <CardHeader>
-            <CardTitle className="text-xl font-bold text-card-foreground group-hover:text-primary transition-colors">
-              {activity.Activité}
-            </CardTitle>
+            <div className="flex items-start justify-between">
+              <CardTitle className="text-xl font-bold text-card-foreground group-hover:text-primary transition-colors flex-1 pr-2">
+                {activity.Activité}
+              </CardTitle>
+              <div className="flex items-center gap-1">
+                <FavoritesManager activity={activity} language={language} compact />
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => openActivityDetail(activity)}
+                  className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                >
+                  <Eye className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
           </CardHeader>
           <CardContent className="space-y-4">
             {activity.Adresse && (
@@ -589,6 +699,19 @@ export default function MarrakechGuide() {
                 </p>
               </div>
             )}
+            
+            {/* Quick action button */}
+            <div className="pt-2 border-t border-border/50">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => openActivityDetail(activity)}
+                className="w-full opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+                <Eye className="h-4 w-4 mr-2" />
+                {t.showDetails}
+              </Button>
+            </div>
           </CardContent>
         </Card>
       )
@@ -674,6 +797,26 @@ export default function MarrakechGuide() {
                   {t.allActivities}
                 </Button>
                 
+                {/* AI Planner */}
+                <Button
+                  variant={showAIPlanner ? "default" : "outline"}
+                  onClick={() => {
+                    setShowAIPlanner(!showAIPlanner);
+                    setSelectedCategory(null);
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className={`
+                    justify-start transition-all duration-300 
+                    ${showAIPlanner 
+                      ? "bg-gradient-primary text-primary-foreground shadow-warm" 
+                      : "hover:bg-primary/10 hover:border-primary/30"
+                    }
+                  `}
+                >
+                  <span className="mr-2">🤖</span>
+                  {t.aiPlanner}
+                </Button>
+                
                 {categories.map((category) => (
                   <Button
                     key={category}
@@ -729,6 +872,7 @@ export default function MarrakechGuide() {
           <Button 
             onClick={() => {
               setSelectedCategory("Toutes les activités");
+              setShowAIPlanner(false);
               setTimeout(() => {
                 document.getElementById('categories-section')?.scrollIntoView({ 
                   behavior: 'smooth' 
@@ -782,6 +926,25 @@ export default function MarrakechGuide() {
                 {t.categories[category as keyof typeof t.categories]}
               </Button>
             ))}
+              {/* AI Planner */}
+              <Button
+                variant={showAIPlanner ? "default" : "outline"}
+                onClick={() => {
+                  setShowAIPlanner(!showAIPlanner);
+                  setSelectedCategory(null);
+                }}
+                className={`
+                  transition-all duration-300 
+                  ${showAIPlanner 
+                    ? "bg-gradient-primary text-primary-foreground shadow-warm" 
+                    : "hover:bg-primary/10 hover:border-primary/30"
+                  }
+                `}
+              >
+                <span className="mr-2">🤖</span>
+                {t.aiPlanner}
+              </Button>
+              
           </div>
         </div>
       </div>
@@ -812,7 +975,23 @@ export default function MarrakechGuide() {
 
       {/* Content */}
       <div className="container mx-auto px-6 py-12">
-        {selectedCategory ? (
+        {showAIPlanner ? (
+          <div className="animate-fade-in">
+            <div className="text-center mb-8">
+              <Button
+                variant="ghost"
+                onClick={() => setShowAIPlanner(false)}
+                className="mb-4"
+              >
+                ← {t.backToGuide}
+              </Button>
+            </div>
+            <AIItineraryPlanner 
+              language={language} 
+              availableActivities={getAllActivities()}
+            />
+          </div>
+        ) : selectedCategory ? (
           <div className="animate-fade-in">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold text-foreground mb-4 flex items-center justify-center gap-3">
@@ -830,6 +1009,25 @@ export default function MarrakechGuide() {
               <div className="h-1 w-24 bg-gradient-primary mx-auto rounded-full"></div>
             </div>
 
+            {/* Search and Filter Bar */}
+            <div className="mb-8 space-y-4">
+              <div className="flex flex-col md:flex-row gap-4 items-center">
+                <div className="w-full md:flex-1">
+                  <SearchBar
+                    onSearch={handleSearch}
+                    onClear={handleClearSearch}
+                    placeholder={t.searchPlaceholder}
+                  />
+                </div>
+                <FilterBar
+                  filters={filterOptions}
+                  activeFilters={activeFilters}
+                  onFilterChange={handleFilterChange}
+                  onClearAll={handleClearAllFilters}
+                  language={language}
+                />
+              </div>
+            </div>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {selectedCategory === "Toutes les activités" 
                 ? renderActivities(getAllActivities())
@@ -865,6 +1063,14 @@ export default function MarrakechGuide() {
           </p>
         </div>
       </footer>
+      
+      {/* Activity Detail Modal */}
+      <ActivityDetailModal
+        activity={selectedActivity}
+        isOpen={isDetailModalOpen}
+        onClose={() => setIsDetailModalOpen(false)}
+        language={language}
+      />
 
       <style jsx>{`
         @keyframes subtle-zoom {
