@@ -173,6 +173,7 @@ export const RealDataEnhancedGuide: React.FC<RealDataEnhancedGuideProps> = ({ la
     if (!loading) {
       loadData();
     }
+    setLoading(false);
   };
 
   const initializeAnalytics = () => {
