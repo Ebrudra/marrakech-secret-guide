@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MapPin, Phone, Globe, Lightbulb, Clock, Languages, Menu, X } from "lucide-react";
@@ -405,6 +405,7 @@ const translations = {
     subtitle: "Pour rendre votre séjour inoubliable, nous avons rassemblé une sélection d'adresses testées et approuvées. Laissez-vous guider par nos recommandations.",
     startButton: "Commencer l'exploration",
     categoriesMenu: "Catégories",
+    allActivities: "Toutes les activités",
     categories: {
       "Guide Touristique": "Guide Touristique",
       "Culture & Musées": "Culture & Musées", 
@@ -418,13 +419,16 @@ const translations = {
     tip: "Le petit plus",
     chooseCategoryTitle: "Choisissez une thématique pour commencer votre découverte",
     chooseCategorySubtitle: "Chaque catégorie regroupe nos recommandations testées et approuvées pour vous faire vivre la vraie magie de Marrakech",
-    footerText: "Guide curated de Marrakech - Découvrez l'authenticité de la Ville Ocre"
+    footerText: "Guide curated de Marrakech - Découvrez l'authenticité de la Ville Ocre",
+    tapMenuHint: "Appuyez sur le menu pour explorer",
+    useMenuHint: "Utilisez le menu pour explorer les catégories"
   },
   en: {
     title: "Marrakech Guide",
     subtitle: "To make your stay unforgettable, we have gathered a selection of tested and approved addresses. Let our recommendations guide you.",
     startButton: "Start exploring",
     categoriesMenu: "Categories",
+    allActivities: "All Activities",
     categories: {
       "Guide Touristique": "Tourist Guide",
       "Culture & Musées": "Culture & Museums",
@@ -438,7 +442,9 @@ const translations = {
     tip: "Insider tip",
     chooseCategoryTitle: "Choose a theme to start your discovery",
     chooseCategorySubtitle: "Each category groups our tested and approved recommendations to make you experience the true magic of Marrakech",
-    footerText: "Curated Marrakech Guide - Discover the authenticity of the Red City"
+    footerText: "Curated Marrakech Guide - Discover the authenticity of the Red City",
+    tapMenuHint: "Tap menu to explore",
+    useMenuHint: "Use the menu to explore categories"
   }
 };
 
@@ -466,9 +472,38 @@ export default function MarrakechGuide() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [language, setLanguage] = useState<'fr' | 'en'>('fr');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAtBottom, setIsAtBottom] = useState(false);
+
+  // Scroll detection for bottom of page (mobile only)
+  useEffect(() => {
+    const handleScroll = () => {
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const threshold = 100; // pixels from bottom
+      
+      // Only on mobile devices
+      const isMobile = window.innerWidth < 768;
+      if (isMobile) {
+        setIsAtBottom(scrollTop + windowHeight >= documentHeight - threshold);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const categories = Object.keys(guideData);
   const t = translations[language];
+
+  // Get all activities for the "All Activities" category
+  const getAllActivities = () => {
+    const allActivities: Activity[] = [];
+    Object.values(guideData).forEach(categoryActivities => {
+      allActivities.push(...categoryActivities);
+    });
+    return allActivities;
+  };
 
   const openAddress = (address: string) => {
     if (address) {
@@ -492,6 +527,74 @@ export default function MarrakechGuide() {
     }, 100);
   };
 
+  const renderActivities = (activities: Activity[]) => {
+    return activities.map((activity: Activity, index) => (
+      activity.Activité && (
+        <Card key={`${activity.Activité}-${index}`} className={`
+          group hover:shadow-warm transition-all duration-300 hover:-translate-y-1 
+          ${selectedCategory === "Toutes les activités" 
+            ? "bg-gradient-to-r from-primary/5 to-accent/5 border-primary/15" 
+            : categoryColors[selectedCategory as keyof typeof categoryColors]
+          }
+          animate-slide-up
+        `} style={{ animationDelay: `${index * 100}ms` }}>
+          <CardHeader>
+            <CardTitle className="text-xl font-bold text-card-foreground group-hover:text-primary transition-colors">
+              {activity.Activité}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {activity.Adresse && (
+              <div className="flex items-start gap-3">
+                <MapPin className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                <button 
+                  onClick={() => openAddress(activity.Adresse)}
+                  className="text-left hover:text-primary transition-colors cursor-pointer underline decoration-primary/30 hover:decoration-primary"
+                >
+                  {activity.Adresse}
+                </button>
+              </div>
+            )}
+            
+            {activity["Tél."] && activity["Tél."] !== "–" && (
+              <div className="flex items-center gap-3">
+                <Phone className="h-5 w-5 text-primary flex-shrink-0" />
+                <button 
+                  onClick={() => openPhone(activity["Tél."])}
+                  className="hover:text-primary transition-colors cursor-pointer underline decoration-primary/30 hover:decoration-primary"
+                >
+                  {activity["Tél."]}
+                </button>
+              </div>
+            )}
+
+            {activity.Réservation && (
+              <div className="flex items-start gap-3">
+                <Clock className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                 <div>
+                   <span className="font-medium text-primary text-bold">{t.reservation} </span>
+                   <span className="text-muted-foreground">{activity.Réservation}</span>
+                 </div>
+              </div>
+            )}
+
+            {activity.Commentaires && (
+              <div className="bg-muted/50 p-4 rounded-lg border-l-4 border-primary/30">
+                 <div className="flex items-start gap-2 mb-2">
+                   <Lightbulb className="h-4 w-4 text-primary mt-1 flex-shrink-0" />
+                   <span className="font-medium text-primary text-bold text-sm">{t.tip}</span>
+                 </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {activity.Commentaires}
+                </p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )
+    ));
+  };
+
   return (
     <div className="min-h-screen bg-gradient-sunset">
       {/* Language Switcher */}
@@ -507,43 +610,102 @@ export default function MarrakechGuide() {
         </Button>
       </div>
 
-      {/* Mobile Burger Menu */}
+      {/* Mobile Burger Menu with Highlighting Circle */}
       <div className="fixed top-4 right-4 z-50 md:hidden">
-        <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-          <SheetTrigger asChild>
-            <Button
-              variant="outline"
-              size="sm"
-              className="bg-card/90 backdrop-blur-sm border-border/20 hover:bg-card"
-            >
-              <Menu className="h-4 w-4" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="right" className="w-80">
-            <SheetHeader>
-              <SheetTitle className="text-left">{t.categoriesMenu}</SheetTitle>
-            </SheetHeader>
-            <div className="flex flex-col gap-2 mt-6">
-              {categories.map((category) => (
+        <div className="relative">
+          {/* Highlighting Circle - Only visible when at bottom */}
+          <div className={`
+            absolute inset-0 rounded-full border-4 border-primary animate-ping
+            transition-opacity duration-500 pointer-events-none
+            ${isAtBottom ? 'opacity-100' : 'opacity-0'}
+          `} style={{ 
+            width: '60px', 
+            height: '60px', 
+            top: '-10px', 
+            left: '-10px',
+            animationDuration: '2s'
+          }} />
+          
+          {/* Secondary highlighting ring */}
+          <div className={`
+            absolute inset-0 rounded-full bg-primary/20 animate-pulse
+            transition-opacity duration-500 pointer-events-none
+            ${isAtBottom ? 'opacity-100' : 'opacity-0'}
+          `} style={{ 
+            width: '50px', 
+            height: '50px', 
+            top: '-5px', 
+            left: '-5px',
+            animationDuration: '1.5s'
+          }} />
+
+          <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+            <SheetTrigger asChild>
+              <Button
+                variant="outline"
+                size="sm"
+                className={`
+                  bg-card/90 backdrop-blur-sm border-border/20 hover:bg-card
+                  transition-all duration-300 relative z-10
+                  ${isAtBottom ? 'shadow-lg shadow-primary/25 border-primary/40' : ''}
+                `}
+              >
+                <Menu className="h-4 w-4" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-80">
+              <SheetHeader>
+                <SheetTitle className="text-left">{t.categoriesMenu}</SheetTitle>
+              </SheetHeader>
+              <div className="flex flex-col gap-2 mt-6">
+                {/* All Activities Category */}
                 <Button
-                  key={category}
-                  variant={selectedCategory === category ? "default" : "outline"}
-                  onClick={() => handleCategorySelect(category)}
+                  variant={selectedCategory === "Toutes les activités" ? "default" : "outline"}
+                  onClick={() => handleCategorySelect("Toutes les activités")}
                   className={`
                     justify-start transition-all duration-300 
-                    ${selectedCategory === category 
-                      ? "bg-primary text-primary-foreground shadow-warm" 
+                    ${selectedCategory === "Toutes les activités" 
+                      ? "bg-gradient-primary text-primary-foreground shadow-warm" 
                       : "hover:bg-primary/10 hover:border-primary/30"
                     }
                   `}
                 >
-                  <span className="mr-2">{categoryEmojis[category as keyof typeof categoryEmojis]}</span>
-                  {t.categories[category as keyof typeof t.categories]}
+                  <span className="mr-2">🌟</span>
+                  {t.allActivities}
                 </Button>
-              ))}
-            </div>
-          </SheetContent>
-        </Sheet>
+                
+                {categories.map((category) => (
+                  <Button
+                    key={category}
+                    variant={selectedCategory === category ? "default" : "outline"}
+                    onClick={() => handleCategorySelect(category)}
+                    className={`
+                      justify-start transition-all duration-300 
+                      ${selectedCategory === category 
+                        ? "bg-primary text-primary-foreground shadow-warm" 
+                        : "hover:bg-primary/10 hover:border-primary/30"
+                      }
+                    `}
+                  >
+                    <span className="mr-2">{categoryEmojis[category as keyof typeof categoryEmojis]}</span>
+                    {t.categories[category as keyof typeof t.categories]}
+                  </Button>
+                ))}
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
+        
+        {/* Mobile hint text - only show when at bottom */}
+        <div className={`
+          absolute top-12 right-0 text-xs text-primary font-medium
+          transition-all duration-500 pointer-events-none
+          ${isAtBottom ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'}
+        `}>
+          <div className="bg-card/90 backdrop-blur-sm px-2 py-1 rounded-md border border-primary/20 shadow-sm">
+            {t.tapMenuHint}
+          </div>
+        </div>
       </div>
 
       {/* Hero Section */}
@@ -552,21 +714,21 @@ export default function MarrakechGuide() {
           <img 
             src={heroImage} 
             alt="Marrakech au coucher du soleil"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover md:animate-none animate-[subtle-zoom_20s_ease-in-out_infinite_alternate]"
           />
           <div className="absolute inset-0 bg-black/40"></div>
         </div>
         
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-6">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in bg-gradient-warm bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-7xl font-bold mb-6 animate-fade-in bg-gradient-warm bg-clip-text text-transparent">
             {t.title}
           </h1>
-          <p className="text-xl md:text-2xl mb-8 animate-slide-up opacity-90">
+          <p className="text-lg md:text-2xl mb-8 animate-slide-up opacity-90">
             {t.subtitle}
           </p>
           <Button 
             onClick={() => {
-              setSelectedCategory(categories[0]);
+              setSelectedCategory("Toutes les activités");
               setTimeout(() => {
                 document.getElementById('categories-section')?.scrollIntoView({ 
                   behavior: 'smooth' 
@@ -574,7 +736,7 @@ export default function MarrakechGuide() {
               }, 100);
             }}
             size="lg"
-            className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-warm animate-slide-up"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-warm animate-slide-up w-4/5 h-12 md:w-auto md:h-auto"
           >
             {t.startButton}
           </Button>
@@ -585,6 +747,22 @@ export default function MarrakechGuide() {
       <div id="categories-section" className="bg-card/95 backdrop-blur-sm sticky top-0 z-40 border-b border-border/20 hidden md:block">
         <div className="container mx-auto px-6 py-4">
           <div className="flex flex-col sm:flex-row flex-wrap gap-2 justify-center">
+            {/* All Activities Category */}
+            <Button
+              variant={selectedCategory === "Toutes les activités" ? "default" : "outline"}
+              onClick={() => setSelectedCategory(selectedCategory === "Toutes les activités" ? null : "Toutes les activités")}
+              className={`
+                transition-all duration-300 
+                ${selectedCategory === "Toutes les activités" 
+                  ? "bg-gradient-primary text-primary-foreground shadow-warm" 
+                  : "hover:bg-primary/10 hover:border-primary/30"
+                }
+              `}
+            >
+              <span className="mr-2">🌟</span>
+              {t.allActivities}
+            </Button>
+            
             {categories.map((category) => (
               <Button
                 key={category}
@@ -612,8 +790,18 @@ export default function MarrakechGuide() {
           <div className="container mx-auto px-6 py-4">
             <div className="flex items-center justify-center">
               <div className="flex items-center gap-2 text-primary font-medium">
-                <span>{categoryEmojis[selectedCategory as keyof typeof categoryEmojis]}</span>
-                <span>{t.categories[selectedCategory as keyof typeof t.categories]}</span>
+                <span>
+                  {selectedCategory === "Toutes les activités" 
+                    ? "🌟" 
+                    : categoryEmojis[selectedCategory as keyof typeof categoryEmojis]
+                  }
+                </span>
+                <span>
+                  {selectedCategory === "Toutes les activités" 
+                    ? t.allActivities 
+                    : t.categories[selectedCategory as keyof typeof t.categories]
+                  }
+                </span>
               </div>
             </div>
           </div>
@@ -626,75 +814,25 @@ export default function MarrakechGuide() {
           <div className="animate-fade-in">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold text-foreground mb-4 flex items-center justify-center gap-3">
-                <span className="text-5xl">{categoryEmojis[selectedCategory as keyof typeof categoryEmojis]}</span>
-                {t.categories[selectedCategory as keyof typeof t.categories]}
+                <span className="text-5xl">
+                  {selectedCategory === "Toutes les activités" 
+                    ? "🌟" 
+                    : categoryEmojis[selectedCategory as keyof typeof categoryEmojis]
+                  }
+                </span>
+                {selectedCategory === "Toutes les activités" 
+                  ? t.allActivities 
+                  : t.categories[selectedCategory as keyof typeof t.categories]
+                }
               </h2>
               <div className="h-1 w-24 bg-gradient-primary mx-auto rounded-full"></div>
             </div>
 
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {guideData[selectedCategory as keyof typeof guideData].map((activity: Activity, index) => (
-                activity.Activité && (
-                  <Card key={index} className={`
-                    group hover:shadow-warm transition-all duration-300 hover:-translate-y-1 
-                    ${categoryColors[selectedCategory as keyof typeof categoryColors]}
-                    animate-slide-up
-                  `} style={{ animationDelay: `${index * 100}ms` }}>
-                    <CardHeader>
-                      <CardTitle className="text-xl font-bold text-card-foreground group-hover:text-primary transition-colors">
-                        {activity.Activité}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      {activity.Adresse && (
-                        <div className="flex items-start gap-3">
-                          <MapPin className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                          <button 
-                            onClick={() => openAddress(activity.Adresse)}
-                            className="text-left hover:text-primary transition-colors cursor-pointer underline decoration-primary/30 hover:decoration-primary"
-                          >
-                            {activity.Adresse}
-                          </button>
-                        </div>
-                      )}
-                      
-                      {activity["Tél."] && activity["Tél."] !== "–" && (
-                        <div className="flex items-center gap-3">
-                          <Phone className="h-5 w-5 text-primary flex-shrink-0" />
-                          <button 
-                            onClick={() => openPhone(activity["Tél."])}
-                            className="hover:text-primary transition-colors cursor-pointer underline decoration-primary/30 hover:decoration-primary"
-                          >
-                            {activity["Tél."]}
-                          </button>
-                        </div>
-                      )}
-
-                      {activity.Réservation && (
-                        <div className="flex items-start gap-3">
-                          <Clock className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                           <div>
-                             <span className="font-medium text-primary text-bold">{t.reservation} </span>
-                             <span className="text-muted-foreground">{activity.Réservation}</span>
-                           </div>
-                        </div>
-                      )}
-
-                      {activity.Commentaires && (
-                        <div className="bg-muted/50 p-4 rounded-lg border-l-4 border-primary/30">
-                           <div className="flex items-start gap-2 mb-2">
-                             <Lightbulb className="h-4 w-4 text-primary mt-1 flex-shrink-0" />
-                             <span className="font-medium text-primary text-bold text-sm">{t.tip}</span>
-                           </div>
-                          <p className="text-sm text-muted-foreground leading-relaxed">
-                            {activity.Commentaires}
-                          </p>
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
-                )
-              ))}
+              {selectedCategory === "Toutes les activités" 
+                ? renderActivities(getAllActivities())
+                : renderActivities(guideData[selectedCategory as keyof typeof guideData])
+              }
             </div>
           </div>
         ) : (
@@ -702,9 +840,17 @@ export default function MarrakechGuide() {
             <h2 className="text-3xl font-bold text-foreground mb-4">
               {t.chooseCategoryTitle}
             </h2>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-6">
               {t.chooseCategorySubtitle}
             </p>
+            
+            {/* Mobile hint for using menu */}
+            <div className="md:hidden">
+              <div className="inline-flex items-center gap-2 text-primary font-medium animate-bounce">
+                <Menu className="h-4 w-4" />
+                <span className="text-sm">{t.useMenuHint}</span>
+              </div>
+            </div>
           </div>
         )}
       </div>
@@ -717,6 +863,13 @@ export default function MarrakechGuide() {
           </p>
         </div>
       </footer>
+
+      <style jsx>{`
+        @keyframes subtle-zoom {
+          0% { transform: scale(1); }
+          100% { transform: scale(1.05); }
+        }
+      `}</style>
     </div>
   );
 }
