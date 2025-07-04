@@ -736,7 +736,7 @@ export default function MarrakechGuide() {
               }, 100);
             }}
             size="lg"
-            className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-warm animate-slide-up w-4/5 h-12 md:w-auto md:h-auto text-2xl md:text-4xl"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-warm animate-slide-up w-4/5 h-12 md:w-auto md:h-auto"
           >
             {t.startButton}
           </Button>
