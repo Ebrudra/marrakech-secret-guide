@@ -8,7 +8,12 @@ import FilterBar from "./FilterBar";
 import FavoritesManager from "./FavoritesManager";
 import AIItineraryPlanner from "./AIItineraryPlanner";
 import ActivityDetailModal from "./ActivityDetailModal";
+import UserProfileManager from "./UserProfileManager";
+import OfflineManager from "./OfflineManager";
+import NotificationManager from "./NotificationManager";
 import heroImage from "@/assets/marrakech-hero.jpg";
+import { analytics, trackInteraction } from "@/lib/analytics";
+import { seoManager } from "@/lib/seo";
 
 interface Activity {
   "Thématique": string;
@@ -413,6 +418,9 @@ const translations = {
     allActivities: "Toutes les activités",
     aiPlanner: "Planificateur IA",
     myFavorites: "Mes favoris",
+    profile: "Mon Profil",
+    offline: "Hors ligne",
+    notifications: "Notifications",
     searchPlaceholder: "Rechercher une activité, lieu, type...",
     noResults: "Aucun résultat trouvé",
     showDetails: "Voir les détails",
@@ -442,6 +450,9 @@ const translations = {
     allActivities: "All Activities",
     aiPlanner: "AI Planner",
     myFavorites: "My Favorites",
+    profile: "My Profile", 
+    offline: "Offline",
+    notifications: "Notifications",
     searchPlaceholder: "Search activity, place, type...",
     noResults: "No results found",
     showDetails: "Show details",
@@ -495,6 +506,10 @@ export default function MarrakechGuide() {
   const [showAIPlanner, setShowAIPlanner] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
+  const [showOffline, setShowOffline] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [categoryStartTime, setCategoryStartTime] = useState<number | null>(null);
 
   // Scroll detection for bottom of page (mobile only)
   useEffect(() => {
@@ -581,6 +596,21 @@ export default function MarrakechGuide() {
   };
 
   const handleCategorySelect = (category: string) => {
+    // Track time spent on previous category
+    if (selectedCategory && categoryStartTime) {
+      const timeSpent = Math.round((Date.now() - categoryStartTime) / 1000);
+      trackInteraction.timeSpent(selectedCategory, timeSpent);
+    }
+    
+    // Track new category selection
+    if (category !== selectedCategory) {
+      trackInteraction.categorySelect(category);
+      setCategoryStartTime(Date.now());
+      
+      // Update SEO for category
+      seoManager.updateCategoryPageSEO(category, language);
+    }
+    
     setSelectedCategory(selectedCategory === category ? null : category);
     setIsMobileMenuOpen(false);
     setTimeout(() => {
@@ -592,6 +622,13 @@ export default function MarrakechGuide() {
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
+    
+    // Track search with results count
+    if (query.trim()) {
+      const allActivities = getAllActivities();
+      const results = filterActivities(allActivities);
+      trackInteraction.search(query, results.length);
+    }
   };
 
   const handleClearSearch = () => {
@@ -611,9 +648,27 @@ export default function MarrakechGuide() {
   };
 
   const openActivityDetail = (activity: Activity) => {
+    trackInteraction.activityView(activity.Activité, activity.Thématique);
+    seoManager.updateActivityPageSEO(activity, language);
     setSelectedActivity(activity);
     setIsDetailModalOpen(true);
   };
+  
+  const handleLanguageChange = (newLanguage: 'fr' | 'en') => {
+    setLanguage(newLanguage);
+    
+    // Update SEO for new language
+    if (selectedCategory) {
+      seoManager.updateCategoryPageSEO(selectedCategory, newLanguage);
+    }
+  };
+  
+  // Initialize SEO on mount
+  useEffect(() => {
+    seoManager.updatePageMetadata({
+      structuredData: seoManager.generateGuideStructuredData()
+    });
+  }, []);
   const renderActivities = (activities: Activity[]) => {
     const filteredActivities = filterActivities(activities);
     
@@ -725,7 +780,7 @@ export default function MarrakechGuide() {
         <Button
           variant="outline"
           size="sm"
-          onClick={() => setLanguage(language === 'fr' ? 'en' : 'fr')}
+          onClick={() => handleLanguageChange(language === 'fr' ? 'en' : 'fr')}
           className="bg-card/90 backdrop-blur-sm border-border/20 hover:bg-card"
         >
           <Languages className="h-4 w-4 mr-2" />
@@ -803,6 +858,9 @@ export default function MarrakechGuide() {
                   onClick={() => {
                     setShowAIPlanner(!showAIPlanner);
                     setSelectedCategory(null);
+                    setShowProfile(false);
+                    setShowOffline(false);
+                    setShowNotifications(false);
                     setIsMobileMenuOpen(false);
                   }}
                   className={`
@@ -815,6 +873,75 @@ export default function MarrakechGuide() {
                 >
                   <span className="mr-2">🤖</span>
                   {t.aiPlanner}
+                </Button>
+                
+                {/* Profile */}
+                <Button
+                  variant={showProfile ? "default" : "outline"}
+                  onClick={() => {
+                    setShowProfile(!showProfile);
+                    setSelectedCategory(null);
+                    setShowAIPlanner(false);
+                    setShowOffline(false);
+                    setShowNotifications(false);
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className={`
+                    justify-start transition-all duration-300 
+                    ${showProfile 
+                      ? "bg-gradient-primary text-primary-foreground shadow-warm" 
+                      : "hover:bg-primary/10 hover:border-primary/30"
+                    }
+                  `}
+                >
+                  <span className="mr-2">👤</span>
+                  {t.profile}
+                </Button>
+                
+                {/* Offline */}
+                <Button
+                  variant={showOffline ? "default" : "outline"}
+                  onClick={() => {
+                    setShowOffline(!showOffline);
+                    setSelectedCategory(null);
+                    setShowAIPlanner(false);
+                    setShowProfile(false);
+                    setShowNotifications(false);
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className={`
+                    justify-start transition-all duration-300 
+                    ${showOffline 
+                      ? "bg-gradient-primary text-primary-foreground shadow-warm" 
+                      : "hover:bg-primary/10 hover:border-primary/30"
+                    }
+                  `}
+                >
+                  <span className="mr-2">📱</span>
+                  {t.offline}
+                </Button>
+                
+                {/* Notifications */}
+                <Button
+                  variant={showNotifications ? "default" : "outline"}
+                  onClick={() => {
+                    setShowNotifications(!showNotifications);
+                    setSelectedCategory(null);
+                    setShowAIPlanner(false);
+                    setShowProfile(false);
+                    setShowOffline(false);
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className={`
+                    justify-start transition-all duration-300 
+                    ${showNotifications 
+                      ? "bg-gradient-primary text-primary-foreground shadow-warm" 
+                      : "hover:bg-primary/10 hover:border-primary/30"
+                    }
+                  `}
+                >
+                  <span className="mr-2">🔔</span>
+                  {t.notifications}
                 </Button>
                 
                 {categories.map((category) => (
@@ -898,6 +1025,9 @@ export default function MarrakechGuide() {
               variant={selectedCategory === "Toutes les activités" ? "default" : "outline"}
               onClick={() => setSelectedCategory(selectedCategory === "Toutes les activités" ? null : "Toutes les activités")}
               className={`
+                setShowProfile(false);
+                setShowOffline(false);
+                setShowNotifications(false);
                 transition-all duration-300 
                 ${selectedCategory === "Toutes les activités" 
                   ? "bg-gradient-primary text-primary-foreground shadow-warm" 
@@ -932,6 +1062,9 @@ export default function MarrakechGuide() {
                 onClick={() => {
                   setShowAIPlanner(!showAIPlanner);
                   setSelectedCategory(null);
+                  setShowProfile(false);
+                  setShowOffline(false);
+                  setShowNotifications(false);
                 }}
                 className={`
                   transition-all duration-300 
@@ -943,6 +1076,72 @@ export default function MarrakechGuide() {
               >
                 <span className="mr-2">🤖</span>
                 {t.aiPlanner}
+              </Button>
+              
+              {/* Profile */}
+              <Button
+                variant={showProfile ? "default" : "outline"}
+                onClick={() => {
+                  setShowProfile(!showProfile);
+                  setSelectedCategory(null);
+                  setShowAIPlanner(false);
+                  setShowOffline(false);
+                  setShowNotifications(false);
+                }}
+                className={`
+                  transition-all duration-300 
+                  ${showProfile 
+                    ? "bg-gradient-primary text-primary-foreground shadow-warm" 
+                    : "hover:bg-primary/10 hover:border-primary/30"
+                  }
+                `}
+              >
+                <span className="mr-2">👤</span>
+                {t.profile}
+              </Button>
+              
+              {/* Offline */}
+              <Button
+                variant={showOffline ? "default" : "outline"}
+                onClick={() => {
+                  setShowOffline(!showOffline);
+                  setSelectedCategory(null);
+                  setShowAIPlanner(false);
+                  setShowProfile(false);
+                  setShowNotifications(false);
+                }}
+                className={`
+                  transition-all duration-300 
+                  ${showOffline 
+                    ? "bg-gradient-primary text-primary-foreground shadow-warm" 
+                    : "hover:bg-primary/10 hover:border-primary/30"
+                  }
+                `}
+              >
+                <span className="mr-2">📱</span>
+                {t.offline}
+              </Button>
+              
+              {/* Notifications */}
+              <Button
+                variant={showNotifications ? "default" : "outline"}
+                onClick={() => {
+                  setShowNotifications(!showNotifications);
+                  setSelectedCategory(null);
+                  setShowAIPlanner(false);
+                  setShowProfile(false);
+                  setShowOffline(false);
+                }}
+                className={`
+                  transition-all duration-300 
+                  ${showNotifications 
+                    ? "bg-gradient-primary text-primary-foreground shadow-warm" 
+                    : "hover:bg-primary/10 hover:border-primary/30"
+                  }
+                `}
+              >
+                <span className="mr-2">🔔</span>
+                {t.notifications}
               </Button>
               
           </div>
@@ -975,6 +1174,51 @@ export default function MarrakechGuide() {
 
       {/* Content */}
       <div className="container mx-auto px-6 py-12">
+        {showProfile ? (
+          <div className="animate-fade-in">
+            <div className="text-center mb-8">
+              <Button
+                variant="ghost"
+                onClick={() => setShowProfile(false)}
+                className="mb-4"
+              >
+                ← {t.backToGuide}
+              </Button>
+            </div>
+            <UserProfileManager 
+              language={language}
+              onLanguageChange={handleLanguageChange}
+            />
+          </div>
+        ) : showOffline ? (
+          <div className="animate-fade-in">
+            <div className="text-center mb-8">
+              <Button
+                variant="ghost"
+                onClick={() => setShowOffline(false)}
+                className="mb-4"
+              >
+                ← {t.backToGuide}
+              </Button>
+            </div>
+            <OfflineManager 
+              language={language}
+              guideData={guideData}
+            />
+          </div>
+        ) : showNotifications ? (
+          <div className="animate-fade-in">
+            <div className="text-center mb-8">
+              <Button
+                variant="ghost"
+                onClick={() => setShowNotifications(false)}
+                className="mb-4"
+              >
+                ← {t.backToGuide}
+              </Button>
+            </div>
+            <NotificationManager language={language} />
+          </div>
         {showAIPlanner ? (
           <div className="animate-fade-in">
             <div className="text-center mb-8">
