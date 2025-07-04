@@ -92,7 +92,7 @@ export default function FavoritesManager({ activity, language, compact = false }
           .from('activities')
           .select('id')
           .eq('name', activity.Activité)
-          .single();
+          .maybeSingle();
         
         if (activityData) {
           const { error } = await removeFromFavorites(user.id, activityData.id);
@@ -111,7 +111,7 @@ export default function FavoritesManager({ activity, language, compact = false }
           .from('activities')
           .select('id')
           .eq('name', activity.Activité)
-          .single();
+          .maybeSingle();
         
         if (activityData) {
           const { error } = await addToFavorites(user.id, activityData.id);
