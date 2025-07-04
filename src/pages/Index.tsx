@@ -1,7 +1,7 @@
-import EnhancedMarrakechGuide from "@/components/EnhancedMarrakechGuide";
+import RealDataEnhancedGuide from "@/components/RealDataEnhancedGuide";
 
 const Index = () => {
-  return <EnhancedMarrakechGuide />;
+  return <RealDataEnhancedGuide />;
 };
 
 export default Index;
