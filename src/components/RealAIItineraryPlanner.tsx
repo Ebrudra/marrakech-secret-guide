@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
@@ -73,9 +74,9 @@ export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlan
   const t = translations[language];
 
   // Load available activities on component mount
-  useState(() => {
+  useEffect(() => {
     loadActivities();
-  });
+  }, []);
 
   const loadActivities = async () => {
     try {
