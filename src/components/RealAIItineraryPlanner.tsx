@@ -242,12 +242,12 @@ export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlan
       });
 
       const { error: itemsError } = await supabase
-    
-    if (DEBUG) console.log('RealAIItineraryPlanner: Itinerary generated successfully:', itinerary);
         .from('itinerary_items')
         .insert(itineraryItems);
 
       if (itemsError) throw itemsError;
+
+      if (DEBUG) console.log('RealAIItineraryPlanner: Itinerary generated successfully:', itinerary);
 
       toast("Itinéraire sauvegardé avec succès !");
       
