@@ -720,10 +720,10 @@ export default function MarrakechGuide() {
         </div>
         
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-6">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in bg-gradient-warm bg-clip-text text-transparent">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-6 animate-fade-in bg-gradient-warm bg-clip-text text-transparent">
             {t.title}
           </h1>
-          <p className="text-lg md:text-2xl mb-8 animate-slide-up opacity-90">
+          <p className="text-lg sm:text-xl md:text-2xl mb-8 animate-slide-up opacity-90">
             {t.subtitle}
           </p>
           <Button 
@@ -736,7 +736,9 @@ export default function MarrakechGuide() {
               }, 100);
             }}
             size="lg"
-            className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-warm animate-slide-up w-4/5 h-12 md:w-auto md:h-auto"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-warm animate-slide-up 
+                       w-4/5 h-14 text-lg font-semibold
+                       md:w-auto md:h-12 md:text-base md:font-medium"
           >
             {t.startButton}
           </Button>
