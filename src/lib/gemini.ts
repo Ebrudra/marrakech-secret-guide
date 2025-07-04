@@ -9,7 +9,7 @@ if (!API_KEY) {
 const genAI = new GoogleGenerativeAI(API_KEY);
 
 export class GeminiService {
-  private model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+  private model = genAI.getGenerativeModel({ model: 'gemini-pro' });
 
   async generateItinerary(preferences: string, availableActivities: any[]) {
     try {
@@ -69,7 +69,8 @@ Assure-toi que les noms d'activités correspondent EXACTEMENT à ceux de la list
           const itineraryData = JSON.parse(jsonMatch[0]);
           return itineraryData;
         } else {
-          throw new Error('No JSON found in response');
+          console.warn('No JSON found in Gemini response, using fallback');
+          return this.createFallbackItinerary(availableActivities);
         }
       } catch (parseError) {
         console.error('Failed to parse Gemini response:', text);

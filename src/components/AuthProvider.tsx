@@ -72,7 +72,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // Create new user profile
         await supabase.from('users').insert({
           id: user.id,
-          username: user.user_metadata?.username || user.email?.split('@')[0],
+          username: user.user_metadata?.username || user.email?.split('@')[0] || `user_${Date.now()}`,
           first_name: user.user_metadata?.first_name || '',
           last_name: user.user_metadata?.last_name || '',
           role: 'user',

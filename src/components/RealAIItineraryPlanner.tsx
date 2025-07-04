@@ -71,6 +71,7 @@ export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlan
   const [isGenerating, setIsGenerating] = useState(false);
   const [itinerary, setItinerary] = useState<any>(null);
   const [availableActivities, setAvailableActivities] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const t = translations[language];
 
   // Load available activities on component mount
@@ -80,6 +81,7 @@ export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlan
 
   const loadActivities = async () => {
     try {
+      setIsLoading(true);
       const { data } = await supabase
         .from('activities')
         .select(`
@@ -89,8 +91,10 @@ export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlan
         .eq('is_approved', true);
       
       setAvailableActivities(data || []);
+      setIsLoading(false);
     } catch (error) {
       console.error('Error loading activities:', error);
+      setIsLoading(false);
     }
   };
 
@@ -202,6 +206,19 @@ export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlan
     };
     return colors[category as keyof typeof colors] || "bg-gray-100 text-gray-800";
   };
+
+  if (isLoading) {
+    return (
+      <Card className="w-full max-w-4xl mx-auto">
+        <CardContent className="p-8">
+          <div className="text-center">
+            <Sparkles className="h-12 w-12 mx-auto mb-4 text-primary animate-pulse" />
+            <p className="text-muted-foreground">Chargement des activités...</p>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card className="w-full max-w-4xl mx-auto">
