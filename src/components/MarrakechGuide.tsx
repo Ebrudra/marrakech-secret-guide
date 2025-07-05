@@ -195,7 +195,10 @@ const guideData = {
       "Adresse": "1 Derb Aarjane, Médina",
       "Tél.": "+212 524 381 609 / 661 451 519",
       "Réservation": "Oui (groupe ≥ 5)",
-      "Commentaires": "Avec sa superbe vue sur une oasis de palmiers et son incroyable coucher de soleil en font l’un des spots les plus prisés de la ville de Marrakech.\n\nAvec un cadre moderne et épuré, le Nomad Bar Marrakech offre une atmosphère chic et conviviale, l’endroit idoine pour savourer les excellents cocktails signature ou déguster les succulents tapas du chef, le tout, dans une ambiance festive rythmée par les sets du Dj résident."
+      "Commentaires": {
+        "fr": "Avec sa superbe vue sur une oasis de palmiers et son incroyable coucher de soleil en font l’un des spots les plus prisés de la ville de Marrakech.\n\nAvec un cadre moderne et épuré, le Nomad Bar Marrakech offre une atmosphère chic et conviviale, l’endroit idoine pour savourer les excellents cocktails signature ou déguster les succulents tapas du chef, le tout, dans une ambiance festive rythmée par les sets du Dj résident.",
+        "en": "With its superb view of a palm oasis and its incredible sunset, it is one of the most popular spots in Marrakech.\n\nWith a modern and refined setting, the Nomad Bar Marrakech offers a chic and friendly atmosphere, the ideal place to enjoy excellent signature cocktails or taste the chef's succulent tapas, all in a festive atmosphere set to the rhythm of the resident DJ's sets."
+      }
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
@@ -203,7 +206,10 @@ const guideData = {
       "Adresse": "Place Jemaa El Fna",
       "Tél.": "Passer par Yann pour la Réservation",
       "Réservation": "Oui",
-      "Commentaires": "En plein coeur de la place Jamaa El Fna, Le Grand Bazar est un restaurant innovant dans un cadre à la fois unique et mémorable. Vous serez transporté vers une véritable expérience culinaire aux saveurs marocaines et internationales.\n\nDans un décor digne d’un conte des mille et une nuits, ce lieu atypique mélange un restaurant et un cabinet de curiosités pour créer un monde enchanté grâce à des animations captivantes tous les soirs (musiciens, chanteurs, magiciens..). Des soirées inoubliables vous y attendent !"
+      "Commentaires": {
+        "fr": "En plein coeur de la place Jamaa El Fna, Le Grand Bazar est un restaurant innovant dans un cadre à la fois unique et mémorable. Vous serez transporté vers une véritable expérience culinaire aux saveurs marocaines et internationales.\n\nDans un décor digne d’un conte des mille et une nuits, ce lieu atypique mélange un restaurant et un cabinet de curiosités pour créer un monde enchanté grâce à des animations captivantes tous les soirs (musiciens, chanteurs, magiciens..). Des soirées inoubliables vous y attendent !",
+        "en": "In the heart of Jemaa El Fna square, Le Grand Bazar is an innovative restaurant in a setting that is both unique and memorable. You will be transported to a true culinary experience with Moroccan and international flavors.\n\nIn a decor worthy of a tale from the Arabian Nights, this atypical place mixes a restaurant and a cabinet of curiosities to create an enchanted world thanks to captivating entertainment every evening (musicians, singers, magicians...). Unforgettable evenings await you there!"
+      }
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
@@ -211,7 +217,10 @@ const guideData = {
       "Adresse": "1 Derb Assehbi",
       "Tél.": "+212 6 53 06 80 80",
       "Réservation": "Oui",
-      "Commentaires": "Idéalement situé au cœur de la ville ocre, ce prestigieux palais vous accueillera dans des tables chics, soigneusement organisées autour d’une très belle piscine, sous les arcs de pierres ou dans le petit jardin arboré.\n\nVous pouvez également réserver une table dans la somptueuse salle de restaurant élégamment décorée dans un style purement oriental avec des tapis berbères, des plafonds peints à la main et des lanternes typiquement marocaines."
+      "Commentaires": {
+        "fr": "Idéalement situé au cœur de la ville ocre, ce prestigieux palais vous accueillera dans des tables chics, soigneusement organisées autour d’une très belle piscine, sous les arcs de pierres ou dans le petit jardin arboré.\n\nVous pouvez également réserver une table dans la somptueuse salle de restaurant élégamment décorée dans un style purement oriental avec des tapis berbères, des plafonds peints à la main et des lanternes typiquement marocaines.",
+        "en": "Ideally located in the heart of the ochre city, this prestigious palace will welcome you at chic tables, carefully arranged around a beautiful swimming pool, under stone arches or in the small wooded garden.\n\nYou can also book a table in the sumptuous restaurant room elegantly decorated in a purely oriental style with Berber carpets, hand-painted ceilings, and typical Moroccan lanterns."
+      }
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
@@ -219,7 +228,10 @@ const guideData = {
       "Adresse": "8 Place des Ferblantiers",
       "Tél.": "+212 661-662824",
       "Réservation": "Non",
-      "Commentaires": "Niché au cœur vibrant de la médina de Marrakech, Mazel Café est un véritable joyau culinaire, idéalement situé entre le Palais Badi et le Palais Bahia,"
+      "Commentaires": {
+        "fr": "Niché au cœur vibrant de la médina de Marrakech, Mazel Café est un véritable joyau culinaire, idéalement situé entre le Palais Badi et le Palais Bahia.",
+        "en": "Nestled in the vibrant heart of the Marrakech medina, Mazel Café is a true culinary gem, ideally located between the Badi Palace and the Bahia Palace."
+      }
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
@@ -227,7 +239,10 @@ const guideData = {
       "Adresse": "15, souk cherifia, sidi abdelaziz, Marrakech Médina",
       "Tél.": "+212524375904",
       "Réservation": "Oui",
-      "Commentaires": "https://www.terrassedesepices.com/\nOuvert tous les jours de 12h00 à 17h00 et de 18h30 à 00h30, c’est au rythme des meilleurs Dj et musiciens de la ville que l’expérience Terrasse des épices prend toute sa dimension."
+      "Commentaires": {
+        "fr": "https://www.terrassedesepices.com/\nOuvert tous les jours de 12h00 à 17h00 et de 18h30 à 00h30, c’est au rythme des meilleurs Dj et musiciens de la ville que l’expérience Terrasse des épices prend toute sa dimension.",
+        "en": "https://www.terrassedesepices.com/\nOpen daily from 12:00 PM to 5:00 PM and from 6:30 PM to 12:30 AM, the Terrasse des Épices experience comes alive to the rhythm of the city's best DJs and musicians."
+      }
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
@@ -235,7 +250,10 @@ const guideData = {
       "Adresse": "Avenue Bab Jdid,",
       "Tél.": "+212524388600",
       "Réservation": "Oui",
-      "Commentaires": "Prendre un tea Time, glâce ou même diner. Formule Brunch, extraordinaire. Je recommande Il y a 4 restaurant. "
+      "Commentaires": {
+        "fr": "Prendre un tea Time, glâce ou même diner. Formule Brunch, extraordinaire. Je recommande Il y a 4 restaurant. ",
+        "en": "Have tea time, ice cream, or even dinner. Extraordinary brunch option. I recommend it. There are 4 restaurants."
+      }
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
@@ -243,7 +261,10 @@ const guideData = {
       "Adresse": "Kissariat Ben Khalid R'mila, 1 Rue Fatima Zahra,",
       "Tél.": "+212 664-464450",
       "Réservation": "Oui",
-      "Commentaires": "Rooftop restaurant et bar à Marrakech offrant une vue panoramique sur la Koutoubia. Propose une cuisine internationale, des cocktails créatifs et une ambiance cosmopolite avec programmation musicale variée."
+      "Commentaires": {
+        "fr": "Rooftop restaurant et bar à Marrakech offrant une vue panoramique sur la Koutoubia. Propose une cuisine internationale, des cocktails créatifs et une ambiance cosmopolite avec programmation musicale variée.",
+        "en": "Rooftop restaurant and bar in Marrakech offering a panoramic view of the Koutoubia. Features international cuisine, creative cocktails, and a cosmopolitan atmosphere with varied musical programming."
+      }
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
@@ -251,7 +272,10 @@ const guideData = {
       "Adresse": "Dar el Bacha, Rte Sidi Abdelaziz",
       "Tél.": "+212 5243-81293",
       "Réservation": "Oui",
-      "Commentaires": "Horaire : 10h à 18h00"
+      "Commentaires": {
+        "fr": "Horaire : 10h à 18h00",
+        "en": "Hours: 10am to 6pm"
+      }
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
@@ -259,7 +283,10 @@ const guideData = {
       "Adresse": "Derb Moulay Abdullah Ben Hezzian, 2, Marrakesh",
       "Tél.": "+212 5244-41210",
       "Réservation": "Oui pour le Rooftop",
-      "Commentaires": "Ce riad-boutique se trouve dans un ancien palais traditionnel doté d'un toit-terrasse meublé comprenant une piscine ainsi que des vues sur la mosquée Koutoubia , située à 5 minutes à pied. Il propose une collection d'art, un piano bar et un spa."
+      "Commentaires": {
+        "fr": "Ce riad-boutique se trouve dans un ancien palais traditionnel doté d'un toit-terrasse meublé comprenant une piscine ainsi que des vues sur la mosquée Koutoubia , située à 5 minutes à pied. Il propose une collection d'art, un piano bar et un spa.",
+        "en": "This boutique riad is in a former traditional palace featuring a furnished rooftop terrace with a pool and views of the Koutoubia Mosque, a 5-minute walk away. It offers an art collection, a piano bar, and a spa."
+      }
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
@@ -267,7 +294,10 @@ const guideData = {
       "Adresse": "Plusieurs (ex. Riad BE)",
       "Tél.": "via inst. @bemarrakech",
       "Réservation": "Oui",
-      "Commentaires": "Cours de cuisine marocaine dans un riad traditionnel."
+      "Commentaires": {
+        "fr": "Cours de cuisine marocaine dans un riad traditionnel.",
+        "en": "Moroccan cooking class in a traditional riad."
+      }
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
@@ -275,7 +305,10 @@ const guideData = {
       "Adresse": "Medina",
       "Tél.": "via @tasting_marrakech",
       "Réservation": "Oui",
-      "Commentaires": "Découvrez la cuisine marocaine à travers un tour privé avec un guide local."
+      "Commentaires": {
+        "fr": "Découvrez la cuisine marocaine à travers un tour privé avec un guide local.",
+        "en": "Discover Moroccan cuisine through a private tour with a local guide."
+      }
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
@@ -283,7 +316,10 @@ const guideData = {
       "Adresse": "Médina",
       "Tél.": "–",
       "Réservation": "Oui",
-      "Commentaires": "Cours de cuisine marocaine avec déjeuner inclus."
+      "Commentaires": {
+        "fr": "Cours de cuisine marocaine avec déjeuner inclus.",
+        "en": "Moroccan cooking class with lunch included."
+      }
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
@@ -291,7 +327,10 @@ const guideData = {
       "Adresse": "Palais - Es Saadi Marrakech Resort",
       "Tél.": "+212 663-055704",
       "Réservation": "Oui",
-      "Commentaires": "https://www.facebook.com/epicurien.marrakech/?locale=fr_FR"
+      "Commentaires": {
+        "fr": "https://www.facebook.com/epicurien.marrakech/?locale=fr_FR",
+        "en": "https://www.facebook.com/epicurien.marrakech/?locale=fr_FR"
+      }
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
@@ -299,7 +338,10 @@ const guideData = {
       "Adresse": "Av. Echouhada, Marrakech",
       "Tél.": "+212 662-622452",
       "Réservation": "Oui",
-      "Commentaires": "Le KOYA est un restaurant asiatique fusion qui offre des spécialités contemporaines : Japonaise, Péruvienne, Thai et Chinoise."
+      "Commentaires": {
+        "fr": "Le KOYA est un restaurant asiatique fusion qui offre des spécialités contemporaines : Japonaise, Péruvienne, Thai et Chinoise.",
+        "en": "KOYA is an Asian fusion restaurant offering contemporary specialties: Japanese, Peruvian, Thai, and Chinese."
+      }
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
@@ -307,7 +349,10 @@ const guideData = {
       "Adresse": "Dar El Bacha, 9 Derb Sidi Ali Ben Hamdouch - Médina",
       "Tél.": "+212 5243-87318",
       "Réservation": "Oui",
-      "Commentaires": "En plein coeur de la médina et niché au fond d'une ruelle, Les Jardins du Lotus vous accueille dans un cadre exceptionnelle avec un décor sophistiqué."
+      "Commentaires": {
+        "fr": "En plein coeur de la médina et niché au fond d'une ruelle, Les Jardins du Lotus vous accueille dans un cadre exceptionnelle avec un décor sophistiqué.",
+        "en": "In the heart of the medina and nestled at the end of an alley, Les Jardins du Lotus welcomes you to an exceptional setting with sophisticated decor."
+      }
     },
     {
       "Thématique": "Se sustenter & Apéros & Tea Time",
@@ -315,7 +360,10 @@ const guideData = {
       "Adresse": "dans la Medina à côté de la place des épices",
       "Tél.": "+212 5244-43662",
       "Réservation": "Oui",
-      "Commentaires": "Une des plus belles terrasses de la médina !\nSitué à 5 minutes à pied de la place Jemaa El Fna, à deux pas de la place des épices, se cache le restaurant L’Mida.\nLa terrasse chic et branchée propose une carte marocaine fusion.L’mida est un lieu où se mêle traditions marrakchi et goût des choses simples.\nAussi agréable pour flâner au soleil en journée que pour admirer le coucher du soleil pour dîner !"
+      "Commentaires": {
+        "fr": "Une des plus belles terrasses de la médina !\nSitué à 5 minutes à pied de la place Jemaa El Fna, à deux pas de la place des épices, se cache le restaurant L’Mida.\nLa terrasse chic et branchée propose une carte marocaine fusion.L’mida est un lieu où se mêle traditions marrakchi et goût des choses simples.\nAussi agréable pour flâner au soleil en journée que pour admirer le coucher du soleil pour dîner !",
+        "en": "One of the most beautiful terraces in the medina!\nLocated a 5-minute walk from Jemaa El Fna square, just a stone's throw from the Place des Épices (Spice Square), you'll find the L'Mida restaurant.\nThe chic and trendy terrace offers a Moroccan fusion menu. L'mida is a place where Marrakchi traditions blend with a taste for simple things.\nEqually pleasant for lounging in the sun during the day as for admiring the sunset over dinner!"
+      }
     }
   ],
   "Shopping & design": [
@@ -325,7 +373,10 @@ const guideData = {
       "Adresse": "Arsat Maach, 91 Avenue Hommane Fetouak",
       "Tél.": "+212 666-152120",
       "Réservation": "Non",
-      "Commentaires": "Centre commercial moderne avec boutiques internationales et cafés. Horaire 09h00 à 01h00"
+      "Commentaires": {
+        "fr": "Centre commercial moderne avec boutiques internationales et cafés. Horaire 09h00 à 01h00",
+        "en": "Modern shopping center with international shops and cafes. Hours 9:00am to 1:00am"
+      }
     },
     {
       "Thématique": "Shopping & design",
@@ -333,7 +384,10 @@ const guideData = {
       "Adresse": "N°17 Rue Principale",
       "Tél.": "+212 5243-36991",
       "Réservation": "Non",
-      "Commentaires": "Boutique d'artisanat local de qualité. Horaire : 8h30 à 18h00"
+      "Commentaires": {
+        "fr": "Boutique d'artisanat local de qualité. Horaire : 8h30 à 18h00",
+        "en": "Quality local artisan shop. Hours: 8:30am to 6:00pm"
+      }
     },
     {
       "Thématique": "Shopping & design",
@@ -341,7 +395,10 @@ const guideData = {
       "Adresse": "JXMP+GW9, Bd el Mansour Eddahbi, Marrakech 40000",
       "Tél.": "+2125244-33372",
       "Réservation": "Non",
-      "Commentaires": "Fabriquées à la main, dans le plus grand respect des traditions, nos créations sont le fruit d'une étroite collaboration avec les artisans mâalems. SOME c’est l’expression des savoir-faire traditionnels marocains, au service de créations tendances et uniques à la fois. Horaire : 10h à 19h00"
+      "Commentaires": {
+        "fr": "Fabriquées à la main, dans le plus grand respect des traditions, nos créations sont le fruit d'une étroite collaboration avec les artisans mâalems. SOME c’est l’expression des savoir-faire traditionnels marocains, au service de créations tendances et uniques à la fois. Horaire : 10h à 19h00",
+        "en": "Handmade, with the utmost respect for tradition, our creations are the result of close collaboration with master craftsmen (mâalems). SOME is the expression of traditional Moroccan know-how, serving creations that are both trendy and unique. Hours: 10am to 7pm"
+      }
     },
     {
       "Thématique": "Shopping & design",
@@ -349,7 +406,10 @@ const guideData = {
       "Adresse": "Av. Mohammed V, Guéliz",
       "Tél.": "+212524437246",
       "Réservation": "Non",
-      "Commentaires": "Centre commercial moderne avec boutiques de mode, restaurants et cinéma. Horaire : 10h à 22h00"
+      "Commentaires": {
+        "fr": "Centre commercial moderne avec boutiques de mode, restaurants et cinéma. Horaire : 10h à 22h00",
+        "en": "Modern shopping center with fashion boutiques, restaurants, and a cinema. Hours: 10am to 10pm"
+      }
     },
     {
       "Thématique": "Shopping & design",
@@ -357,7 +417,10 @@ const guideData = {
       "Adresse": "Derb Moulay Abdullah Ben Hezzian, 2, Marrakesh",
       "Tél.": "+212 5244-41210",
       "Réservation": "Oui pour le Rooftop ",
-      "Commentaires": "Ce riad-boutique se trouve dans un ancien palais traditionnel doté d'un toit-terrasse meublé comprenant une piscine ainsi que des vues sur la mosquée Koutoubia , située à 5 minutes à pied. Il propose une collection d'art, un piano bar et un spa."
+      "Commentaires": {
+        "fr": "Ce riad-boutique se trouve dans un ancien palais traditionnel doté d'un toit-terrasse meublé comprenant une piscine ainsi que des vues sur la mosquée Koutoubia , située à 5 minutes à pied. Il propose une collection d'art, un piano bar et un spa.",
+        "en": "This boutique riad is in a former traditional palace featuring a furnished rooftop terrace with a pool and views of the Koutoubia Mosque, a 5-minute walk away. It offers an art collection, a piano bar, and a spa."
+      }
     },
     {
       "Thématique": "Shopping & design",
@@ -365,7 +428,10 @@ const guideData = {
       "Adresse": "109-4 avenue principale de sidi ghanem, ",
       "Tél.": "+212 5243-36008",
       "Réservation": "Non",
-      "Commentaires": "Galerie d'art contemporain avec des œuvres de designers marocains et internationaux. Horaire : 10h à 19h00"
+      "Commentaires": {
+        "fr": "Galerie d'art contemporain avec des œuvres de designers marocains et internationaux. Horaire : 10h à 19h00",
+        "en": "Contemporary art gallery with works by Moroccan and international designers. Hours: 10am to 7pm"
+      }
     },
     {
       "Thématique": "Shopping & design",
@@ -373,7 +439,10 @@ const guideData = {
       "Adresse": "208 Rue Ibn Tofaïl, Marrakesh, Maroc",
       "Tél.": "+212 651-773407",
       "Réservation": "Non",
-      "Commentaires": "Boutique de créateurs locaux avec des vêtements, accessoires et objets de décoration uniques. Horaire : 10h à 19h00"
+      "Commentaires": {
+        "fr": "Boutique de créateurs locaux avec des vêtements, accessoires et objets de décoration uniques. Horaire : 10h à 19h00",
+        "en": "Local designer boutique with unique clothing, accessories, and decorative items. Hours: 10am to 7pm"
+      }
     },
     {
       "Thématique": "Shopping & design",
@@ -381,7 +450,10 @@ const guideData = {
       "Adresse": "No 490 Route Safi, Marrakesh 40000",
       "Tél.": "+2125243-35344",
       "Réservation": "Non",
-      "Commentaires": "Boutique de décoration et d'artisanat marocain haut de gamme. Spécialisée dans les textiles, céramiques et objets d'artisanat. Ouvert Samedi matin. Horaire : 10h à 19h00"
+      "Commentaires": {
+        "fr": "Boutique de décoration et d'artisanat marocain haut de gamme. Spécialisée dans les textiles, céramiques et objets d'artisanat. Ouvert Samedi matin.",
+        "en": "High-end Moroccan decor and craft boutique. Specializing in textiles, ceramics, and artisanal objects. Open Saturday morning."
+      }
     },
     {
       "Thématique": "Shopping & design",
@@ -389,7 +461,10 @@ const guideData = {
       "Adresse": "437, Marrakesh 40000",
       "Tél.": "+212600-542204",
       "Réservation": "Non",
-      "Commentaires": "Boutique de mode et accessoires avec une sélection de vêtements, sacs et bijoux de créateurs marocains. Horaire : 10h à 19h00"
+      "Commentaires": {
+        "fr": "Boutique de mode et accessoires avec une sélection de vêtements, sacs et bijoux de créateurs marocains. Horaire : 10h à 19h00",
+        "en": "Fashion and accessories boutique with a selection of clothing, bags, and jewelry from Moroccan designers. Hours: 10am to 7pm"
+      }
     },
     {
       "Thématique": "Shopping & design",
@@ -397,7 +472,10 @@ const guideData = {
       "Adresse": "MX85+X63, Marrakech 40000",
       "Tél.": "+212661-765809",
       "Réservation": "Non",
-      "Commentaires": "Boutique spécialisée dans les objets en fer forgé et en métal, allant des luminaires aux meubles. Horaire : 10h à 19h00"
+      "Commentaires": {
+        "fr": "Boutique spécialisée dans les objets en fer forgé et en métal, allant des luminaires aux meubles. Horaire : 10h à 19h00",
+        "en": "Boutique specializing in wrought iron and metal objects, from lighting to furniture. Hours: 10am to 7pm"
+      }
     },
     {
       "Thématique": "Shopping & design",
@@ -405,7 +483,10 @@ const guideData = {
       "Adresse": "435, Marrakech 40000",
       "Tél.": "+2128085-23037",
       "Réservation": "Non",
-      "Commentaires": "Boutique de mode et accessoires avec une sélection de vêtements, sacs et bijoux de créateurs marocains. Horaire : 10h à 19h00"
+      "Commentaires": {
+        "fr": "Boutique de mode et accessoires avec une sélection de vêtements, sacs et bijoux de créateurs marocains. Horaire : 10h à 19h00",
+        "en": "Fashion and accessories boutique with a selection of clothing, bags, and jewelry from Moroccan designers. Hours: 10am to 7pm"
+      }
     }
   ],
   "Nuit & détente": [
@@ -415,7 +496,10 @@ const guideData = {
       "Adresse": "Rue Moulay Ali, Médina",
       "Tél.": "+212 5243-79012",
       "Réservation": "Oui conseillé",
-      "Commentaires": "Cocktails after-dinner dans une ambiance raffinée"
+      "Commentaires": {
+        "fr": "Cocktails after-dinner dans une ambiance raffinée",
+        "en": "After-dinner cocktails in a sophisticated atmosphere"
+      }
     },
     {
       "Thématique": "Nuit & détente",
@@ -423,7 +507,10 @@ const guideData = {
       "Adresse": "7, 8 Riad Zitoun Lakdim, Médina",
       "Tél.": "+212 5244-29646",
       "Réservation": "Oui",
-      "Commentaires": "Jazz Bar & Restaurant avec programmation le mercredi"
+      "Commentaires": {
+        "fr": "Jazz Bar & Restaurant avec programmation le mercredi",
+        "en": "Jazz Bar & Restaurant with a program on Wednesdays"
+      }
     },
     {
       "Thématique": "Nuit & détente",
@@ -431,7 +518,10 @@ const guideData = {
       "Adresse": "Kissariat Ben Khalid R'mila, 1 Rue Fatima Zahra",
       "Tél.": "+212 664-464450",
       "Réservation": "Oui",
-      "Commentaires": "DJ rooftop le week-end, vue panoramique sur la Koutoubia"
+      "Commentaires": {
+        "fr": "DJ rooftop le week-end, vue panoramique sur la Koutoubia",
+        "en": "Rooftop DJ on weekends, panoramic view of the Koutoubia"
+      }
     },
     {
       "Thématique": "Nuit & détente",
@@ -439,7 +529,10 @@ const guideData = {
       "Adresse": "Kissariat Ben Khalid R'mila, 1 Rue Fatima Zahra, Médina",
       "Tél.": "+212 664-464450",
       "Réservation": "Oui",
-      "Commentaires": "DJ rooftop le week-end, vue panoramique sur la Koutoubia"
+      "Commentaires": {
+        "fr": "DJ rooftop le week-end, vue panoramique sur la Koutoubia",
+        "en": "Rooftop DJ on weekends, panoramic view of the Koutoubia"
+      }
     },
     {
       "Thématique": "Nuit & détente",
@@ -447,7 +540,10 @@ const guideData = {
       "Adresse": "Av. Menara",
       "Tél.": "+212 662-680394",
       "Réservation": "Oui",
-      "Commentaires": ""
+      "Commentaires": {
+        "fr": "",
+        "en": ""
+      }
     },
     {
       "Thématique": "Nuit & détente",
@@ -455,7 +551,10 @@ const guideData = {
       "Adresse": "Palais - Es Saadi Marrakech Resort",
       "Tél.": "+212 663-055704",
       "Réservation": "Oui",
-      "Commentaires": "https://www.facebook.com/epicurien.marrakech/?locale=fr_FR"
+      "Commentaires": {
+        "fr": "https://www.facebook.com/epicurien.marrakech/?locale=fr_FR",
+        "en": "https://www.facebook.com/epicurien.marrakech/?locale=fr_FR"
+      }
     },
     {
       "Thématique": "Nuit & détente",
@@ -463,7 +562,10 @@ const guideData = {
       "Adresse": "Rue Haroun Errachid, Marrakech 40000",
       "Tél.": "+212 5244-36984",
       "Réservation": "Oui",
-      "Commentaires": ""
+      "Commentaires": {
+        "fr": "",
+        "en": ""
+      }
     }
   ]
 };
