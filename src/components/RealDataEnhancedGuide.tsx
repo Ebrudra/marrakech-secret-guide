@@ -107,7 +107,7 @@ export const RealDataEnhancedGuide: React.FC<RealDataEnhancedGuideProps> = ({ la
   const { user, signOut, isAdminUser, loading: authLoading } = useAuth();
   
   // Add hero image URL
-  const heroImageUrl = "https://images.pexels.com/photos/17485658/pexels-photo-17485658.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
+  const heroImageUrl = "https://images.pexels.com/photos/4388167/pexels-photo-4388167.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
   
   const [currentView, setCurrentView] = useState<string>('guide');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -170,7 +170,7 @@ export const RealDataEnhancedGuide: React.FC<RealDataEnhancedGuideProps> = ({ la
       const { data: activitiesData, error: activitiesError } = await getActivities();
       
       if (activitiesError) {
-        if (DEBUG) console.error('RealDataEnhancedGuide: Activities error:', activitiesError);
+        if (DEBUG) console.error('RealDataEnhancedGuide: Activities error:', activitiesError.message, activitiesError.details);
         throw activitiesError;
       }
       
@@ -178,7 +178,7 @@ export const RealDataEnhancedGuide: React.FC<RealDataEnhancedGuideProps> = ({ la
       setActivities(activitiesData || []);
 
     } catch (error) {
-      console.error('RealDataEnhancedGuide: Error loading data:', error);
+      console.error('RealDataEnhancedGuide: Error loading data:', error instanceof Error ? error.message : String(error));
       setError(t.error);
     } finally {
       // Clear the timeout if data loads successfully
@@ -470,7 +470,7 @@ export const RealDataEnhancedGuide: React.FC<RealDataEnhancedGuideProps> = ({ la
   const renderCurrentView = () => {
     switch (currentView) {
       case 'ai-planner':
-        return <RealAIItineraryPlanner language={currentLanguage} />;
+        return <RealAIItineraryPlanner language={currentLanguage} availableActivities={activities} />;
       case 'admin':
         return isAdminUser ? <AdminPanel language={currentLanguage} /> : renderMainGuide();
       case 'profile':

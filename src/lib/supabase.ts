@@ -163,17 +163,12 @@ export const getActivities = async (categoryId?: number) => {
     .from('activities');
     
   try {
-    query = query.select(`
-      *,
-      categories (name, slug),
-      reviews (rating),
-      media (media_url, is_primary)
-    `)
+    query = query.select(`*, categories (name, slug)`)
     .eq('is_approved', true)
     .order('is_featured', { ascending: false })
     .order('average_rating', { ascending: false });
   } catch (error) {
-    console.error('Error building query:', error);
+    console.error('Error building activities query:', error);
     // Return a minimal query if the complex one fails
     query = supabase.from('activities').select('*')
       .eq('is_approved', true);
@@ -183,7 +178,12 @@ export const getActivities = async (categoryId?: number) => {
     query = query.eq('category_id', categoryId);
   }
 
-  return query;
+  try {
+    return query;
+  } catch (error) {
+    console.error('Error executing activities query:', error);
+    return { data: [], error };
+  }
 };
 
 export const getCategories = async () => {

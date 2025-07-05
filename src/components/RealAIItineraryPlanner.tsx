@@ -24,6 +24,7 @@ interface ItineraryItem {
 
 interface RealAIItineraryPlannerProps {
   language: 'fr' | 'en';
+  availableActivities: any[];
 }
 
 const translations = {
@@ -67,29 +68,18 @@ const translations = {
   }
 };
 
-export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlannerProps) {
+export default function RealAIItineraryPlanner({ language, availableActivities }: RealAIItineraryPlannerProps) {
   const { user } = useAuth();
   const [preferences, setPreferences] = useState("");
   const [generationTimeout, setGenerationTimeout] = useState<NodeJS.Timeout | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [loadingError, setLoadingError] = useState<string | null>(null);
   const [itinerary, setItinerary] = useState<any>(null);
-  const [availableActivities, setAvailableActivities] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [loadingTimeout, setLoadingTimeout] = useState<NodeJS.Timeout | null>(null);
   const t = translations[language];
 
-  // Load available activities on component mount
+  // Clean up timeouts when component unmounts
   useEffect(() => {
-    loadActivities();
-    
-    // Clear any existing timeout when component unmounts
     return () => {
-      if (loadingTimeout) {
-        clearTimeout(loadingTimeout);
-      }
-      
-      // Also clear generation timeout if component unmounts
       if (generationTimeout) {
         clearTimeout(generationTimeout);
       }
@@ -97,52 +87,6 @@ export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlan
       if (DEBUG) console.log('RealAIItineraryPlanner: Component unmounting, clearing timeouts');
     };
   }, []);
-
-  const loadActivities = async () => {
-    try {
-      setIsLoading(true);
-      setLoadingError(null);
-      if (DEBUG) console.log('RealAIItineraryPlanner: Starting activities load');
-      
-      // Set a timeout to force exit loading state after 8 seconds
-      const timeout = setTimeout(() => {
-        setIsLoading(false);
-        setLoadingError("Le chargement a pris trop de temps. Veuillez réessayer.");
-      }, 8000);
-      setLoadingTimeout(timeout);
-      
-      if (DEBUG) console.log('RealAIItineraryPlanner: Fetching activities from Supabase');
-      const { data } = await supabase
-        .from('activities')
-        .select(`
-          *,
-          categories (name)
-        `)
-        .eq('is_approved', true);
-      
-      if (DEBUG) console.log('RealAIItineraryPlanner: Activities received:', data?.length || 0, data);
-      
-      if (data && data.length > 0) {
-        setAvailableActivities(data);
-      } else {
-        // If no data is returned, use a fallback array
-        setAvailableActivities([]);
-        console.warn('RealAIItineraryPlanner: No activities found, using empty array');
-      }
-      if (DEBUG) console.log('RealAIItineraryPlanner: Activities loaded successfully');
-      
-      // Clear the timeout if data loads successfully
-      if (loadingTimeout) {
-        clearTimeout(loadingTimeout);
-      }
-      
-      setIsLoading(false);
-    } catch (error) {
-      console.error('RealAIItineraryPlanner: Error loading activities:', error);
-      setLoadingError("Erreur lors du chargement des activités.");
-      setIsLoading(false);
-    }
-  };
 
   const generateItinerary = async () => {
     if (!preferences.trim()) {
@@ -165,15 +109,19 @@ export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlan
     setGenerationTimeout(timeout);
     
     try {
-      // Load fresh activities data
-      await loadActivities();
-      
       // Generate itinerary using Gemini AI
-      const generatedItinerary = await geminiService.generateItinerary(
-        preferences.trim().length > 10 ? preferences : "Je veux visiter Marrakech pendant 1 jour, j'aime la culture et la gastronomie. " + preferences,
-        preferences, 
-        availableActivities
-      );
+      let generatedItinerary;
+      try {
+        generatedItinerary = await geminiService.generateItinerary(
+          preferences.trim().length > 10 ? preferences : "Je veux visiter Marrakech pendant 1 jour, j'aime la culture et la gastronomie. " + preferences,
+          preferences, 
+          availableActivities
+        );
+        if (DEBUG) console.log('RealAIItineraryPlanner: Itinerary generated successfully');
+      } catch (genError) {
+        console.error('RealAIItineraryPlanner: Error generating itinerary with Gemini:', genError instanceof Error ? genError.message : String(genError));
+        throw genError;
+      }
       
       setItinerary(generatedItinerary);
       
@@ -191,7 +139,7 @@ export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlan
       }
       
     } catch (error) {
-      console.error('Error generating itinerary:', error);
+      console.error('RealAIItineraryPlanner: Error in generateItinerary:', error instanceof Error ? error.message : String(error));
       setItinerary(null);
       toast(t.error);
     } finally {
@@ -252,7 +200,7 @@ export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlan
       toast("Itinéraire sauvegardé avec succès !");
       
     } catch (error) {
-      console.error('RealAIItineraryPlanner: Error generating itinerary:', error);
+      console.error('RealAIItineraryPlanner: Error saving itinerary:', error instanceof Error ? error.message : String(error));
       if (generationTimeout) {
         clearTimeout(generationTimeout);
       }
@@ -272,28 +220,7 @@ export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlan
     return colors[category as keyof typeof colors] || "bg-gray-100 text-gray-800";
   };
 
-  if (isLoading) {
-    return (
-      <Card className="w-full max-w-4xl mx-auto">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-primary" />
-            {t.title}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="p-6">
-          <div className="text-center">
-            <Sparkles className="h-12 w-12 mx-auto mb-4 text-primary animate-pulse" />
-            <p className="font-medium mb-2">Chargement des activités...</p>
-            <p className="text-sm text-muted-foreground">Préparation de votre planificateur d'itinéraire</p>
-            <p className="text-xs text-muted-foreground/70 mt-4">Si le chargement persiste, essayez de rafraîchir la page</p>
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
-  
-  if (loadingError) {
+  if (!availableActivities || availableActivities.length === 0) {
     return (
       <Card className="w-full max-w-4xl mx-auto">
         <CardHeader>
@@ -305,8 +232,8 @@ export default function RealAIItineraryPlanner({ language }: RealAIItineraryPlan
         <CardContent className="p-6">
           <div className="text-center">
             <div className="text-destructive mb-2 text-4xl">⚠️</div>
-            <p className="font-medium mb-4 text-destructive">{loadingError}</p>
-            <Button onClick={loadActivities}>Réessayer</Button>
+            <p className="font-medium mb-4 text-destructive">Aucune activité disponible pour générer un itinéraire.</p>
+            <Button onClick={() => window.location.reload()}>Rafraîchir la page</Button>
           </div>
         </CardContent>
       </Card>

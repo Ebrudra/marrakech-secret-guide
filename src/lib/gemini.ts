@@ -41,10 +41,10 @@ export class GeminiService {
       const prompt = `
 Tu es un expert guide touristique de Marrakech. Crée un itinéraire personnalisé basé sur ces préférences utilisateur :
 
-"${preferences}"
+${JSON.stringify(preferences)}
 
 Voici les activités disponibles à Marrakech :
-${JSON.stringify(activitiesContext, null, 2)}
+${JSON.stringify(activitiesContext.slice(0, 20), null, 2)}
 
 Instructions :
 1. Crée un itinéraire de 1-3 jours basé sur les préférences
@@ -77,7 +77,7 @@ Assure-toi que les noms d'activités correspondent EXACTEMENT à ceux de la list
       console.log('GeminiService: Sending request to Gemini API');
       const result = await this.model.generateContent(prompt);
       const response = await result.response;
-      const text = response.text();
+      const text = response.text() || '{}';
       console.log('GeminiService: Received response from Gemini API');
 
       // Parse the JSON response
@@ -93,7 +93,7 @@ Assure-toi que les noms d'activités correspondent EXACTEMENT à ceux de la list
             return this.createFallbackItinerary(availableActivities);
           }
         } else {
-          console.warn('GeminiService: No JSON found in Gemini response, using fallback');
+          console.warn('GeminiService: No JSON found in Gemini response, using fallback', text.substring(0, 200) + '...');
           console.log('GeminiService: Raw response:', text);
           return this.createFallbackItinerary(availableActivities);
         }
@@ -120,7 +120,7 @@ Assure-toi que les noms d'activités correspondent EXACTEMENT à ceux de la list
     console.log('GeminiService: Creating fallback itinerary');
     const featured = activities.filter(a => a.is_featured).slice(0, 4);
     const selected = featured.length >= 4 ? featured : 
-                    (activities.length > 0 ? activities.slice(0, 4) : this.createDummyActivities());
+                    (activities && activities.length > 0 ? activities.slice(0, 4) : this.createDummyActivities());
 
     console.log('GeminiService: Selected activities for fallback:', selected.length);
     return {
