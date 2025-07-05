@@ -395,6 +395,30 @@ const guideData = {
       "Tél.": "+212 664-464450",
       "Réservation": "Oui",
       "Commentaires": "DJ rooftop le week-end, vue panoramique sur la Koutoubia"
+    },
+    {
+      "Thématique": "Nuit & détente",
+      "Activité": "Toro Marrakech by Chef Richard Sandoval (pan‑Latin steakhouse, Gueliz)",
+      "Adresse": "Av. Menara",
+      "Tél.": "+212 662-680394",
+      "Réservation": "Oui",
+      "Commentaires": ""
+    },
+    {
+      "Thématique": "Nuit & détente",
+      "Activité": "L'épicurien",
+      "Adresse": "Palais - Es Saadi Marrakech Resort",
+      "Tél.": "+212 663-055704",
+      "Réservation": "Oui",
+      "Commentaires": "https://www.facebook.com/epicurien.marrakech/?locale=fr_FR"
+    },
+    {
+      "Thématique": "Nuit & détente",
+      "Activité": "Taj mahal",
+      "Adresse": "Rue Haroun Errachid, Marrakech 40000",
+      "Tél.": "+212 5244-36984",
+      "Réservation": "Oui",
+      "Commentaires": ""
     }
   ]
 };
