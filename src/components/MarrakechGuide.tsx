@@ -11,7 +11,7 @@ interface Activity {
   "Adresse": string;
   "Tél.": string;
   "Réservation": string;
-  "Commentaires": string;
+  "Commentaires": string | { fr: string; en: string };
 }
 
 const guideData = {
@@ -22,7 +22,10 @@ const guideData = {
       "Adresse": "",
       "Tél.": "212670720118",
       "Réservation": "Appelez de la part de Yann",
-      "Commentaires": "Guide expert de la médina, recommandé pour découvrir les secrets de Marrakech"
+      "Commentaires": {
+        "fr": "Guide expert de la médina, recommandé pour découvrir les secrets de Marrakech",
+        "en": "Expert medina guide, recommended to discover the secrets of Marrakech"
+      }
     }
   ],
   "Culture & Musées": [
@@ -32,7 +35,10 @@ const guideData = {
       "Adresse": "Medina - Rue Ahl Fes, 46 Rue Bin Lafnadek",
       "Tél.": "+212 5243-85721",
       "Réservation": "Non obligatoire, mais conseillé",
-      "Commentaires": "Photos historiques et magnifique rooftop avec vue. Horaire : 10h à 19h00"
+      "Commentaires": {
+        "fr": "Photos historiques et magnifique rooftop avec vue. Horaire : 10h à 19h00",
+        "en": "Historical photos and magnificent rooftop with view. Hours: 10am to 7pm"
+      }
     },
     {
       "Thématique": "Culture & Musées",
@@ -40,7 +46,10 @@ const guideData = {
       "Adresse": "Rue Yves Saint Laurent, Guéliz",
       "Tél.": "+212 5243-13047",
       "Réservation": "Oui, en ligne",
-      "Commentaires": "Trio incontournable de Marrakech. Horaire : 10h à 18h30"
+      "Commentaires": {
+        "fr": "Trio incontournable de Marrakech. Horaire : 10h à 18h30",
+        "en": "Essential trio of Marrakech. Hours: 10am to 6:30pm"
+      }
     },
     {
       "Thématique": "Culture & Musées",
@@ -48,7 +57,10 @@ const guideData = {
       "Adresse": "Dar El Bacha, Rue Fatima Zahra",
       "Tél.": "+212 5243-13047",
       "Réservation": "Oui pour le café",
-      "Commentaires": "Parfait pour une pause culturelle et gourmande. Horaire : 10h à 18h00"
+      "Commentaires": {
+        "fr": "Parfait pour une pause culturelle et gourmande. Horaire : 10h à 18h00",
+        "en": "Perfect for a cultural and gourmet break. Hours: 10am to 6pm"
+      }
     },
     {
       "Thématique": "Culture & Musées",
@@ -56,7 +68,10 @@ const guideData = {
       "Adresse": "Palais Bahia. Bahia Palace, Rue Riad Zitoun el Jdid",
       "Tél.": "",
       "Réservation": "Non",
-      "Commentaires": "Palais somptueux avec jardins traditionnels. Horaire : 09h à 17h00"
+      "Commentaires": {
+        "fr": "Palais somptueux avec jardins traditionnels. Horaire : 09h à 17h00",
+        "en": "Sumptuous palace with traditional gardens. Hours: 9am to 5pm"
+      }
     },
     {
       "Thématique": "Culture & Musées",
@@ -64,7 +79,10 @@ const guideData = {
       "Adresse": "39, 40 Ksibat Nhass",
       "Tél.": "+212 8086-58561",
       "Réservation": "Non",
-      "Commentaires": "Musée dédié aux bijoux et parures traditionnels marocains. Horaire : 10h à 17h30."
+      "Commentaires": {
+        "fr": "Musée dédié aux bijoux et parures traditionnels marocains. Horaire : 10h à 17h30.",
+        "en": "Museum dedicated to traditional Moroccan jewelry and ornaments. Hours: 10am to 5:30pm."
+      }
     },
     {
       "Thématique": "Culture & Musées",
@@ -72,7 +90,10 @@ const guideData = {
       "Adresse": "Rue Riad Zitoun el Jdid,,Médina",
       "Tél.": "+212 5244-27177",
       "Réservation": "Oui, pour repas/cours (instagram.com, nomadmarrakech.com, instagram.com)",
-      "Commentaires": "Découvrez l'art culinaire marocain dans un cadre historique. Horaire : 09h à 20h00. "
+      "Commentaires": {
+        "fr": "Découvrez l'art culinaire marocain dans un cadre historique. Horaire : 09h à 20h00.",
+        "en": "Discover Moroccan culinary arts in a historical setting. Hours: 9am to 8pm."
+      }
     }
   ],
   "Visites & découvertes": [
@@ -82,7 +103,10 @@ const guideData = {
       "Adresse": "Médina",
       "Tél.": "–",
       "Réservation": "Avec guide Abdoul",
-      "Commentaires": "L'expérience authentique de la médina avec un guide local expert"
+      "Commentaires": {
+        "fr": "L'expérience authentique de la médina avec un guide local expert",
+        "en": "The authentic medina experience with an expert local guide"
+      }
     },
     {
       "Thématique": "Visites & découvertes",
@@ -90,7 +114,10 @@ const guideData = {
       "Adresse": "Ourika",
       "Tél.": "via agence",
       "Réservation": "Oui",
-      "Commentaires": "Marché, cascades, trek - Sortie d'une journée en montagne"
+      "Commentaires": {
+        "fr": "Marché, cascades, trek - Sortie d'une journée en montagne",
+        "en": "Market, waterfalls, trek - Full day mountain excursion"
+      }
     },
     {
       "Thématique": "Visites & découvertes",
@@ -98,7 +125,10 @@ const guideData = {
       "Adresse": "Barrage Lalla Takerkoust",
       "Tél.": "+212 664-492660",
       "Réservation": "Oui",
-      "Commentaires": "Sortie d'une journée au bord du lac avec restaurant de qualité. https://www.leflouka-marrakech.com/hotel/"
+      "Commentaires": {
+        "fr": "Sortie d'une journée au bord du lac avec restaurant de qualité. https://www.leflouka-marrakech.com/hotel/",
+        "en": "Full day lakeside outing with quality restaurant. https://www.leflouka-marrakech.com/hotel/"
+      }
     },
     {
       "Thématique": "Visites & découvertes",
@@ -106,7 +136,10 @@ const guideData = {
       "Adresse": "Agafay",
       "Tél.": "via agence ou hôtel",
       "Réservation": "Oui",
-      "Commentaires": "Quad, bivouac, animations - Expérience désert authentique"
+      "Commentaires": {
+        "fr": "Quad, bivouac, animations - Expérience désert authentique",
+        "en": "Quad, bivouac, activities - Authentic desert experience"
+      }
     },
     {
       "Thématique": "Visites & découvertes",
@@ -114,7 +147,10 @@ const guideData = {
       "Adresse": "150 KM au Nord-Est de Marrakech",
       "Tél.": "via agence ou hôtel",
       "Réservation": "Oui, à l’avance",
-      "Commentaires": "Sortie d'une journée pour découvrir les magnifiques cascades d'Ouzoud"
+      "Commentaires": {
+        "fr": "Sortie d'une journée pour découvrir les magnifiques cascades d'Ouzoud",
+        "en": "Full day trip to discover the magnificent Ouzoud waterfalls"
+      }
     }
   ],
   "Bien-être & détente": [
@@ -124,7 +160,10 @@ const guideData = {
       "Adresse": "40, Arset Aouzal Bad Doukkala",
       "Tél.": "212 (0) 5 24 39 04 07",
       "Réservation": "Oui",
-      "Commentaires": "Spa d'exception dans un riad authentique. Atmosphère intimiste et paisible, décoration soignée et précieuse."
+      "Commentaires": {
+        "fr": "Spa d'exception dans un riad authentique. Atmosphère intimiste et paisible, décoration soignée et précieuse.",
+        "en": "Exceptional spa in an authentic riad. Intimate and peaceful atmosphere, refined and precious decoration."
+      }
     },
     {
       "Thématique": "Bien-être & détente",
@@ -132,7 +171,10 @@ const guideData = {
       "Adresse": "113 Derb Sidi Mbarek, Médina",
       "Tél.": "212624648730",
       "Réservation": "Oui",
-      "Commentaires": "Spa traditionnel avec tadelakt et massothérapie personnalisée"
+      "Commentaires": {
+        "fr": "Spa traditionnel avec tadelakt et massothérapie personnalisée",
+        "en": "Traditional spa with tadelakt and personalized massage therapy"
+      }
     },
     {
       "Thématique": "Bien-être & détente",
@@ -140,7 +182,10 @@ const guideData = {
       "Adresse": "Route Ourika - KM6 route du Barrage BP 210, Marrakech 40000",
       "Tél.": "05243-83950",
       "Réservation": "Conseillée",
-      "Commentaires": "Piscine et hammam dans un cadre verdoyant hors de la ville"
+      "Commentaires": {
+        "fr": "Piscine et hammam dans un cadre verdoyant hors de la ville",
+        "en": "Pool and hammam in a green setting outside the city"
+      }
     }
   ],
   "Se sustenter & Apéros & Tea Time": [
@@ -767,8 +812,9 @@ export default function MarrakechGuide() {
                              <span className="font-medium text-primary text-bold text-sm">{t.tip}</span>
                            </div>
                           <p className="text-sm text-muted-foreground leading-relaxed">
-                            {activity.Commentaires
-        }
+                             {typeof activity.Commentaires === 'string' 
+                               ? activity.Commentaires 
+                               : activity.Commentaires[language]}
                           </p>
                         </div>
                       )
