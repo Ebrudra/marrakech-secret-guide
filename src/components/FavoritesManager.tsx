@@ -3,8 +3,6 @@ import { Heart, Star, Calendar, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/components/ui/sonner";
-import { useAuth } from "@/components/AuthProvider";
-import { addToFavorites, removeFromFavorites, getUserFavorites } from "@/lib/supabase";
 
 interface Activity {
   "Thématique": string;
@@ -43,86 +41,32 @@ const translations = {
 };
 
 export default function FavoritesManager({ activity, language, compact = false }: FavoritesManagerProps) {
-  const { user } = useAuth();
   const [isFavorite, setIsFavorite] = useState(false);
   const [isInItinerary, setIsInItinerary] = useState(false);
   const t = translations[language];
 
-  // Load favorites from Supabase
+  // Load favorites from localStorage
   useEffect(() => {
-    const loadFavorites = async () => {
-      if (!user) {
-        // If not logged in, check localStorage for backward compatibility
-        const favorites = JSON.parse(localStorage.getItem('marrakech-favorites') || '[]');
-        setIsFavorite(favorites.some((fav: Activity) => fav.Activité === activity.Activité));
-        return;
-      }
-      
-      try {
-        const { data } = await getUserFavorites(user.id);
-        if (data) {
-          // Check if this activity is in the user's favorites
-          const activityInFavorites = data.some((fav: any) => 
-            fav.activities?.name === activity.Activité
-          );
-          setIsFavorite(activityInFavorites);
-        }
-      } catch (error) {
-        console.error('Error loading favorites:', error);
-      }
-    };
-    
-    loadFavorites();
-    
-    // Still use localStorage for itineraries for now
+    const favorites = JSON.parse(localStorage.getItem('marrakech-favorites') || '[]');
     const itinerary = JSON.parse(localStorage.getItem('marrakech-itinerary') || '[]');
+    
+    setIsFavorite(favorites.some((fav: Activity) => fav.Activité === activity.Activité));
     setIsInItinerary(itinerary.some((item: Activity) => item.Activité === activity.Activité));
-  }, [activity, user]);
+  }, [activity]);
 
-  const toggleFavorite = async () => {
-    if (!user) {
-      toast('Veuillez vous connecter pour ajouter des favoris');
-      return;
-    }
+  const toggleFavorite = () => {
+    const favorites = JSON.parse(localStorage.getItem('marrakech-favorites') || '[]');
     
     if (isFavorite) {
-      try {
-        // Find the activity ID from the name
-        const { data: activityData } = await supabase
-          .from('activities')
-          .select('id')
-          .eq('name', activity.Activité)
-          .maybeSingle();
-        
-        if (activityData) {
-          const { error } = await removeFromFavorites(user.id, activityData.id);
-          if (error) throw error;
-          setIsFavorite(false);
-          toast(t.removedFromFavorites);
-        }
-      } catch (error) {
-        console.error('Error removing favorite:', error);
-        toast('Erreur lors de la suppression du favori');
-      }
+      const newFavorites = favorites.filter((fav: Activity) => fav.Activité !== activity.Activité);
+      localStorage.setItem('marrakech-favorites', JSON.stringify(newFavorites));
+      setIsFavorite(false);
+      toast(t.removedFromFavorites);
     } else {
-      try {
-        // Find the activity ID from the name
-        const { data: activityData } = await supabase
-          .from('activities')
-          .select('id')
-          .eq('name', activity.Activité)
-          .maybeSingle();
-        
-        if (activityData) {
-          const { error } = await addToFavorites(user.id, activityData.id);
-          if (error) throw error;
-          setIsFavorite(true);
-          toast(t.addedToFavorites);
-        }
-      } catch (error) {
-        console.error('Error adding favorite:', error);
-        toast('Erreur lors de l\'ajout du favori');
-      }
+      const newFavorites = [...favorites, activity];
+      localStorage.setItem('marrakech-favorites', JSON.stringify(newFavorites));
+      setIsFavorite(true);
+      toast(t.addedToFavorites);
     }
   };
 
@@ -160,13 +104,12 @@ export default function FavoritesManager({ activity, language, compact = false }
 
   if (compact) {
     return (
-      <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+      <div className="flex items-center gap-1">
         <Button
           variant="ghost"
           size="sm"
           onClick={toggleFavorite}
           className="h-8 w-8 p-0"
-          disabled={!user}
         >
           <Heart className={`h-4 w-4 ${isFavorite ? 'fill-red-500 text-red-500' : 'text-muted-foreground'}`} />
         </Button>
@@ -183,13 +126,12 @@ export default function FavoritesManager({ activity, language, compact = false }
   }
 
   return (
-    <div className="flex items-center gap-2 flex-wrap" onClick={(e) => e.stopPropagation()}>
+    <div className="flex items-center gap-2 flex-wrap">
       <Button
         variant={isFavorite ? "default" : "outline"}
         size="sm"
         onClick={toggleFavorite}
         className="flex items-center gap-2"
-        disabled={!user}
       >
         <Heart className={`h-4 w-4 ${isFavorite ? 'fill-current' : ''}`} />
         {isFavorite ? t.removeFromFavorites : t.addToFavorites}
@@ -218,6 +160,3 @@ export default function FavoritesManager({ activity, language, compact = false }
     </div>
   );
 }
-
-// Add missing import for supabase
-import { supabase } from "@/lib/supabase";
