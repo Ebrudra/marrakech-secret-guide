@@ -328,8 +328,8 @@ const guideData = {
       "Tél.": "+212 663-055704",
       "Réservation": "Oui",
       "Commentaires": {
-        "fr": "https://www.facebook.com/epicurien.marrakech/?locale=fr_FR",
-        "en": "https://www.facebook.com/epicurien.marrakech/?locale=fr_FR"
+        "fr": "facebook.com/epicurien.marrakech/",
+        "en": "facebook.com/epicurien.marrakech/"
       }
     },
     {
@@ -536,13 +536,13 @@ const guideData = {
     },
     {
       "Thématique": "Nuit & détente",
-      "Activité": "Toro Marrakech by Chef Richard Sandoval (pan‑Latin steakhouse, Gueliz)",
+      "Activité": "Toro Marrakech by Chef Richard Sandoval",
       "Adresse": "Av. Menara",
       "Tél.": "+212 662-680394",
       "Réservation": "Oui",
       "Commentaires": {
-        "fr": "",
-        "en": ""
+        "fr": "pan‑Latin steakhouse, Gueliz",
+        "en": "pan‑Latin steakhouse, Gueliz"
       }
     },
     {
@@ -552,8 +552,8 @@ const guideData = {
       "Tél.": "+212 663-055704",
       "Réservation": "Oui",
       "Commentaires": {
-        "fr": "https://www.facebook.com/epicurien.marrakech/?locale=fr_FR",
-        "en": "https://www.facebook.com/epicurien.marrakech/?locale=fr_FR"
+        "fr": "facebook.com/epicurien.marrakech",
+        "en": "facebook.com/epicurien.marrakech"
       }
     },
     {
@@ -840,7 +840,8 @@ export default function MarrakechGuide() {
                 activity.Activité && (
                   <Card key={index
       } className={`
-                    break-words group mx-1 sm:mx-0 hover:shadow-warm transition-all duration-300 hover:-translate-y-1 
+                    break-words 
+                    group mx-1 sm:mx-0 hover:shadow-warm transition-all duration-300 hover:-translate-y-1 
                     ${categoryColors[selectedCategory as keyof typeof categoryColors
           ]
         }
