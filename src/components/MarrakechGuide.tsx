@@ -840,7 +840,7 @@ export default function MarrakechGuide() {
                 activity.Activité && (
                   <Card key={index
       } className={`
-                    group mx-2 sm:mx-0 hover:shadow-warm transition-all duration-300 hover:-translate-y-1 
+                    group mx-1 sm:mx-0 hover:shadow-warm transition-all duration-300 hover:-translate-y-1 
                     ${categoryColors[selectedCategory as keyof typeof categoryColors
           ]
         }
