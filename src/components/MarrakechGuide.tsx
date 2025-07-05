@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MapPin, Phone, Globe, Lightbulb, Clock, Languages } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { MapPin, Phone, Globe, Lightbulb, Clock, Languages, Menu } from "lucide-react";
 import heroImage from "@/assets/marrakech-hero.jpg";
 
 interface Activity {
@@ -462,9 +463,19 @@ const categoryEmojis = {
 export default function MarrakechGuide() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [language, setLanguage] = useState<'fr' | 'en'>('fr');
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const categories = Object.keys(guideData);
   const t = translations[language];
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 100);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const openAddress = (address: string) => {
     if (address) {
@@ -531,31 +542,76 @@ export default function MarrakechGuide() {
       </div>
 
       {/* Navigation */}
-      <div id="categories-section" className="bg-card/95 backdrop-blur-sm sticky top-0 z-40 border-b border-border/20">
+      <div id="categories-section" className="bg-card/95 backdrop-blur-sm sticky top-0 z-40 border-b border-border/20 transition-all duration-300">
         <div className="container mx-auto px-6 py-4">
-          <div className="flex flex-col sm:flex-row flex-wrap gap-2 justify-center">
-            {categories.map((category) => (
-              <Button
-                key={category
-    }
-                variant={selectedCategory === category ? "default": "outline"
-    }
-                onClick={() => setSelectedCategory(selectedCategory === category ? null : category)
-    }
-                className={`
-                  transition-all duration-300 
-                  ${selectedCategory === category 
-                    ? "bg-primary text-primary-foreground shadow-warm": "hover:bg-primary/10 hover:border-primary/30"
-      }
-                `
-    }
-              >
-                <span className="mr-2">{categoryEmojis[category as keyof typeof categoryEmojis]}</span>
-                {t.categories[category as keyof typeof t.categories]}
-              </Button>
-            ))
-  }
-          </div>
+          {!isScrolled ? (
+            // Full category list when not scrolled
+            <div className="flex flex-col sm:flex-row flex-wrap gap-2 justify-center">
+              {categories.map((category) => (
+                <Button
+                  key={category}
+                  variant={selectedCategory === category ? "default" : "outline"}
+                  onClick={() => setSelectedCategory(selectedCategory === category ? null : category)}
+                  className={`
+                    transition-all duration-300 
+                    ${selectedCategory === category 
+                      ? "bg-primary text-primary-foreground shadow-warm" 
+                      : "hover:bg-primary/10 hover:border-primary/30"
+                    }
+                  `}
+                >
+                  <span className="mr-2">{categoryEmojis[category as keyof typeof categoryEmojis]}</span>
+                  {t.categories[category as keyof typeof t.categories]}
+                </Button>
+              ))}
+            </div>
+          ) : (
+            // Burger menu with selected category when scrolled
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <Button variant="outline" size="sm">
+                      <Menu className="h-4 w-4" />
+                    </Button>
+                  </SheetTrigger>
+                  <SheetContent side="left" className="w-80">
+                    <div className="py-6">
+                      <h3 className="text-lg font-semibold mb-4">Categories</h3>
+                      <div className="space-y-2">
+                        {categories.map((category) => (
+                          <Button
+                            key={category}
+                            variant={selectedCategory === category ? "default" : "ghost"}
+                            onClick={() => setSelectedCategory(selectedCategory === category ? null : category)}
+                            className={`
+                              w-full justify-start transition-all duration-300
+                              ${selectedCategory === category 
+                                ? "bg-primary text-primary-foreground" 
+                                : "hover:bg-primary/10"
+                              }
+                            `}
+                          >
+                            <span className="mr-2">{categoryEmojis[category as keyof typeof categoryEmojis]}</span>
+                            {t.categories[category as keyof typeof t.categories]}
+                          </Button>
+                        ))}
+                      </div>
+                    </div>
+                  </SheetContent>
+                </Sheet>
+                
+                {selectedCategory && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-2xl">{categoryEmojis[selectedCategory as keyof typeof categoryEmojis]}</span>
+                    <span className="font-medium text-foreground">
+                      {t.categories[selectedCategory as keyof typeof t.categories]}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
