@@ -336,7 +336,7 @@ const guideData = {
       "Adresse": "No 490 Route Safi, Marrakesh 40000",
       "Tél.": "+2125243-35344",
       "Réservation": "Non",
-      "Commentaires": "Boutique de décoration et d'artisanat marocain haut de gamme. Spécialisée dans les textiles, céramiques et objets d'artisanat. Horaire : 10h à 19h00"
+      "Commentaires": "Boutique de décoration et d'artisanat marocain haut de gamme. Spécialisée dans les textiles, céramiques et objets d'artisanat. Ouvert Samedi matin. Horaire : 10h à 19h00"
     },
     {
       "Thématique": "Shopping & design",
@@ -751,7 +751,7 @@ export default function MarrakechGuide() {
 
                       {activity.Réservation && (
                         <div className="flex items-start gap-3">
-                          <Clock className="h-5 w-5 text-accent mt-0.5 flex-shrink-0" />
+                          <Clock className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                            <div>
                              <span className="font-medium text-primary text-bold">{t.reservation} </span>
                              <span className="text-muted-foreground">{activity.Réservation}</span>
@@ -763,7 +763,7 @@ export default function MarrakechGuide() {
                       {activity.Commentaires && (
                         <div className="bg-muted/50 p-4 rounded-lg border-l-4 border-primary/30">
                            <div className="flex items-start gap-2 mb-2">
-                             <Lightbulb className="h-4 w-4 text-accent mt-1 flex-shrink-0" />
+                             <Lightbulb className="h-4 w-4 text-primary mt-1 flex-shrink-0" />
                              <span className="font-medium text-primary text-bold text-sm">{t.tip}</span>
                            </div>
                           <p className="text-sm text-muted-foreground leading-relaxed">
