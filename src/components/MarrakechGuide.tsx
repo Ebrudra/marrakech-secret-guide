@@ -568,48 +568,46 @@ export default function MarrakechGuide() {
           ) : (
             // Burger menu with selected category when scrolled
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Sheet>
-                  <SheetTrigger asChild>
-                    <Button variant="outline" size="sm">
-                      <Menu className="h-4 w-4" />
-                    </Button>
-                  </SheetTrigger>
-                  <SheetContent side="left" className="w-80">
-                    <div className="py-6">
-                      <h3 className="text-lg font-semibold mb-4">Categories</h3>
-                      <div className="space-y-2">
-                        {categories.map((category) => (
-                          <Button
-                            key={category}
-                            variant={selectedCategory === category ? "default" : "ghost"}
-                            onClick={() => setSelectedCategory(selectedCategory === category ? null : category)}
-                            className={`
-                              w-full justify-start transition-all duration-300
-                              ${selectedCategory === category 
-                                ? "bg-primary text-primary-foreground" 
-                                : "hover:bg-primary/10"
-                              }
-                            `}
-                          >
-                            <span className="mr-2">{categoryEmojis[category as keyof typeof categoryEmojis]}</span>
-                            {t.categories[category as keyof typeof t.categories]}
-                          </Button>
-                        ))}
-                      </div>
+              {selectedCategory && (
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl">{categoryEmojis[selectedCategory as keyof typeof categoryEmojis]}</span>
+                  <span className="font-medium text-foreground">
+                    {t.categories[selectedCategory as keyof typeof t.categories]}
+                  </span>
+                </div>
+              )}
+              
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="sm">
+                    <Menu className="h-4 w-4" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="w-80">
+                  <div className="py-6">
+                    <h3 className="text-lg font-semibold mb-4">Categories</h3>
+                    <div className="space-y-2">
+                      {categories.map((category) => (
+                        <Button
+                          key={category}
+                          variant={selectedCategory === category ? "default" : "ghost"}
+                          onClick={() => setSelectedCategory(selectedCategory === category ? null : category)}
+                          className={`
+                            w-full justify-start transition-all duration-300
+                            ${selectedCategory === category 
+                              ? "bg-primary text-primary-foreground" 
+                              : "hover:bg-primary/10"
+                            }
+                          `}
+                        >
+                          <span className="mr-2">{categoryEmojis[category as keyof typeof categoryEmojis]}</span>
+                          {t.categories[category as keyof typeof t.categories]}
+                        </Button>
+                      ))}
                     </div>
-                  </SheetContent>
-                </Sheet>
-                
-                {selectedCategory && (
-                  <div className="flex items-center gap-2">
-                    <span className="text-2xl">{categoryEmojis[selectedCategory as keyof typeof categoryEmojis]}</span>
-                    <span className="font-medium text-foreground">
-                      {t.categories[selectedCategory as keyof typeof t.categories]}
-                    </span>
                   </div>
-                )}
-              </div>
+                </SheetContent>
+              </Sheet>
             </div>
           )}
         </div>
